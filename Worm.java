@@ -739,9 +739,14 @@ public class Worm extends MovableGameObject{
 			y = getPositionY() + step * Math.sin(direction);
 			step += this.getRadius()*0.01;
 		}
-		if (this.getWorld().isAdjacent(x, y, getRadius())){
+		if (this.getWorld().isPassable(x, y, getRadius())){
 			positionFound[0] = x;
 			positionFound[1] = y;
+			return positionFound;
+		}
+		else{
+			positionFound[0] = this.getPositionX();
+			positionFound[1] = this.getPositionY();
 			return positionFound;
 		}
 	}
