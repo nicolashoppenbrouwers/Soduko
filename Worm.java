@@ -105,10 +105,12 @@ public class Worm extends MovableGameObject{
 	
 	/**
 	 * Check whether this worm is terminated.
+	 * @result 	True if and only if the worm's hitpoints are zero or the worm has no world.
+	 * 			| result == ((this.getHitPoints() == 0) || (!this.hasWorld()) )
 	 */
-	@Basic @Override
+	@Override
 	public boolean isTerminated(){
-		return (this.getHitPoints() == 0 || ! this.hasWorld());
+		return ((this.getHitPoints() == 0) || (!this.hasWorld()) );
 	}
 	
 	
