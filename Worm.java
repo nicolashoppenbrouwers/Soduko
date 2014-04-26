@@ -564,10 +564,6 @@ public class Worm extends MovableGameObject{
 	
 	private int indexActiveWeapon;
 	
-	//Test
-	/**
-	 * Variable registering blabla
-	 */
 	String listOfWeapons[] = {"Bazooka", "Rifle"}; 
 
 	
@@ -739,11 +735,13 @@ public class Worm extends MovableGameObject{
 		while (step <= getRadius() && getWorld().isPassable(x,y,getRadius())){
 			x = getPositionX() + step * Math.cos(direction);
 			y = getPositionY() + step * Math.sin(direction);
-			step += stepSize;
+			step += this.getRadius()*0.01;
 		}
-		positionFound[0] = x;
-		positionFound[1] = y;
-		return positionFound;
+		if (this.getWorld().isAdjacent(x, y, getRadius())){
+			positionFound[0] = x;
+			positionFound[1] = y;
+			return positionFound;
+		}
 	}
 	
 	//DUMMY
@@ -837,21 +835,28 @@ public class Worm extends MovableGameObject{
 	
 
 	public void fall() throws IllegalStateException, NullPointerException{
-		if (! canFall())
-			throw new IllegalStateException();
+		//if (! canFall())
+			//throw new IllegalStateException();
 		//Je moet enkel fall uitvoeren als je niet adjacent bent. Dit kan eigenlijk ook wel gewoon bij de methode canFall();
 		if (! getWorld().isAdjacent(getPositionX(), getPositionY(), getRadius())){
 			double fallPositionYSoFar = getPositionY();
 			boolean fallCompleted = false;
+			double i = 0;
 			while (!fallCompleted){
-				// 0.05 misschien nog aanpassen? Dit is gekozen als de helft van 0.1 
 				fallPositionYSoFar = fallPositionYSoFar - 0.01 * getRadius();
-				if (outOfWorld(getWorld(), getPositionX(), fallPositionYSoFar, getRadius())){
+				i++;
+				if (i == 10000){
+					System.out.println("a");
+					break;
+				}
+				
+				// 0.05 misschien nog aanpassen? Dit is gekozen als de helft van 0.1 
+				//if (outOfWorld(getWorld(), getPositionX(), fallPositionYSoFar, getRadius())){
 					//Dit is eigenlijk niet correct
-					throw new NullPointerException();
+					//throw new NullPointerException();
 					//fallCompleted = true;
 					//this.terminate();
-				}
+				//}
 				else if (getWorld().isAdjacent(getPositionX(), fallPositionYSoFar, getRadius())){
 					setHitPoints( getHitPoints() - getFallHitPoints(fallPositionYSoFar) );
 					fallCompleted = true;

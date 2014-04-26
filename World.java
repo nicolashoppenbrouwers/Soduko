@@ -439,6 +439,15 @@ public class World {
 			return false;
 	}
 	
+	public boolean isAdjacentForShoot(double x, double y, double radius){
+		// Opmerking: Je chekt bij is Passable al een gebied van grootte radius. Bij isImpassable controleeer je dit gebied helemaal nog eens opnieuw.
+		if ((isPassableForShoot(x,y,radius)) && (!isPassableForShoot(x,y,1.1*radius))){
+			return true;
+		}
+		else
+			return false;
+	}
+	
 	//Naamgeving
 	public boolean isPassableHalfCircleEdge(double centerX, double centerY, double radius) throws IndexOutOfBoundsException{
 		//IndexOutofBound error nog catchen!
