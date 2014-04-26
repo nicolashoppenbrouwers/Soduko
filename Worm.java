@@ -564,6 +564,10 @@ public class Worm extends MovableGameObject{
 	
 	private int indexActiveWeapon;
 	
+	//Test
+	/**
+	 * Variable registering blabla
+	 */
 	String listOfWeapons[] = {"Bazooka", "Rifle"}; 
 
 	
