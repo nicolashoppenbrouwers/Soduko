@@ -1,7 +1,17 @@
+/*
+ * Assignment 'Worms' Object-Oriented Programming
+ * University:		KU Leuven
+ * Study:			Bachelor Ingenieurswetenschappen
+ * Course:			Objectgericht Programmeren (H01P1A)
+ * Year:			2013 - 2014
+ * Authors: 		Nicolas Hoppenbrouwers 	(Computerwetenschappen - Werktuigkunde)
+ * 					Bram Lust 				(Computerwetenschappen - Elektrotechniek)
+ * Git: 			https://github.com/nicolashoppenbrouwers/Soduko.git
+ */
 package worms.model;
 import be.kuleuven.cs.som.annotate.*;
 
-
+//Alles met JUMP herbekijken.
 //VRAAG: moeten bij subklassen ook nog de KlasseInvarianten gekopieerd worden van de superklasse of niet?
 // Zo ja, dan moet ook overal (bij alle klassen!) de documentatie van de constructor worden aangepast!
 /**
@@ -11,14 +21,13 @@ import be.kuleuven.cs.som.annotate.*;
  * @invar	The direction of each worm must be a valid direction for a worm.
  * 			| isValidDirection(this.getDirection())
  * 
- * @author 	Nicolas Hoppenbrouwers:	Bachelor Ingenieurswetenschappen Computerwetenschappen-Werktuigkunde
- * 			Bram Lust: 				Bachelor Ingenieurswetenschappen Computerwetenschappen-Elektrotechniek
- * 			We didn't work with Git.
- * @version 1.0
+ * @author 	Nicolas Hoppenbrouwers
+ * 			Bram Lust
+ * @version 2.0
  */
 public abstract class MovableGameObject extends GameObject {
 
-	
+	// IN ORDE
 	/**
      *Initialize this new movable game object with given world, position, direction and damage.
      *
@@ -50,7 +59,7 @@ public abstract class MovableGameObject extends GameObject {
 	
 	
 	
-	
+	//IN ORDE
 	/**
 	 * Returns the minimal radius of this MovableGameObject.
 	 */
@@ -63,9 +72,9 @@ public abstract class MovableGameObject extends GameObject {
 	
 	
 	
-	
+	//IN ORDE
 	/**
-	 * Returns the current this MovableGameObject is currently facing. 
+	 * Returns the current direction this MovableGameObject is currently facing. 
 	 * The direction is expressed as an angle in radians.
 	 */
 	@Basic
@@ -76,6 +85,13 @@ public abstract class MovableGameObject extends GameObject {
 	/**
 	 * Turns this worm to let it face the given direction.
 	 * 
+	 * @param	The new direction for this MovableGameObject.
+	 * @post	If the direction is a valid direction, 
+	 * 			the direction of this GameObject will be equal to the given direction modulo 2 pi.
+	 * 			| new.getDirection() == direction % (2*Math.PI)
+	 * 			If new direction is negative, 2 pi will be added to make it positive.
+	 * 			| if (direction % (2*Math.PI) < 0)
+				| 	new.getDirection() = direction % (2*Math.PI) + 2*Math.PI
 	 */
 	public void setDirection(double direction){
 		assert isValidDirection(direction);
@@ -85,12 +101,12 @@ public abstract class MovableGameObject extends GameObject {
 	}
 	
 	/**
-	 * Variable registering the direction of this worm.
+	 * Variable registering the direction of this MovableGameObject.
 	 */
 	private double direction;
 	
 	/**
-	 * Checks whether the given direction is a valid direction for any worm.
+	 * Checks whether the given direction is a valid direction for any MovableGameObject.
      *  
      * @param  	direction
      * 		   	The direction to check.
@@ -107,7 +123,7 @@ public abstract class MovableGameObject extends GameObject {
 	
 	
 	
-	
+	// DOCUMENTATIE
 	public abstract double getMass();
 	public abstract double getDensity();
 	public abstract double getForce();
@@ -118,6 +134,8 @@ public abstract class MovableGameObject extends GameObject {
 	 */
 	public final double g = 9.80665; 
 
+	
+	//DOCUMENTATIE & METHODE
 	/**
 	 * Makes this worm jump
 	 * 
@@ -135,20 +153,21 @@ public abstract class MovableGameObject extends GameObject {
 		// Opmerking Bram notities niet vergeten!
 		double t = 0.05;
 		boolean jumpCompleted = false;
-		double x = this.getPositionX();
-		double y = this.getPositionY();
+		double x = this.getPosition().getX();
+		double y = this.getPosition().getY();
 		while (! jumpCompleted){
 			double[] step = jumpStep(t);
 			x = step[0];
 			y = step[1];
-			if (this.outOfWorld(this.getWorld(),x,y,this.getRadius())) {
+			if (this.getWorld().outOfWorld(x,y,this.getRadius())) {
 				//Eigenlijk niet correct!
 				throw new NullPointerException();
 			}
 			else if ( !this.getWorld().isPassable(x,y,1.1*this.getRadius()) ){
 				if (this.getWorld().isPassable(x,y, this.getRadius()) ){
-					this.setPositionX(x);
-					this.setPositionY(y);
+					//OUD:this.setPositionX(x);
+					//OUD:this.setPositionY(y);
+					this.setPosition(x,y);
 					jumpCompleted = true;
 				}
 				else {
@@ -160,6 +179,7 @@ public abstract class MovableGameObject extends GameObject {
 		
 	}
 	
+	//DOCUMENTATIE & METHODE
 	/**
 	 * Returns the total amount of time (in seconds) that a
 	 * jump of this worm would take.
@@ -180,13 +200,13 @@ public abstract class MovableGameObject extends GameObject {
 	}*/
 		double t = 0.05;
 		boolean jumpCompleted = false;
-		double x = this.getPositionX();
-		double y = this.getPositionY();
+		double x = this.getPosition().getX();
+		double y = this.getPosition().getY();
 		while (!jumpCompleted){
 			double[] step = jumpStep(t);
 			x = step[0];
 			y = step[1];
-			if (this.outOfWorld(this.getWorld(),x,y,this.getRadius())) {
+			if (this.getWorld().outOfWorld(x,y,this.getRadius())) {
 				jumpCompleted = true;
 				return t;
 			}
@@ -204,6 +224,8 @@ public abstract class MovableGameObject extends GameObject {
 		return 0.0;
 	}
 	
+	
+	//DOCUMENTATIE EN METHODE
 	/**
 	 * Returns the location on the jump trajectory of the given worm
 	 * after a time t
@@ -219,11 +241,12 @@ public abstract class MovableGameObject extends GameObject {
 		double initialVelocity = this.getInitialVelocity();
 		double initialVelocityX = initialVelocity * Math.cos( this.getDirection() );
 		double initialVelocityY = initialVelocity * Math.sin( this.getDirection() );
-		double stepX = this.getPositionX() + initialVelocityX * time;
-		double stepY = this.getPositionY() + initialVelocityY * time - 0.5 * g * Math.pow(time,2);
+		double stepX = this.getPosition().getX() + initialVelocityX * time;
+		double stepY = this.getPosition().getY() + initialVelocityY * time - 0.5 * g * Math.pow(time,2);
 		return new double[] {stepX, stepY};
 	}
 	
+	//DOCUMENTATIE EN METHODE
 	/**
 	 * Checks whether the given worm is able to jump.
 	 * 
@@ -234,6 +257,7 @@ public abstract class MovableGameObject extends GameObject {
 	 */
 	public abstract boolean canJump();	//((this.getDirection() > 0) && (this.getDirection() < Math.PI) && !(this.getActionPoints() == 0));
 	
+	//DOCUMENTATIE
 	public double getInitialVelocity(){
 		return (getForce() / getMass() * 0.5);
 	}

@@ -1,40 +1,35 @@
-/**
- * 
+/*
+ * Assignment 'Worms' Object-Oriented Programming
+ * University:		KU Leuven
+ * Study:			Bachelor Ingenieurswetenschappen
+ * Course:			Objectgericht Programmeren (H01P1A)
+ * Year:			2013 - 2014
+ * Authors: 		Nicolas Hoppenbrouwers 	(Computerwetenschappen - Werktuigkunde)
+ * 					Bram Lust 				(Computerwetenschappen - Elektrotechniek)
+ * Git: 			https://github.com/nicolashoppenbrouwers/Soduko.git
  */
 package worms.model;
-
-
 import be.kuleuven.cs.som.annotate.*;
-// Projectile getActiveProjectile(World world); ---> moet in World zitten.
-// 	void jump(Projectile projectile, double timeStep);   		 --> OVERERVING? --> KLASSE POSITION
-// 	double[] getJumpStep(Projectile projectile, double t);       --> OVERERVING? --> KLASSE POSITION
-// 	double getJumpTime(Projectile projectile, double timeStep);  --> OVERERVING? --> KLASSE POSITION
-// 	public double getRadius(Projectile projectile);				 
-// 	public double getX(Projectile projectile);					 --> POSITION
-// 	public double getY(Projectile projectile);				     --> POSITION
-// 	boolean isActive(Projectile projectile);
 
-
+//Alles met JUMP
+// Unsetworld: Dynamische binding shit.
+// Paar opmerkingen.
 /**
- * An abstract class of projectiles as a special kind of movable GameObjects. In addition to the world,
- * position, direction, and radius, projectiles have an amount of damage they deal.
+ * An abstract class of projectiles as a special kind of movable GameObjects, involving a world,
+ *	 position, direction, and radius.
  * 
- * 
- * @invar	The damage of each projectile must be a valid amount of damage that they deal
- * 			| this.getDamage() > 0
- * 
- * @author 	Nicolas Hoppenbrouwers:	Bachelor Ingenieurswetenschappen Computerwetenschappen-Werktuigkunde
- * 			Bram Lust: Bachelor Ingenieurswetenschappen Computerwetenschappen-Elektrotechniek
- * 			We didn't work with Git.
- * @version 1.0
+ * @author 	Nicolas Hoppenbrouwers
+ * 			Bram Lust
+ * @version 2.0
  */
 public abstract class Projectile extends MovableGameObject{
 	
+	// IN ORDE
 	/**
      *Initialize this new projectile with given world, position, direction and damage.
      *
      * @param  	World
-     *         	The world which contains the new projectile.
+     *         	The world to contain the new projectile.
      * @param  	positionX
      *         	The x-coordinate of the position of the new projectile (meters).
      * @param  	positionY
@@ -43,14 +38,11 @@ public abstract class Projectile extends MovableGameObject{
      * 			The direction which the new projectile is facing (radians).
      * @param	radius
      * 			The given radius of the new projectile (meters).
-     * @param	propulsionYield
-     * 			The propulsionYield of the new weapon.
-     * 
      * @effect 	This new projectile is initialized as a new movableGameObject with
-     *         	given world, positionX, positionY, direction and radius.
-     *       	| super(world,positionX, positionY, radius, direction)
-     * @post   	The damage of this new projectile is equal to the given damage.
-     *       	| new.getDamage() = damage
+     *         	given world, positionX, positionY and direction, and zero as radius.
+     *       	| super(world,positionX, positionY, direction, 0)
+     * @effect 	The radius of this new projectile is equal to the calculated radius.
+     *       	| new.getRadius() == calculateRadius()
      */
 	@Raw
 	public Projectile(World world, double positionX, double positionY, double direction){
@@ -66,7 +58,17 @@ public abstract class Projectile extends MovableGameObject{
 	
 	
 
-	//DOCUMENTATIE
+	//CONTROLEREN
+	/**
+	 * Unset the world, if any, from this projectile.
+	 *
+	 * @post    This projectile no longer has a world.
+	 *        	| ! new.hasWorld()
+	 * @post    The former world of this projectile, if any, no longer
+	 *          has a projectile as its active projectile.
+	 *        	| (this.getWorld() == null)
+	 *        	| 	|| (new this.getWorld()).getProjectile() == null)
+	 */
 	@Override
 	public void unsetWorld(){
 		if (this.hasWorld()){
@@ -80,10 +82,13 @@ public abstract class Projectile extends MovableGameObject{
 	 
 
 		
+	
+	
+	// IN ORDE
 	/**
 	 * Returns the minimal radius of this projectile.
 	 * 
-	 * @return 	Return the minimal radius of the projectile, more specifically zero.
+	 * @return 	The minimal radius of the projectile, more specifically zero.
 	 * 			|  result == 0.0
 	 */
 	@Override
@@ -91,6 +96,12 @@ public abstract class Projectile extends MovableGameObject{
 		return 0.0;
 	}
 	
+	
+	/**
+	 * Calculates and returns the radius of this projectile.
+	 * @return	The radius of this projectile.
+	 * 			| result == (Math.pow(3.0/4.0 * getMass() / getDensity() / Math.PI, 1.0/3.0))
+	 */
 	public double calculateRadius(){
 		return (Math.pow(3.0/4.0 * getMass() / getDensity() / Math.PI, 1.0/3.0));
 	}
@@ -98,7 +109,7 @@ public abstract class Projectile extends MovableGameObject{
 	
 	
 	
-	
+	//DIT MAG ALLEMAAL WEG NORMAAL.
 	
 //	/**
 //	 * Return the propulsion yield of this projectile.
@@ -135,10 +146,16 @@ public abstract class Projectile extends MovableGameObject{
 //	 */
 //	public int propulsionYield;
 	
+	
+	// IN ORDE
+	/**
+	 * Return the density of this Projectile.
+	 */
 	@Override
 	public double getDensity(){
 		return density;
 	}
+	
 	
 	/**
 	 * Variable registering the density of any projectile (final value).
@@ -149,13 +166,26 @@ public abstract class Projectile extends MovableGameObject{
 	/**
  	 * Return the mass of this Projectile (in kilograms).
 	 */
+	@Override
 	public abstract double getMass();
+	
 	
 	/**
 	 * Return the force of this Projectile (in Newton).
 	 */
+	@Override
 	public abstract double getForce();
 	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	//IN ORDE
 	/**
 	 * Return the amount of hit points this Projectile subtracts.
 	 */
@@ -167,14 +197,33 @@ public abstract class Projectile extends MovableGameObject{
 	public abstract int getActionPointsCost();
 
 	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	// DOCUMENTATIE EN METHODE.
 	public void jump(double timeStep) throws IllegalStateException{
 		double time = this.getJumpTime(timeStep);
 		double[] step = this.jumpStep(time);
-		this.setPositionX(step[0]);
-		this.setPositionY(step[1]);
-		if (this.closeToWorm(this.getPositionX(),this.getPositionY())){
-			Worm worm = this.closeToWhichWorm(this.getPositionX(),this.getPositionY());
-			this.closeToWhichWorm(this.getPositionX(),this.getPositionY()).setHitPoints(worm.getHitPoints()-this.getHitPointsDamage());
+		//OUD: this.setPositionX(step[0]);
+		//OUD: this.setPositionY(step[1]);
+		this.setPosition(step[0],step[1]);
+		if (this.closeToWorm(this.getPosition().getX(),this.getPosition().getY())){
+			Worm worm = this.closeToWhichWorm(this.getPosition().getX(),this.getPosition().getY());
+			this.closeToWhichWorm(this.getPosition().getX(),this.getPosition().getY()).setHitPoints(worm.getHitPoints()-this.getHitPointsDamage());
 		}
 	}
 		//double initialVelocity = getForce() / getMass() * 0.5;
@@ -221,13 +270,13 @@ public abstract class Projectile extends MovableGameObject{
 	}*/
 		double t = 0.01;
 		boolean jumpCompleted = false;
-		double x = this.getPositionX();
-		double y = this.getPositionY();
+		double x = this.getPosition().getX();
+		double y = this.getPosition().getY();
 		while (!jumpCompleted){
 			double[] step = jumpStep(t);
 			x = step[0];
 			y = step[1];
-			if (this.outOfWorld(this.getWorld(),x,y,this.getRadius())) {
+			if (this.getWorld().outOfWorld(x,y,this.getRadius())) {
 				jumpCompleted = true;
 				return t;
 			}
@@ -247,24 +296,4 @@ public abstract class Projectile extends MovableGameObject{
 		}
 		return 0.0;
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-
-
-
-	
-
-	
-
 }

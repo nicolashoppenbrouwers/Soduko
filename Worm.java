@@ -4,7 +4,7 @@ import be.kuleuven.cs.som.annotate.*;
 
 import java.util.HashSet;
 import java.util.Set;
-
+// GEEN PROTECTED!!!!! overal nagaan!!!
 
 // Waarom private waarom public? 
 
@@ -44,6 +44,7 @@ import java.util.Set;
  * 			| 0 <= this.getActionPoints() && this.getActionPoints() <= this.getMaximumActionPoints()
  * @invar	The name of each worm must be a valid name for a worm.
  * 			| isValidName(this.getName())
+ * 
  * @author 	Nicolas Hoppenbrouwers:	Bachelor Ingenieurswetenschappen Computerwetenschappen-Werktuigkunde
  * 			Bram Lust: 				Bachelor Ingenieurswetenschappen Computerwetenschappen-Elektrotechniek
  * 			We didn't work with Git.
@@ -686,8 +687,10 @@ public class Worm extends MovableGameObject{
 			throw new IllegalStateException("This worm does not have enough action points left to perform this move!");
 		double[] newPosition = findOptimalMovePosition();
 		this.setActionPoints(getActionPoints() - getMoveActionPointsCost(newPosition) );
-		setPositionX(newPosition[0]);
-		setPositionY(newPosition[1]);
+		
+		//OUD:setPositionX(newPosition[0]);
+		//OUD:setPositionY(newPosition[1]);
+		this.setPosition(newPosition[0],newPosition[1]);
 		if (! this.isTerminated())
 			this.fall();
 			this.Eat();
@@ -705,12 +708,12 @@ public class Worm extends MovableGameObject{
 	
 	
 	public double[] findOptimalMovePosition(){
-		double[] optimalPosition = new double[] {this.getPositionX(), this.getPositionY()};
+		double[] optimalPosition = new double[] {this.getPosition().getX(), this.getPosition().getY()};
 		double optimalFactor = -1;
 		double divergence = -0.7875;
 		while (divergence <= 0.7875) {
 			double[] positionSoFar = findPositionForGivenDirection(getDirection()+divergence,0.1*getRadius());
-			double distanceSoFar = calculateDistance(positionSoFar[0],positionSoFar[1]);
+			double distanceSoFar = this.getPosition().calculateDistance(positionSoFar[0],positionSoFar[1]);
 			// Kleinste kwadraten optimalisatie.
 			double factorSoFar = Math.pow(distanceSoFar / getRadius(),2) - Math.pow(Math.abs(divergence / 0.7875),2);
 			//Distance covered must be atleast 0.1 meters.
@@ -727,16 +730,16 @@ public class Worm extends MovableGameObject{
 	//Later in position klasse?
 	//private?
 	public double[] findPositionForGivenDirection(double direction, double stepSize){
-		double[] positionFound = new double[] {getPositionX(),getPositionY()};		
-		double x = getPositionX();
-		double y = getPositionY();
+		double[] positionFound = new double[] {getPosition().getX(),getPosition().getY()};		
+		double x = getPosition().getX();
+		double y = getPosition().getY();
 		// We are aware we calculate too many points. 
 		//--> OPTIMALISEREN. tussen 0 en 0.1 moet eiglk niet echt gecontroleerd worden, 
 		//dus als hier later nog een idee voor komt dan moet dit nog geïmplementeerd.
 		double step = 0;
 		while (step <= getRadius() && getWorld().isPassable(x,y,getRadius())){
-			x = getPositionX() + step * Math.cos(direction);
-			y = getPositionY() + step * Math.sin(direction);
+			x = getPosition().getX() + step * Math.cos(direction);
+			y = getPosition().getY() + step * Math.sin(direction);
 			step += this.getRadius()*0.01;
 		}
 		if (this.getWorld().isPassable(x, y, getRadius())){
@@ -745,15 +748,15 @@ public class Worm extends MovableGameObject{
 			return positionFound;
 		}
 		else{
-			positionFound[0] = this.getPositionX();
-			positionFound[1] = this.getPositionY();
+			positionFound[0] = this.getPosition().getX();
+			positionFound[1] = this.getPosition().getY();
 			return positionFound;
 		}
 	}
 	
 	//DUMMY
 	public int getMoveActionPointsCost(double[] newPosition){
-		double distanceMoved = calculateDistance(newPosition[0],newPosition[1]);
+		double distanceMoved = this.getPosition().calculateDistance(newPosition[0],newPosition[1]);
 		double cost = Math.abs(distanceMoved * Math.cos(getDirection())) + Math.abs(4 * distanceMoved * Math.sin(getDirection()));
 		return (int)Math.ceil(cost);
 	}
@@ -845,8 +848,8 @@ public class Worm extends MovableGameObject{
 		//if (! canFall())
 			//throw new IllegalStateException();
 		//Je moet enkel fall uitvoeren als je niet adjacent bent. Dit kan eigenlijk ook wel gewoon bij de methode canFall();
-		if (! getWorld().isAdjacent(getPositionX(), getPositionY(), getRadius())){
-			double fallPositionYSoFar = getPositionY();
+		if (! getWorld().isAdjacent(getPosition().getX(), getPosition().getY(), getRadius())){
+			double fallPositionYSoFar = getPosition().getY();
 			boolean fallCompleted = false;
 			double i = 0;
 			while (!fallCompleted){
@@ -864,11 +867,12 @@ public class Worm extends MovableGameObject{
 					//fallCompleted = true;
 					//this.terminate();
 				//}
-				else if (getWorld().isAdjacent(getPositionX(), fallPositionYSoFar, getRadius())){
+				else if (getWorld().isAdjacent(getPosition().getX(), fallPositionYSoFar, getRadius())){
 					setHitPoints( getHitPoints() - getFallHitPoints(fallPositionYSoFar) );
 					fallCompleted = true;
 					if (! isTerminated()){
-						setPositionY(fallPositionYSoFar);
+						//OUD: setPositionY(fallPositionYSoFar);
+						this.setPosition(this.getPosition().getX(), fallPositionYSoFar);
 						Eat();
 					}
 				}
@@ -935,12 +939,12 @@ public class Worm extends MovableGameObject{
 		//(this.getWorld().isAdjacent(this.getPositionX(), this.getPositionY(), this.getRadius()));
 		return ( (!isTerminated()) && 
 				(getWorld().isPassableRectangular(
-					getPositionX()-getRadius()/2.0,getPositionY(),getPositionX()+getRadius()/2.0, getPositionY()-getRadius()/2.0 - getWorld().getPixelHeight())));
+					getPosition().getX()-getRadius()/2.0,getPosition().getY(),getPosition().getX()+getRadius()/2.0, getPosition().getY()-getRadius()/2.0 - getWorld().getPixelHeight())));
 
 	}
 	
 	public int getFallHitPoints(double newY){
-		double fallDistance = getPositionY() - newY;
+		double fallDistance = getPosition().getY() - newY;
 		return ((int)Math.round(3*fallDistance));
 	}
 	
@@ -993,8 +997,8 @@ public class Worm extends MovableGameObject{
 	
 	public Projectile createProjectile(int yield){
 		Projectile projectile = null;
-		double projectileX = this.getPositionX() + Math.cos( this.getDirection() ) * getRadius();
-		double projectileY = this.getPositionY() + Math.sin( this.getDirection() ) * getRadius();
+		double projectileX = this.getPosition().getX() + Math.cos( this.getDirection() ) * getRadius();
+		double projectileY = this.getPosition().getY() + Math.sin( this.getDirection() ) * getRadius();
 		if (this.getActiveWeapon().equals("Bazooka"))
 			projectile = new Bazooka(getWorld(), projectileX, projectileY, getDirection(), yield);
 		if (this.getActiveWeapon().equals("Rifle"))

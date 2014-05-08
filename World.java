@@ -295,7 +295,7 @@ public class World {
 		//OPMERKING Assistent feedback (later)
 		// Misschien ervoor zorgen dat je eenvoudigere code krijgt als je niet deelt door pixelheight enz.
 		double centerY = this.getPassableMap().length*this.getPixelHeight()-centerYOmgekeerd;
-		if ((outOfWorldX(centerX, radius,this)) || (outOfWorldY(centerY, radius,this)))
+		if (outOfWorld(centerX, centerY, radius))
 			return true;
 		double pixelHeight = this.getPixelHeight();
 		double pixelWidth = this.getPixelWidth();
@@ -308,8 +308,9 @@ public class World {
 			for (int x = lowestX; x <= highestX; x = x+1){
 				if (this.getPassableMap()[y][x] == false)
 					return false;
-			}				
-			y = y + 1;
+			}	
+			// +1
+			y = y+1;
 		}
 		return true;
 //		//IndexOutofBound error nog catchen!
@@ -353,7 +354,7 @@ public class World {
 	public boolean isPassableForShoot(double centerX, double centerYOmgekeerd, double radius){
 		
 		double centerY = this.getHeight()-centerYOmgekeerd;
-		if ((outOfWorldX(centerX, radius,this)) || (outOfWorldY(centerY, radius,this)))
+		if (outOfWorld(centerX,centerY,radius))
 			return true;
 		double lowestY= centerY - radius;
 		double highestY = centerY + radius; 
@@ -373,6 +374,7 @@ public class World {
 				return false;
 			if (this.getPassableMap()[(int)Math.round(y/this.getPixelHeight())][(int)Math.round(highestX/this.getPixelHeight())] == false)
 				return false;	
+			// 10
 			y = y + radius /10;
 		}
 		return true;
@@ -493,11 +495,15 @@ public class World {
 				return randomStartPos;
 			}			
 			else{
+				// + 15
 				randX = randX + 15 * this.getPixelWidth();
 				if (randX >= this.getWidth() ){
+					// 0.01
 					randX = 0.01 * this.getWidth();
+					// 5
 					randY = randY + 5 * this.getPixelHeight();
 					if (randY > this.getHeight())
+						//0.01
 						randY = 0.01 * this.getHeight();
 				}
 			}
@@ -597,14 +603,54 @@ public class World {
 		return (this.getHeight() / (double)getAmountOfPixelsInHeight());
 	}
 	
-	public boolean outOfWorldX(double positionX, double radius, World world){
-		return ( (positionX - radius < 0 ) 
-				|| (positionX + radius > (world.getWidth()) - this.getPixelWidth()) );
+
+	/**
+	 * Checks whether a circular entity (with given center and radius) is inside of a given world.
+	 * 
+	 * @param 	positionX
+	 * 			The x-coordinate of the center of the circular entity.
+	 * @param 	positionY
+	 * 			The y-coordinate of the center of the circular entity.
+	 * @param 	radius
+	 * 			The radius of the circular entity.
+	 * @return 	True if and only if the given circular entity does not lie fully within the bounds of this world.
+	 * 			| result == ( outOfWorldX(positionX,radius) || outOfWorldY(positionY,radius) )
+	 */	
+	public boolean outOfWorld(double positionX, double positionY, double radius){
+		return (outOfWorldX(positionX,radius)
+				|| outOfWorldY(positionY,radius));
 	}
 	
-	public boolean outOfWorldY(double positionY, double radius, World world){
+	/**
+	 * Checks whether the given x-position of the circular entity is still inside this world.
+	 * 
+	 * @param 	positionX
+	 * 			The x-coordinate of the center of the circular entity.
+	 * @param 	radius
+	 * 			The radius of the circular entity.
+	 * @return	True if and only if the given x-position is outside of this world.
+	 * 			| result == ( (positionX - this.getRadius() < 0 ) 
+				|	|| (positionX + this.getRadius() > world.getWidth()) )
+	 */
+	public boolean outOfWorldX(double positionX, double radius){
+		return ( (positionX - radius < 0 ) 
+				|| (positionX + radius > this.getWidth()) );
+	}
+	
+	/**
+	 * Checks whether the given y-coordinate of this circular entity is still inside this world.
+	 * 
+	 * @param 	positionY
+	 * 			The y-coordinate of the center of the circular entity.
+	 * @param 	radius
+	 * 			The radius of the circular entity.
+	 * @return	True if and only if the given y-position is outside of this world.
+	 * 			| result == ( (positionY - this.getRadius() < 0 ) 
+	 *			|	|| (positionY + this.getRadius() > world.getHeight()) )
+	 */			
+	public boolean outOfWorldY(double positionY, double radius){
 		return ( (positionY - radius < 0 )
-				|| (positionY + radius > (world.getHeight()) - this.getPixelHeight()) );
+				|| (positionY + radius > this.getHeight()) );
 	}
 
 }

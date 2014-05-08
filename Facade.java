@@ -286,14 +286,14 @@ public class Facade implements IFacade {
 	 * (For single-student groups that do not implement food, this method may return any value)
 	 */
 	public double getX(Food food){
-		return food.getPositionX();
+		return food.getPosition().getX();
 	}
 
 	/**
 	 * Returns the x-coordinate of the given projectile.
 	 */
 	public double getX(Projectile projectile){
-		return projectile.getPositionX();
+		return projectile.getPosition().getX();
 	}
 
 	/**
@@ -302,14 +302,14 @@ public class Facade implements IFacade {
 	 * (For single-student groups that do not implement food, this method may return any value)
 	 */
 	public double getY(Food food){
-		return food.getPositionY();
+		return food.getPosition().getY();
 	}
 
 	/**
 	 * Returns the y-coordinate of the given projectile.
 	 */
 	public double getY(Projectile projectile){
-		return projectile.getPositionY();
+		return projectile.getPosition().getY();
 	}
 
 	/**
@@ -470,14 +470,14 @@ public class Facade implements IFacade {
 	 * Returns the x-coordinate of the current location of the given worm.
 	 */
 	public double getX(Worm worm){
-		return worm.getPositionX();
+		return worm.getPosition().getX();
 	}
 
 	/**
 	 * Returns the y-coordinate of the current location of the given worm.
 	 */
 	public double getY(Worm worm){
-		return worm.getPositionY();
+		return worm.getPosition().getY();
 	}
 
 	/**
