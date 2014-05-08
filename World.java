@@ -43,7 +43,7 @@ public class World {
 		this.listOfTeams = new ArrayList<Team>();
 		this.addEmptyTeam("Independent");
 		this.listOfFood = new ArrayList<Food>();
-		this.nbCurrentWorm = 0;
+		setNbCurrentTeam(0);
 		this.projectile = null;
 	}
 	
@@ -143,6 +143,8 @@ public class World {
 		this.listOfWorms = wormList;
 	}
 	
+	
+	//EXTRA FUNCTIONALITEIT eventueel: zien dat wormen niet overlappen. 
 	public void addNewWorm(){
 		//?????.....................
 		double radius = 0.40;
@@ -153,28 +155,28 @@ public class World {
 		this.listOfWorms.add(worm);
 	}
 	
+	private ArrayList<Worm> listOfWorms;
+	
+	//Dynamische binding shit controleren -> NICOLAS
 	public void removeWorm(Worm worm){
 		this.listOfWorms.remove(worm);
 		// Je komt in een loop.
 		//worm.terminate();
 	}
 	
-	public int getNbCurrentWorm(){
-		return this.nbCurrentWorm;
+	public int getNbCurrentTeam(){
+		return this.nbCurrentTeam;
 	}
 	
-	public void setNbCurrentWorm(int numberWorm){
-		this.nbCurrentWorm = numberWorm;
+	public void setNbCurrentTeam(int numberTeam){
+		this.nbCurrentTeam = numberTeam;
 	}
 	
-	public Worm getCurrentWorm(){
-		return this.listOfWorms.get(this.getNbCurrentWorm());
+	public Team getCurrentTeam(){
+		return this.listOfTeams.get(this.getNbCurrentTeam());
 	}
 	
-
-	
-	private ArrayList<Worm> listOfWorms;
-	private int nbCurrentWorm;
+	private int nbCurrentTeam;
 
 	
 
@@ -543,12 +545,18 @@ public class World {
 	}
 	
 	public void startNextTurn(){
-		if (this.getNbCurrentWorm() == this.getWorms().size() - 1)
-			this.setNbCurrentWorm(0);
-		else if (this.getNbCurrentWorm() != this.getWorms().size() )
-			this.setNbCurrentWorm(this.getNbCurrentWorm() + 1);
-		this.getCurrentWorm().setActionPoints(this.getCurrentWorm().getMaximumActionPoints());
-		this.getCurrentWorm().setHitPoints   (this.getCurrentWorm().getHitPoints() + 10);
+		// Next team ook beter een iterator..
+		if (this.getNbCurrentTeam() == this.getTeams().size() - 1){
+			this.setNbCurrentTeam(0);
+			//Next worm moet een iterator worden...
+			this.getCurrentTeam().nextWorm();
+		}
+		else if (this.getNbCurrentTeam() != this.getTeams().size() ){
+			this.setNbCurrentTeam(this.getNbCurrentTeam() + 1);
+			this.getCurrentTeam().nextWorm();
+		}
+		this.getCurrentTeam().getCurrentWorm().setActionPoints(this.getCurrentTeam().getCurrentWorm().getMaximumActionPoints());
+		this.getCurrentTeam().getCurrentWorm().setHitPoints   (this.getCurrentTeam().getCurrentWorm().getHitPoints() + 10);
 	}
 	
 	public Projectile getActiveProjectile(){
@@ -563,7 +571,7 @@ public class World {
 				worm.setActionPoints(worm.getMaximumActionPoints());
 				worm.setHitPoints(worm.getMaximumHitPoints());
 			}
-			this.setNbCurrentWorm(0);
+			this.setNbCurrentTeam(0);
 		}
 		//Nakijken of Independent niet leeg is, anders terminaten.
 	}

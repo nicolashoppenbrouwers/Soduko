@@ -1,18 +1,11 @@
-/*
- * Assignment 'Worms' Object-Oriented Programming
- * University:		KU Leuven
- * Study:			Bachelor Ingenieurswetenschappen
- * Course:			Objectgericht Programmeren (H01P1A)
- * Year:			2013 - 2014
- * Authors: 		Nicolas Hoppenbrouwers 	(Computerwetenschappen - Werktuigkunde)
- * 					Bram Lust 				(Computerwetenschappen - Elektrotechniek)
- * Git: 			https://github.com/nicolashoppenbrouwers/Soduko.git
- */
 
 package worms.model;
 import java.util.ArrayList;
+
 import be.kuleuven.cs.som.annotate.*;
 
+
+// NOG DOEN --> NICOLAS 
 /**
  * A help class of teams for worms, involving a name and a membershiplist.
  * 
@@ -46,6 +39,7 @@ public class Team {
 		//OUD:	 this.listOfWorms = new ArrayList<Worm>();
 		//VRAAG: IS DIT WEL DE JUISTE MANIER OM EEN LEGE LIJST IN TE VOEREN? IK VIND NIET METEEN DE JUISTE MANIER!
 		this.listOfWorms = new ArrayList<Worm>();
+		this.setNbCurrentWorm(0);
 		//OUD: this.setTeamMembers(null)
 		//ik heb de vorige versie terug gezet want ik denk dat in de oude een foutje zit
 		//bij de this.setTeamMembers(null) sla je
@@ -70,6 +64,7 @@ public class Team {
 		this.setWorld(world);
 		this.setName(name);
 		this.setTeamMembers(team);
+		this.setNbCurrentWorm(0);
 	}
 	
 	
@@ -78,6 +73,8 @@ public class Team {
 	}
 	
 	public void terminate(){
+		if (this.getWorld().getTeams().indexOf(this) <= this.getWorld().getNbCurrentTeam())
+			 this.getWorld().setNbCurrentTeam(this.getWorld().getNbCurrentTeam() - 1);
 		this.unsetWorld();
 	}
 	
@@ -205,6 +202,20 @@ public class Team {
 	
 	
 	
+	public int getNbCurrentWorm(){
+		return this.nbCurrentWorm;
+	}
+	
+	public void setNbCurrentWorm(int numberWorm){
+		//Hier een checker bij zetten dat de wormenlijst van uw team niet leeg mag zijn!
+		this.nbCurrentWorm = numberWorm;
+	}
+	
+	public Worm getCurrentWorm(){
+		return this.listOfWorms.get(this.getNbCurrentWorm());
+	}
+	
+	private int nbCurrentWorm;
 	
 	
 	//Postconditie formeel: +teken klopt niet echt denk ik.
@@ -235,5 +246,14 @@ public class Team {
 	 */
 	public void removeWorm(Worm worm){
 		this.listOfWorms.remove(worm);		
+	}
+	
+	
+	
+	public void nextWorm(){
+		if (this.getNbCurrentWorm() == this.getTeamMembers().size() - 1)
+			this.setNbCurrentWorm(0);
+		else if (this.getNbCurrentWorm() != this.getTeamMembers().size() )
+			this.setNbCurrentWorm(this.getNbCurrentWorm() + 1);
 	}
 }

@@ -232,7 +232,6 @@ public abstract class GameObject {
     /**
      * Variable registering position of this GameObject.
      */
-	// Of protected? 
 	private Position position;
 	
 	

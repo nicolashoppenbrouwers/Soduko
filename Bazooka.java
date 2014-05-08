@@ -5,6 +5,7 @@ package worms.model;
 
 import be.kuleuven.cs.som.annotate.Basic;
 
+//NOG DOEN --> NICOLAS 
 /**
  * @author Nicolas
  *

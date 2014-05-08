@@ -123,9 +123,20 @@ public abstract class MovableGameObject extends GameObject {
 	
 	
 	
-	// DOCUMENTATIE
+	// IN ORDE
+	/**
+	 * Return the mass of this MovableGameObject.
+	 */
 	public abstract double getMass();
+	
+	/**
+	 * Return the density of this MovableGameObject.
+	 */
 	public abstract double getDensity();
+	
+	/**
+	 * Return the force of this MovableGameObject.
+	 */
 	public abstract double getForce();
 	
 	

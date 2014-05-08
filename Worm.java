@@ -126,17 +126,18 @@ public class Worm extends MovableGameObject{
 	 */
 	 @Override
 	public void terminate() {
-		 if (this.getWorld().getCurrentWorm() == this){
-			 this.getWorld().setNbCurrentWorm(this.getWorld().getNbCurrentWorm() - 1);
+		 // Als het de current worm is die moet worden geterminatet:
+		 if (this.getWorld().getCurrentTeam().getCurrentWorm() == this){
+			 this.getWorld().getCurrentTeam().setNbCurrentWorm(this.getWorld().getCurrentTeam().getNbCurrentWorm() - 1);
 			 World formerWorld = this.getWorld();
 			 this.unsetTeam();
 			 this.unsetWorld();
 			 formerWorld.startNextTurn();
 		 }
+		 // Als het niet de current worm is die moet worden geterminatet:
 		 else{
-			 if (this.getWorld().getWorms().indexOf(this) < this.getWorld().getNbCurrentWorm()){
-				 this.getWorld().setNbCurrentWorm(this.getWorld().getNbCurrentWorm() - 1);
-			 }
+			 if (this.getTeam().getTeamMembers().indexOf(this) < this.getTeam().getNbCurrentWorm())
+				 this.getTeam().setNbCurrentWorm(this.getTeam().getNbCurrentWorm() - 1);
 			 this.unsetWorld();
 			 this.unsetTeam();
 		 }
@@ -196,6 +197,7 @@ public class Worm extends MovableGameObject{
 		//		this.radius = radius;
 		super.setRadius(radius);
 		this.setMaximumActionPoints();
+		this.setMaximumHitPoints();
 	}
 	
 	/**
@@ -966,7 +968,9 @@ public class Worm extends MovableGameObject{
 	public void Eat(){
 		while (this.closeToFood()){
 			this.closeToWhichFood().terminate();
+			int formerMaximumHitPoints = this.getMaximumHitPoints();
 			this.setRadius(this.getRadius()*1.1);
+			this.setHitPoints(this.getHitPoints() + this.getMaximumHitPoints() - formerMaximumHitPoints);
 		}
 		
 	}

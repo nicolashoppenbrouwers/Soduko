@@ -169,7 +169,7 @@ public class Facade implements IFacade {
 	 * Returns the active worm in the given world (i.e., the worm whose turn it is).
 	 */
 	public Worm getCurrentWorm(World world){
-		return world.getCurrentWorm();
+		return world.getCurrentTeam().getCurrentWorm();
 	}
 	
 	/**

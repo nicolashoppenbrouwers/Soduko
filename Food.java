@@ -99,8 +99,7 @@ public class Food extends GameObject {
 	
 	
 	
-		
-	//EIGENLIJK IS DIT EEN TRIVIALE FUNCTIE EN HOEFT HIER NIET.
+	//IN ORDE
 	/**
 	 * Returns whether this food is still active in the game.
 	 * @return	True if and only if this food is not terminated.

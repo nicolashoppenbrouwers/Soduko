@@ -171,7 +171,7 @@ public class Position {
 		return ( Math.sqrt(Math.pow( this.getX() - position.getX() , 2) +  Math.pow( this.getY() - position.getY() , 2)) );
 	}
 	
-	//VOOR ALS JE GEEN NIEUWE POSITIE WIL AANMAKEN, misschien is het beter om deze methode weg te laten voor consistent te zijn.
+	//IN ORDE
 	/**
 	 * Calculates and returns the distance between this position and the given position.
 	 * 
