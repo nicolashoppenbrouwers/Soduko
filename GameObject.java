@@ -141,6 +141,7 @@ public abstract class GameObject {
 	
 	/**
 	 * Check whether this GameObject has a world.
+	 * 
 	 * @return	True if and only if the world of this GameObject is effective.
 	 * 			| (this.getWorld() != null)
 	 */
@@ -207,6 +208,7 @@ public abstract class GameObject {
 	
 	/**
 	 * Sets this GameObject's position to the given position.
+	 * 
 	 * @param 	positionX
 	 * 			The x-coordinate to set this GameObject's x-position to.
 	 * @param 	positionY

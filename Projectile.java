@@ -26,9 +26,9 @@ public abstract class Projectile extends MovableGameObject{
 	
 	// IN ORDE
 	/**
-     *Initialize this new projectile with given world, position, direction and damage.
+     *Initialize this new projectile with given world, position and direction.
      *
-     * @param  	World
+     * @param  	world
      *         	The world to contain the new projectile.
      * @param  	positionX
      *         	The x-coordinate of the position of the new projectile (meters).
@@ -36,8 +36,6 @@ public abstract class Projectile extends MovableGameObject{
      *         	The y-coordinate of the position of the new projectile (meters).
      * @param   direction
      * 			The direction which the new projectile is facing (radians).
-     * @param	radius
-     * 			The given radius of the new projectile (meters).
      * @effect 	This new projectile is initialized as a new movableGameObject with
      *         	given world, positionX, positionY and direction, and zero as radius.
      *       	| super(world,positionX, positionY, direction, 0)

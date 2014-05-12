@@ -1,14 +1,23 @@
-package worms.model;
+/*
+ * Assignment 'Worms' Object-Oriented Programming
+ * University:		KU Leuven
+ * Study:			Bachelor Ingenieurswetenschappen
+ * Course:			Objectgericht Programmeren (H01P1A)
+ * Year:			2013 - 2014
+ * Authors: 		Nicolas Hoppenbrouwers 	(Computerwetenschappen - Werktuigkunde)
+ * 					Bram Lust 				(Computerwetenschappen - Elektrotechniek)
+ * Git: 			https://github.com/nicolashoppenbrouwers/Soduko.git
+ */
 
+package worms.model;
 import java.util.*;
 
 /**
  * A class for the facade of the worm.
  * 
- * @author 	Nicolas Hoppenbrouwers:	Bachelor Ingenieurswetenschappen Computerwetenschappen-Werktuigkunde
- * 			Bram Lust: Bachelor Ingenieurswetenschappen Computerwetenschappen-Elektrotechniek
- * 			We didn't work with Git.
- * @version 1.0
+ * @author 	Nicolas Hoppenbrouwers
+ * 			Bram Lust
+ * @version 3.0
  */
 public class Facade implements IFacade {
 	public Facade(){

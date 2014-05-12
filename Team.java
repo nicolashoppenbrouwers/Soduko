@@ -7,14 +7,13 @@ import be.kuleuven.cs.som.annotate.*;
 
 // NOG DOEN --> NICOLAS 
 /**
- * A help class of teams for worms, involving a name and a membershiplist.
+ * A help class of teams for worms, involving a name, a membershiplist and a current worm.
  * 
  * @invar	...
  * @invar	...
- * @author 	Nicolas Hoppenbrouwers:	Bachelor Ingenieurswetenschappen Computerwetenschappen-Werktuigkunde
- * 			Bram Lust: Bachelor Ingenieurswetenschappen Computerwetenschappen-Elektrotechniek
- * 			We didn't work with Git.
- * @version 1.0
+ * @author 	Nicolas Hoppenbrouwers
+ * 			Bram Lust
+ * @version 2.0
  *
  */
 
@@ -77,6 +76,37 @@ public class Team {
 			 this.getWorld().setNbCurrentTeam(this.getWorld().getNbCurrentTeam() - 1);
 		this.unsetWorld();
 	}
+	
+	
+	
+	
+	
+	public World getWorld(){
+		return this.world;
+	}
+	
+	public void setWorld(World world){
+		//De eerste voorwaarde moet er bij anders krijg je een NullPointerException op de tweede voorwaarde.
+		if ((world != null) && (!world.isValidAmountOfTeams()) )
+			throw new IllegalStateException("This world already has 10 teams!");
+		this.world = world;
+	}
+	
+	public void unsetWorld(){
+		if (this.hasWorld()){
+			World formerWorld = this.getWorld();
+			this.setWorld(null);
+			formerWorld.removeTeam(this);
+		}
+	}
+	
+	public boolean hasWorld(){
+		return (this.getWorld() != null);
+	}
+	
+	private World world;
+	
+	
 	
 	
 		
@@ -143,30 +173,7 @@ public class Team {
 	
 	
 	
-	public World getWorld(){
-		return this.world;
-	}
-	
-	public void setWorld(World world){
-		//De eerste voorwaarde moet er bij anders krijg je een NullPointerException op de tweede voorwaarde.
-		if ((world != null) && (!world.isValidAmountOfTeams()) )
-			throw new IllegalStateException("This world already has 10 teams!");
-		this.world = world;
-	}
-	
-	public void unsetWorld(){
-		if (this.hasWorld()){
-			World formerWorld = this.getWorld();
-			this.setWorld(null);
-			formerWorld.removeTeam(this);
-		}
-	}
-	
-	public boolean hasWorld(){
-		return (this.getWorld() != null);
-	}
-	
-	private World world;
+
 	
 	
 	
