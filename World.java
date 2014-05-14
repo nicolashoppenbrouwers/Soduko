@@ -202,6 +202,7 @@ public class World {
 		Team team  = new Team(this, newName);
 		this.listOfTeams.add(team);
 		setLastTeamAdded(team);
+		setNbCurrentTeam(getNbCurrenTeam() + 1);
 	}
 	
 	public boolean isValidAmountOfTeams(){

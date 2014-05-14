@@ -18,6 +18,7 @@ import be.kuleuven.cs.som.annotate.*;
  */
 
 // Moet een team ook kunnen geterminate worden op het einde van elk spel?
+// Het spel crasht wanneer je een team wilt toevoegen en independent heeft geen wormen
 
 public class Team {
 	
