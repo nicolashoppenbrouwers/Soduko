@@ -1,7 +1,6 @@
 package worms.model.program.expressions;
 import worms.model.program.Program;
-
-public abstract class Expression<T> {
+public abstract class Expression<T>{
 
 	public Expression(int line, int column) {
 		this.line = line;
@@ -11,7 +10,7 @@ public abstract class Expression<T> {
 	public int getLine() {
 		return this.line;
 	}
-
+ 
 	public int getColumn() {
 		return this.column;
 	}

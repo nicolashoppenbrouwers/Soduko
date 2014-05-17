@@ -1,5 +1,6 @@
 package worms.model.program.statements; 
 
+import worms.model.Worm;
 import worms.model.program.expressions.Expression;
 import worms.model.program.Program;
 import worms.model.program.statements.Statement;
@@ -13,8 +14,8 @@ import be.kuleuven.cs.som.annotate.*;
  */
 public class While extends Statement{
 
-	While(Program program ,Expression condition, Statement body){
-		super(program);
+	While(int line,int column,Expression condition, Statement body){
+		super(line,column);
 		this.condition =  condition;
 		this.body = body;
 		this.booleanCondition = false;
@@ -51,9 +52,10 @@ public class While extends Statement{
 	}
 	
 	
-	
+	//Dit is de condition van de while lus
 	final private Expression condition;
 	
+	// Dit is de body, het statement dat de while lus zal uitvoeren indien aan de condition voldaan is
 	final private Statement body;
 	
 	// Deze variabele houdt bij of we de conditie al hebben gecontroleerd.
@@ -66,22 +68,22 @@ public class While extends Statement{
 	
 	
 	
-	public boolean execute(){
+	public boolean execute(Program program,Worm worm){
 		
 		if( this.getConditionChecked() == false){
 			this.setConditionChecked(true);
-			// True en false zijn nog niet klaar
-			this.setBooleanCondition(this.getCondition().evaluate(this.getProgram()).getValue());
+			// De expression true en false zijn nog niet klaar
+			this.setBooleanCondition(this.getCondition().evaluate(program).getValue();
 		}
 		
 		while(this.getConditionChecked()){
 			// in dit if statement wordt de body uitgevoerd
-			if (!this.body.executeWithCheck()){
+			if (!this.body.executeWithCheck(program,worm)){
 				return false;
 			}
 			else{
-				// True en false zijn nog niet klaar
-				this.setBooleanCondition(this.getCondition().evaluate(this.getProgram()).getValue());
+				// De expressions true en false zijn nog niet klaar
+				this.setBooleanCondition(this.getCondition().evaluate(program).getValue());
 			}
 		}
 		this.setConditionChecked(false);
