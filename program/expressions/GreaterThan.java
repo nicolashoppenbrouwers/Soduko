@@ -2,9 +2,9 @@ package worms.model.program.expressions;
 
 import worms.model.program.Program;
 
-public class LessThan extends Expression<BooleanLiteral> {
+public class GreaterThan extends Expression<BooleanLiteral> {
 	
-	public LessThan(int line, int column, Expression<DoubleLiteral> e1, Expression<DoubleLiteral> e2) {
+	public GreaterThan(int line, int column, Expression<DoubleLiteral> e1, Expression<DoubleLiteral> e2) {
 		super(line,column);
 		this.expressionLeft = e1;
 		this.expressionRight = e2;
@@ -24,8 +24,8 @@ public class LessThan extends Expression<BooleanLiteral> {
 	
 	@Override
 	public BooleanLiteral evaluate(Program program) {
-		boolean lessThanResult = (getExpressionLeft().evaluate(program).getDoubleValue() < getExpressionRight().evaluate(program).getDoubleValue());
-		return new BooleanLiteral(getLine(),getColumn(),lessThanResult);
+		boolean greaterThanResult = (getExpressionLeft().evaluate(program).getDoubleValue() > getExpressionRight().evaluate(program).getDoubleValue());
+		return new BooleanLiteral(getLine(),getColumn(),greaterThanResult);
 	}
 
 }

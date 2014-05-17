@@ -24,7 +24,7 @@ public class Or extends Expression<BooleanLiteral>{
 	
 	@Override
 	public BooleanLiteral evaluate(Program program) {
-		Boolean orResult = getExpressionLeft().evaluate(program).getValue() || getExpressionRight().evaluate(program).getValue();
+		Boolean orResult = (getExpressionLeft().evaluate(program).getValue() || getExpressionRight().evaluate(program).getValue());
 		return new BooleanLiteral(getLine(),getColumn(),orResult);
 	}
 

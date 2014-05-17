@@ -18,7 +18,7 @@ public class Not extends Expression<BooleanLiteral>{
 	
 	@Override
 	public BooleanLiteral evaluate(Program program) {
-		Boolean notResult = !getExpression().evaluate(program).getValue();
+		Boolean notResult = (!getExpression().evaluate(program).getValue());
 		return new BooleanLiteral(getLine(),getColumn(),notResult);
 	}
 

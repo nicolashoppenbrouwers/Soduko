@@ -1,11 +1,20 @@
 package worms.model.program;
-import be.kuleuven.cs.som.annotate.*;
+import worms.model.*;
+
 
 
 public class Program {
 
-	public Program() {
+	public Program(Worm worm) {
+		this.worm = worm;
 	}
+	
+	//Dynamische binding controleren
+	public Worm getWorm(){
+		return this.worm;
+	}
+	
+	private final Worm worm;
 
 	
 	// Deze functie controleerd of er nog niet te veel statements zijn uitgevoerd deze beurt

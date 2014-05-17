@@ -24,7 +24,7 @@ public class And extends Expression<BooleanLiteral>{
 	
 	@Override
 	public BooleanLiteral evaluate(Program program) {
-		Boolean andResult = getExpressionLeft().evaluate(program).getValue() && getExpressionRight().evaluate(program).getValue();
+		Boolean andResult = (getExpressionLeft().evaluate(program).getValue() && getExpressionRight().evaluate(program).getValue());
 		return new BooleanLiteral(getLine(),getColumn(),andResult);
 	}
 

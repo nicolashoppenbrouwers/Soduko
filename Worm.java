@@ -1,6 +1,7 @@
 package worms.model;
 
 import be.kuleuven.cs.som.annotate.*;
+import worms.model.program.*;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -90,7 +91,7 @@ public class Worm extends MovableGameObject{
 	// Use the @effect tag
 	@Raw 
 	public Worm(World world,double positionX, double positionY, double direction, double radius, String name){
-		super(world, positionX, positionY, direction, radius);
+		super(world, positionX, positionY, direction, radius, Program program);
 		this.setMaximumActionPoints();
 		this.setActionPoints(this.getMaximumActionPoints());
 		this.setMaximumHitPoints();
@@ -98,6 +99,7 @@ public class Worm extends MovableGameObject{
 		this.setName(name);
 		this.setTeam(world.getLastTeamAdded());
 		this.setIndexActiveWeapon(0);
+		//this.setProgram(program);
 		}
 	
 	
