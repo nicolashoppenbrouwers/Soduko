@@ -4,7 +4,7 @@ import worms.model.program.Program;
 
 //HERBEKIJKEN!!!!
 
-
+// extends Expression<Boolean>
 public class BooleanLiteral extends Expression<BooleanLiteral> {
 
 	public BooleanLiteral(int line, int column, boolean booleanValue) {

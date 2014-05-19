@@ -21,9 +21,9 @@ public class GetHitPoints extends Expression<DoubleLiteral>{
 	public DoubleLiteral evaluate(Program program) {
 		//Als de entity geen Worm is, heeft het geen HPs.
 		if ((getEntityExpression().evaluate(program).getValue() == null) || (! (getEntityExpression().evaluate(program).getValue() instanceof worms.model.Worm)))
-			//Wat returnen we dan? isNaN?
 			return new DoubleLiteral(getLine(),getColumn(),Double.NaN);
-		//Je moet hier casten naar Worm, anders lukt het niet.
+		//PROGRAMMA MOET STOPPEN
+
 		Worm worm = (Worm) getEntityExpression().evaluate(program).getValue();
 		return new DoubleLiteral(getLine(),getColumn(),worm.getHitPoints());
 	}

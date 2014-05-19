@@ -21,13 +21,12 @@ public class SameTeam extends Expression<BooleanLiteral>{
 	public BooleanLiteral evaluate(Program program) {
 		//Als de entity geen Worm is, heeft het geen team.
 		if ((! (getEntityExpression().evaluate(program).getValue() instanceof worms.model.Worm)) || (getEntityExpression().evaluate(program).getValue() == null) || (program.getWorm() == null))
-			//Wat returnen we dan? false?
 			return new BooleanLiteral(getLine(),getColumn(),false);
-		
-		//Je moet hier casten naar Worm, anders lukt het niet.
+		//PROGRAMMA MOET STOPPEN
+
 		Worm worm = (Worm) getEntityExpression().evaluate(program).getValue();
 		boolean sameTeamResult = (worm.getTeam() == program.getWorm().getTeam());
-		//OF alternatief, met de teamnamen, aangezien deze toch uniek moeten zijn.
+		//OF alternatief, als de operator == niet werkt bij Team, met de teamnamen, aangezien deze toch uniek moeten zijn.
 		//boolean sameTeamResult = (worm.getTeam().getName().equals(program.getWorm().getTeam().getName()));
 		if (worm.getTeam().getName().equals("Indepentent") && program.getWorm().getTeam().getName().equals("Independent"))
 			sameTeamResult = false;

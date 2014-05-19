@@ -20,6 +20,8 @@ public class GetY extends Expression<DoubleLiteral>{
 	public DoubleLiteral evaluate(Program program) {
 		if (getEntityExpression().evaluate(program).getValue() == null)
 			return new DoubleLiteral(getLine(),getColumn(),Double.NaN);
+		//PROGRAMMA MOET STOPPEN
+
 		double yCoordinate = getEntityExpression().evaluate(program).getValue().getPosition().getY();
 		return new DoubleLiteral(getLine(),getColumn(),yCoordinate);
 	}

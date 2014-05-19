@@ -27,6 +27,7 @@ public class Division extends Expression<DoubleLiteral> {
 		//Division by zero.
 		//Het kan zijn dat JAVA zelf al NaN teruggeeft bij deling door 0.
 		if (getExpressionRight().evaluate(program).getDoubleValue() == 0)
+			//PROGRAMMA MOET STOPPEN: program.getWorm().getWorld().startNextTurn();
 			return new DoubleLiteral(getLine(),getColumn(),Double.NaN);
 		
 		double division = getExpressionLeft().evaluate(program).getDoubleValue() / getExpressionRight().evaluate(program).getDoubleValue();

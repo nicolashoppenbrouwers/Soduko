@@ -20,6 +20,8 @@ public class GetRadius extends Expression<DoubleLiteral>{
 	public DoubleLiteral evaluate(Program program) {
 		if (getEntityExpression().evaluate(program).getValue() == null)
 			return new DoubleLiteral(getLine(),getColumn(),Double.NaN);
+		//PROGRAMMA MOET STOPPEN
+
 		double radius = getEntityExpression().evaluate(program).getValue().getRadius();
 		return new DoubleLiteral(getLine(),getColumn(),radius);
 	}

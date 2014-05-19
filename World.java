@@ -179,7 +179,9 @@ public class World {
 	private int nbCurrentTeam;
 
 	
-
+	public Worm getCurrentWorm(){
+		return this.getCurrentTeam().getCurrentWorm();
+	}
 	
 	
 	

@@ -34,7 +34,8 @@ public abstract class Statement {
 	 *	Anders voert deze functie de normale excute() uit
 	 */
 	public boolean executeWithCheck(Program program,Worm worm){
-		if (program.checkAmountOfStatements()){
+		program.setAmountOfStatementsExecuted(program.getAmountOfStatementsExecuted()+1);
+		if (program.tooManyStatementsExecuted()){
 			return false;
 		}
 		else{

@@ -28,5 +28,9 @@ public class SearchObj extends Expression<Entity>{
 	}
 	
 
+	// itereren over alle wormen
+	// kijken of uw huidige worm binnen de gewilde band ligt
+	// dit doe je door arctan(y-y' / x-x' ) en kijken of dit ligt binnen theta +- e
+	// en dan checken of dit kleiner is dan de minimal direction so far
 
 }

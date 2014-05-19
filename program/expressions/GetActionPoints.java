@@ -22,11 +22,9 @@ public class GetActionPoints extends Expression<DoubleLiteral>{
 		//Als de entity geen Worm is, heeft het geen APs.
 		if ((getEntityExpression().evaluate(program).getValue() == null) || (! (getEntityExpression().evaluate(program).getValue() instanceof worms.model.Worm)))
 			return new DoubleLiteral(getLine(),getColumn(),Double.NaN);
-		//Je moet hier casten naar Worm, anders lukt het niet.
+		//PROGRAMMA MOET STOPPEN
+
 		Worm worm = (Worm) getEntityExpression().evaluate(program).getValue();
 		return new DoubleLiteral(getLine(),getColumn(),worm.getActionPoints());
 	}
-	
-
-
 }

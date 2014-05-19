@@ -20,6 +20,8 @@ public class GetX extends Expression<DoubleLiteral>{
 	public DoubleLiteral evaluate(Program program) {
 		if (getEntityExpression().evaluate(program).getValue() == null)
 			return new DoubleLiteral(getLine(),getColumn(),Double.NaN);
+		//PROGRAMMA MOET STOPPEN
+
 		double xCoordinate = getEntityExpression().evaluate(program).getValue().getPosition().getX();
 		return new DoubleLiteral(getLine(),getColumn(),xCoordinate);
 	}

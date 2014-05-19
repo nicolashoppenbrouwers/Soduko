@@ -5,7 +5,7 @@ import worms.model.program.Program;
 
 public class Foreach extends Statement{
 
-	public Foreach(int line, int column, ) {
+	public Foreach(int line, int column ) {
 		super(line, column);
 		
 		// TODO Auto-generated constructor stub
@@ -24,7 +24,7 @@ public class Foreach extends Statement{
 	}
 
 	@Override
-	public boolean welFormedStatement() {
+	public boolean wellFormedStatement() {
 		// TODO Auto-generated method stub
 		return false;
 	}

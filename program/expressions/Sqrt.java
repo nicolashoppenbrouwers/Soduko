@@ -22,6 +22,8 @@ public class Sqrt extends Expression<DoubleLiteral> {
 		//Het kan zijn dat JAVA zelf al NaN teruggeeft bij sqrt(negatief getal).
 		if (getExpression().evaluate(program).getDoubleValue() < 0)
 			return new DoubleLiteral(getLine(),getColumn(),Double.NaN);
+		//PROGRAMMA MOET STOPPEN
+
 		double sqrt = Math.sqrt(getExpression().evaluate(program).getDoubleValue());
 		return new DoubleLiteral(getLine(),getColumn(),sqrt);
 	}
