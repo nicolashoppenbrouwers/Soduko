@@ -103,7 +103,7 @@ public class While extends Statement{
 	}
 
 	@Override
-	public boolean welFormedStatement() {
-		return (this.getBody().welFormedStatement());
+	public boolean wellFormedStatement() {
+		return (this.getBody().wellFormedStatement());
 	}
 }
