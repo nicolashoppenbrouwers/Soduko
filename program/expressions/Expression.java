@@ -18,6 +18,10 @@ public abstract class Expression<T>{
 	private final int line;
 	private final int column;
 	
+//	public T getValueType(){
+//		return this.type();
+//	}
+	
 	//We geven als argument een program mee om aan de globale variabelen te komen?
 	public abstract T evaluate(Program program);
 

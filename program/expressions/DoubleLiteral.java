@@ -2,6 +2,8 @@ package worms.model.program.expressions;
 
 import worms.model.program.Program;
 
+//HERBEKIJKEN!!!!
+
 public class DoubleLiteral extends Expression<DoubleLiteral> {
 
 	public DoubleLiteral(int line, int column, double doubleValue) {
@@ -18,7 +20,7 @@ public class DoubleLiteral extends Expression<DoubleLiteral> {
 		return this.value;
 	}
 	
-	public double getIntegerValue(){
+	public int getIntegerValue(){
 		return (int) Math.floor(this.getValue());
 	}
 	
