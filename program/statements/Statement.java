@@ -67,5 +67,5 @@ public abstract class Statement {
 	/**
 	 * Deze functie geeft weer of dit Statement een welformed statement is
 	 */
-	public abstract boolean welFormedStatement();
+	public abstract boolean wellFormedStatement();
 }

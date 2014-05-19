@@ -15,16 +15,16 @@ public class Sequence extends Statement{
 		this.statements = statements;
 		}
 	
-	public int getIndex() {
+	private int getIndex() {
 		return index;
 	}
 
-	public void setIndex(int index) {
+	private void setIndex(int index) {
 		this.index = index;
 	}
 
 	@Basic
-	public List<Statement> getStatements() {
+	private List<Statement> getStatements() {
 		return statements;
 	}
 	
@@ -44,7 +44,7 @@ public class Sequence extends Statement{
 		
 		while(this.getIndex() <= this.getStatements().size()-1){
 			if (this.getStatements().get(index).executeWithCheck(program,worm)){
-			this.setIndex(this.getIndex()+1);
+				this.setIndex(this.getIndex()+1);
 			}
 			else{
 				return false;
@@ -65,9 +65,9 @@ public class Sequence extends Statement{
 	}
 
 	@Override
-	public boolean welFormedStatement() {
+	public boolean wellFormedStatement() {
 		for(Statement statement : this.getStatements()){
-			if (!(statement.welFormedStatement())){
+			if (!(statement.wellFormedStatement())){
 				return false;
 			}
 		}
