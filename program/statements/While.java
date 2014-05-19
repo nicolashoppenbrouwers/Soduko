@@ -1,6 +1,7 @@
 package worms.model.program.statements; 
 
 import worms.model.Worm;
+import worms.model.program.expressions.BooleanLiteral;
 import worms.model.program.expressions.Expression;
 import worms.model.program.Program;
 import worms.model.program.statements.Statement;
@@ -14,16 +15,19 @@ import be.kuleuven.cs.som.annotate.*;
  */
 public class While extends Statement{
 
-	While(int line,int column,Expression condition, Statement body){
+	While(int line,int column,Expression<BooleanLiteral> condition, Statement body){
 		super(line,column);
 		this.condition =  condition;
 		this.body = body;
 		this.booleanCondition = false;
 		this.setConditionChecked(false);
 	}
+	
+	
+	//Setters en getters, allemaal privat want je mag deze niet gebruiken buiten deze klasse
 
 	@Basic
-	private Expression getCondition() {
+	private Expression<BooleanLiteral> getCondition() {
 		return condition;
 	}
 
@@ -33,27 +37,29 @@ public class While extends Statement{
 	}
 	
 	@Basic
-	public void setConditionChecked(boolean coditionChecked) {
+	private void setConditionChecked(boolean coditionChecked) {
 		this.conditionChecked = coditionChecked;
 	}
 	
 	@Basic
-	public boolean getConditionChecked() {
+	private boolean getConditionChecked() {
 		return this.conditionChecked;
 	}
 
 	@Basic
-	public boolean getBooleanCondition() {
+	private boolean getBooleanCondition() {
 		return booleanCondition;
 	}
 	@Basic
-	public void setBooleanCondition(boolean booleanCondition) {
+	private void setBooleanCondition(boolean booleanCondition) {
 		this.booleanCondition = booleanCondition;
 	}
 	
 	
+	//de Variabelen
+	
 	//Dit is de condition van de while lus
-	final private Expression condition;
+	final private Expression<BooleanLiteral> condition;
 	
 	// Dit is de body, het statement dat de while lus zal uitvoeren indien aan de condition voldaan is
 	final private Statement body;
@@ -66,32 +72,38 @@ public class While extends Statement{
 	private boolean booleanCondition;
 	
 	
+	//De 3 programmas die bij alle statements moeten aanwezig zijn.
 	
-	
+	@Override
 	public boolean execute(Program program,Worm worm){
 		
 		if( this.getConditionChecked() == false){
 			this.setConditionChecked(true);
 			// De expression true en false zijn nog niet klaar
-			this.setBooleanCondition(this.getCondition().evaluate(program).getValue();
+			this.setBooleanCondition(this.getCondition().evaluate(program).getValue());
 		}
 		
 		while(this.getConditionChecked()){
-			// in dit if statement wordt de body uitgevoerd
+			// Er is nog iets mis met de generische klassen Expression<BooleanLiteral>
 			if (!this.body.executeWithCheck(program,worm)){
 				return false;
 			}
 			else{
-				// De expressions true en false zijn nog niet klaar
+				// Er is nog iets mis met de generische klassen Expression<BooleanLiteral>
 				this.setBooleanCondition(this.getCondition().evaluate(program).getValue());
 			}
 		}
 		this.setConditionChecked(false);
 		return true;
 	}
-		
-	// java doet weer lastig
+	
+	@Override
 	public boolean containsActionStatement() {
 		return (this.getBody().containsActionStatement());
+	}
+
+	@Override
+	public boolean welFormedStatement() {
+		return (this.getBody().welFormedStatement());
 	}
 }

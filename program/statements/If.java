@@ -1,70 +1,96 @@
 package worms.model.program.statements;
 
+import worms.model.Worm;
+import worms.model.program.Program;
+import worms.model.program.expressions.BooleanLiteral;
 import worms.model.program.expressions.Expression;
 
-public class If extends Statement {
+public class If extends Statement{
 
-	public If(int line, int column, Expression<?> condition,Statement then,Statement otherwise) {
+	public If(int line, int column,Expression<BooleanLiteral> conditionExpression, Statement ifStatement,Statement elseStatement) {
 		super(line, column);
-		this.conditionExpr= condition;
-		this.thenStat = then;
-		this.otherwiseStat = otherwise;
+		this.conditionExpression = conditionExpression;
+		this.ifStatement = ifStatement;
+		this.elseStatement = elseStatement;
+		this.setConditionBoolean(false);
+		this.setConditionChecked(false);
+		
 	}
 	
-	public Expression<?> getCondition() {
-		return this.conditionExpr;
-	}
 	
-	public Statement getThen() {
-		return this.thenStat;
-	}
 	
-	public Statement getOtherwise() {
-		return this.otherwiseStat;
+	private boolean getConditionChecked() {
+		return conditionChecked;
 	}
 
-	private final Expression<?> conditionExpr;
-	private final Statement thenStat;
-	private final Statement otherwiseStat;
+	private void setConditionChecked(boolean conditionChecked) {
+		this.conditionChecked = conditionChecked;
+	}
 
+	private boolean getConditionBoolean() {
+		return conditionBoolean;
+	}
+
+	private void setConditionBoolean(boolean conditionBoolean) {
+		this.conditionBoolean = conditionBoolean;
+	}
+
+	private Expression<BooleanLiteral> getConditionExpression() {
+		return conditionExpression;
+	}
+
+	private Statement getIfStatement() {
+		return ifStatement;
+	}
+
+	private Statement getElseStatement() {
+		return elseStatement;
+	}
+
+	private final Expression<BooleanLiteral> conditionExpression;
+	private final Statement ifStatement;
+	private final Statement elseStatement;
+	private boolean conditionChecked;
+	private boolean conditionBoolean;
 	
-	public boolean execute(Program program){
-		if (conditionExpr.evaluate(program).getValue()){
-			
+
+	@Override
+	public boolean execute(Program program, Worm worm) {
+		
+		if (this.getConditionChecked() == false){
+			this.setConditionChecked(true);
+			this.setConditionBoolean(this.getConditionExpression().evaluate(program).getValue());
 		}
-		else{
-			
+		
+		if(this.getConditionBoolean()){
+			if (this.getIfStatement().executeWithCheck(program, worm)){
+				this.setConditionChecked(false);
+				return  true;
+			}
+			else {
+				return false;
+			}
 		}
-			
-        
-        /* Perform the statement, if we're searching for the last statement -> perform both if necessary */
-        if(program.isFinished()) { //We're executing like usual
-            if((Boolean) condition.getResult()) {
-                if(!thenStatement.execute(program))
-                    return false;
-            } else {
-                if(!otherwiseStatement.execute(program))
-                   return false;
-            }
-        } else { //Find the last statement! if not in first, execute second.
-            if(!thenStatement.execute(program))
-                return false;
-            
-            if(!program.isFinished()) {
-                if(!otherwiseStatement.execute(program))
-                    return false;
-            }
-        }
-        
-        return true;
-    }
+		else {
+			if (this.getElseStatement().executeWithCheck(program, worm)){
+				this.setConditionChecked(false);
+				return  true;
+			}
+			else {
+				return false;
+			} 
+		}
+		
+	}
 
-    @Override
-    public List<Statement> getStatements() {
-        ArrayList<Statement> myList = new ArrayList<>();
-        myList.add(thenStatement);
-        myList.add(otherwiseStatement);
-        return myList;
-    }
-    
+	@Override
+	public boolean containsActionStatement() {
+		return this.getElseStatement().containsActionStatement() || this.getIfStatement().containsActionStatement();
+	}
+
+	@Override
+	public boolean welFormedStatement() {
+		return this.getElseStatement().containsActionStatement() && this.getIfStatement().containsActionStatement();
+	}
+
 }
