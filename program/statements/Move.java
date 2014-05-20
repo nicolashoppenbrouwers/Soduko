@@ -10,7 +10,6 @@ public class Move extends Statement {
 
 	@Override
 	public boolean executeStatement(Program program) {
-		if (program.getWorm().canMove()){
 			program.getHandler().move(program.getWorm());
 			if (program.getWorm().isTerminated()){
 				return false;
@@ -18,10 +17,6 @@ public class Move extends Statement {
 			else{
 				return true;
 			}
-		}
-		else{
-			return false;
-		}
 	}
 
 	@Override
