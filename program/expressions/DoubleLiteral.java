@@ -1,30 +1,36 @@
 package worms.model.program.expressions;
 
 import worms.model.program.Program;
+import worms.model.program.types.Double;
 
-//HERBEKIJKEN!!!!
+//HERBEKIJKEN!!!! --> worms.model.program.types.Double meegeven ipv double
 
-public class DoubleLiteral extends Expression<DoubleLiteral> {
+public class DoubleLiteral extends Expression {
 
-	public DoubleLiteral(int line, int column, double doubleValue) {
+	public DoubleLiteral(int line, int column, Double doubleType){
 		super(line,column);
-		this.value = doubleValue;
+		this.type = doubleType;
 	}
 	
-	public double getValue(){
-		return this.value;
+	public DoubleLiteral(int line, int column, double doubleValue) {
+		super(line,column);
+		this.type = new Double(doubleValue);
+	}
+	
+	public Double getType(){
+		return this.type;
 	}
 	
 	//Triviale, onnodige functie maar gewoon voor de consistentie met getIntegerValue.
 	public double getDoubleValue() {
-		return this.value;
+		return getType().getDoubleValue();
 	}
 	
 	public int getIntegerValue(){
-		return (int) Math.floor(this.getValue());
+		return getType().getIntegerValue();
 	}
 	
-	private final Double value;
+	private final Double type;
 
 
 

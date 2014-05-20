@@ -17,7 +17,7 @@ public class Program {
 		this.setGlobals(globals);
 		this.handler = handler;
 		this.setAmountOfStatementsExecuted(0);
-		
+		this.setIsCorrupted(false);
 	}
 	
 
@@ -27,6 +27,10 @@ public class Program {
 	}
 	
 	private final Worm worm;
+	
+	public World getWorld(){
+		return this.getWorm().getWorld();
+	}
 	
 	public IActionHandler getHandler(){
 		return this.handler;
@@ -78,9 +82,15 @@ public class Program {
 	// Deze variabele heeft geen getters en setters want je mag er enkel aankomen via de functiesresetAmountStatements()
 	
 	
+	public boolean isCorrupted(){
+		return this.isCorrupted;
+	}
 	
+	public void setIsCorrupted(){
+		this.isCorrupted = false;
+	}
 	
-	
+	private boolean isCorrupted;
 	
 	public boolean isWellFormed(){
 		mainStatement.isWellFormed();
@@ -93,8 +103,11 @@ public class Program {
 	
 	
 	public void run(){
+		if (this.isCorrupted() == true)
+			this.getWorld().startNextTurn();
+		//Exceptions catchen!!
 		//Je moet hier niet checken of je worm al geterminated is, want die worm komt niet aan de beurt.
 		mainStatement.execute(this);
-		this.getWorm().getWorld().startNextTurn();
+		this.getWorld().startNextTurn();
 	}
 }

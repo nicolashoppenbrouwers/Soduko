@@ -2,30 +2,34 @@ package worms.model.program.expressions;
 
 import worms.model.program.Program;
 
-public class And extends Expression<BooleanLiteral>{
+public class And extends Expression{
 
-	public And(int line, int column, Expression<BooleanLiteral> e1, Expression<BooleanLiteral> e2) {
+	public And(int line, int column, Expression e1, Expression e2) {
 		super(line,column);
 		this.expressionLeft = e1;
 		this.expressionRight = e2;
 	}
 	
-	public Expression<BooleanLiteral> getExpressionLeft() {
+	public Expression getExpressionLeft() {
 		return this.expressionLeft;
 	}
 
-	public Expression<BooleanLiteral> getExpressionRight() {
+	public Expression getExpressionRight() {
 		return this.expressionRight;
 	}
 
-	private final Expression<BooleanLiteral> expressionLeft;
-	private final Expression<BooleanLiteral> expressionRight;
+	private final Expression expressionLeft;
+	private final Expression expressionRight;
 
+	
+	public Boolean getResult(Program program){
+		return new Boolean( ((BooleanLiteral) getExpressionLeft()).evaluate(program).getBooleanValue() && 
+							((BooleanLiteral) getExpressionRight().evaluate(program)).getBooleanValue());
+	}
 	
 	@Override
 	public BooleanLiteral evaluate(Program program) {
-		Boolean andResult = (getExpressionLeft().evaluate(program).getValue() && getExpressionRight().evaluate(program).getValue());
-		return new BooleanLiteral(getLine(),getColumn(),andResult);
+		return new BooleanLiteral(getLine(),getColumn(),getResult(program));
 	}
 
 }

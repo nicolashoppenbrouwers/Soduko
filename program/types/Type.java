@@ -1,5 +1,4 @@
 package worms.model.program.types;
-import worms.model.program.expressions.Expression;
 
 public abstract class Type<T> {
 
@@ -23,7 +22,5 @@ public abstract class Type<T> {
 	
 	//Functie misscien getType()
 	
-	
-	//?
-	public abstract Expression<?> convertToExpression(int line, int column);
+
 }

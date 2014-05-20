@@ -1,6 +1,7 @@
 package worms.model.program.expressions;
 import worms.model.program.Program;
-public abstract class Expression<T>{
+//import worms.model.program.types.Type;
+public abstract class Expression{
 
 	public Expression(int line, int column) {
 		this.line = line;
@@ -22,8 +23,12 @@ public abstract class Expression<T>{
 //		return this.type();
 //	}
 	
+	
+	//<?> klopt toch he?
+	//public abstract Type<?> getResult();
+	
 	//We geven als argument een program mee om aan de globale variabelen te komen?
-	public abstract T evaluate(Program program);
+	public abstract Expression evaluate(Program program);
 
 
 	// een methode toString voor alle expressies?

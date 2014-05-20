@@ -1,37 +1,39 @@
 package worms.model.program.expressions;
 
 import worms.model.program.Program;
+import worms.model.program.types.Double;
 
-public class Division extends Expression<DoubleLiteral> {
+public class Division extends Expression {
 	
-	public Division(int line, int column, Expression<DoubleLiteral> e1, Expression<DoubleLiteral> e2) {
+	public Division(int line, int column, Expression e1, Expression e2) {
 		super(line,column);
 		this.expressionLeft = e1;
 		this.expressionRight = e2;
 	}
 	
-	public Expression<DoubleLiteral> getExpressionLeft() {
+	public Expression getExpressionLeft() {
 		return this.expressionLeft;
 	}
 
-	public Expression<DoubleLiteral> getExpressionRight() {
+	public Expression getExpressionRight() {
 		return this.expressionRight;
 	}
 
-	private final Expression<DoubleLiteral> expressionLeft;
-	private final Expression<DoubleLiteral> expressionRight;
+	private final Expression expressionLeft;
+	private final Expression expressionRight;
 
-	
-	@Override
-	public DoubleLiteral evaluate(Program program){
+	public Double getResult(Program program) throws IllegalStateException{
 		//Division by zero.
 		//Het kan zijn dat JAVA zelf al NaN teruggeeft bij deling door 0.
-		if (getExpressionRight().evaluate(program).getDoubleValue() == 0)
-			//PROGRAMMA MOET STOPPEN: program.getWorm().getWorld().startNextTurn();
-			return new DoubleLiteral(getLine(),getColumn(),Double.NaN);
-		
-		double division = getExpressionLeft().evaluate(program).getDoubleValue() / getExpressionRight().evaluate(program).getDoubleValue();
-		return new DoubleLiteral(getLine(),getColumn(),division);
+		if ( ((DoubleLiteral)getExpressionRight().evaluate(program)).getDoubleValue() == 0 )
+			throw new IllegalStateException("Line: " + getLine() + " - Column: " + getColumn());
+		return new Double( ((DoubleLiteral) getExpressionLeft().evaluate(program)).getDoubleValue() / 
+						   ((DoubleLiteral) getExpressionRight().evaluate(program)).getDoubleValue() );
+	}
+	
+	@Override
+	public DoubleLiteral evaluate(Program program) throws IllegalStateException{
+		return new DoubleLiteral(getLine(),getColumn(),getResult(program));
 	}
 
 }

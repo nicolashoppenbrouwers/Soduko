@@ -1,31 +1,36 @@
 package worms.model.program.expressions;
 
 import worms.model.program.Program;
-
-public class Add extends Expression<DoubleLiteral> {
+import worms.model.program.types.Double;
+public class Add extends Expression {
 	
-	public Add(int line, int column, Expression<DoubleLiteral> e1, Expression<DoubleLiteral> e2) {
+	public Add(int line, int column, Expression e1, Expression e2) {
 		super(line,column);
 		this.expressionLeft = e1;
 		this.expressionRight = e2;
 	}
 	
-	public Expression<DoubleLiteral> getExpressionLeft() {
+	public Expression getExpressionLeft() {
 		return this.expressionLeft;
 	}
 
-	public Expression<DoubleLiteral> getExpressionRight() {
+	public Expression getExpressionRight() {
 		return this.expressionRight;
 	}
 
-	private final Expression<DoubleLiteral> expressionLeft;
-	private final Expression<DoubleLiteral> expressionRight;
+	private final Expression expressionLeft;
+	private final Expression expressionRight;
 
+	
+	public Double getResult(Program program){
+		return new Double(  ((DoubleLiteral) getExpressionLeft().evaluate(program)).getDoubleValue() 
+						  + ((DoubleLiteral) getExpressionRight().evaluate(program)).getDoubleValue()     );
+	}
 	
 	@Override
 	public DoubleLiteral evaluate(Program program) {
-		double sum = getExpressionLeft().evaluate(program).getDoubleValue() + getExpressionRight().evaluate(program).getDoubleValue();
-		return new DoubleLiteral(getLine(),getColumn(),sum);
+		return new DoubleLiteral(getLine(),getColumn(),getResult(program));
 	}
+
 
 }
