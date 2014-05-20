@@ -10,11 +10,11 @@ public class And extends Expression{
 		this.expressionRight = e2;
 	}
 	
-	public Expression getExpressionLeft() {
+	public Expression getExprLeft() {
 		return this.expressionLeft;
 	}
 
-	public Expression getExpressionRight() {
+	public Expression getExprRight() {
 		return this.expressionRight;
 	}
 
@@ -23,8 +23,8 @@ public class And extends Expression{
 
 	
 	public Boolean getResult(Program program){
-		return new Boolean( ((BooleanLiteral) getExpressionLeft()).evaluate(program).getBooleanValue() && 
-							((BooleanLiteral) getExpressionRight().evaluate(program)).getBooleanValue());
+		return new Boolean( ((BooleanLiteral) getExprLeft()).evaluate(program).getBooleanValue() && 
+							((BooleanLiteral) getExprRight().evaluate(program)).getBooleanValue());
 	}
 	
 	@Override

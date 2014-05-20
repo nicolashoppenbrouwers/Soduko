@@ -2,30 +2,30 @@ package worms.model.program.expressions;
 
 import worms.model.program.Program;
 
-public class Sqrt extends Expression<DoubleLiteral> {
+//EXCEPTION
+public class Sqrt extends Expression {
 	
-	public Sqrt(int line, int column, Expression<DoubleLiteral> e) {
+	public Sqrt(int line, int column, Expression e) {
 		super(line,column);
 		this.expression = e;
 	}
 	
-	public Expression<DoubleLiteral> getExpression() {
+	public Expression getExpression() {
 		return this.expression;
 	}
 
-	private final Expression<DoubleLiteral> expression;
-
+	private final Expression expression;
 	
+	public Double getResult(Program program) throws IllegalStateException{
+		// Vierkantswortel van een negatief getal.
+		if ( ((DoubleLiteral) getExpression().evaluate(program)).getDoubleValue() < 0)
+			throw new IllegalStateException("Line: " + getLine() + " - Column: " + getColumn());
+		return new Double( Math.sqrt(((DoubleLiteral) getExpression().evaluate(program)).getDoubleValue()) );
+	}
+
 	@Override
 	public DoubleLiteral evaluate(Program program) {
-		//Vierkantswortel van een negatief getal.
-		//Het kan zijn dat JAVA zelf al NaN teruggeeft bij sqrt(negatief getal).
-		if (getExpression().evaluate(program).getDoubleValue() < 0)
-			return new DoubleLiteral(getLine(),getColumn(),Double.NaN);
-		//PROGRAMMA MOET STOPPEN
-
-		double sqrt = Math.sqrt(getExpression().evaluate(program).getDoubleValue());
-		return new DoubleLiteral(getLine(),getColumn(),sqrt);
+		return new DoubleLiteral(getLine(),getColumn(),getResult(program));
 	}
 
 }

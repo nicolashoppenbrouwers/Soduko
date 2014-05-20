@@ -9,14 +9,14 @@ public class Cos extends Expression {
 		this.expression = e;
 	}
 	
-	public Expression getExpression() {
+	public Expression getExpr() {
 		return this.expression;
 	}
 
 	private final Expression expression;
 	
 	public Double getResult(Program program){
-		return new Double (Math.cos( ((DoubleLiteral) getExpression().evaluate(program)).getDoubleValue()));
+		return new Double (Math.cos( ((DoubleLiteral) getExpr().evaluate(program)).getDoubleValue()));
 	}
 
 	

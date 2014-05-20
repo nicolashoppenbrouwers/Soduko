@@ -10,11 +10,11 @@ public class Add extends Expression {
 		this.expressionRight = e2;
 	}
 	
-	public Expression getExpressionLeft() {
+	public Expression getExprLeft() {
 		return this.expressionLeft;
 	}
 
-	public Expression getExpressionRight() {
+	public Expression getExprRight() {
 		return this.expressionRight;
 	}
 
@@ -23,14 +23,16 @@ public class Add extends Expression {
 
 	
 	public Double getResult(Program program){
-		return new Double(  ((DoubleLiteral) getExpressionLeft().evaluate(program)).getDoubleValue() 
-						  + ((DoubleLiteral) getExpressionRight().evaluate(program)).getDoubleValue()     );
+		return new Double(  ((DoubleLiteral) getExprLeft().evaluate(program)).getDoubleValue() 
+						  + ((DoubleLiteral) getExprRight().evaluate(program)).getDoubleValue()     );
 	}
 	
 	@Override
 	public DoubleLiteral evaluate(Program program) {
 		return new DoubleLiteral(getLine(),getColumn(),getResult(program));
 	}
+	
+	
 
 
 }

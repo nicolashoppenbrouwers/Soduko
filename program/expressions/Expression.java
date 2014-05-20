@@ -23,13 +23,15 @@ public abstract class Expression{
 //		return this.type();
 //	}
 	
-	
+//	public Type getType(Program program){
+//		return this.evaluate(program).getType();
+//	}
 	//<?> klopt toch he?
-	//public abstract Type<?> getResult();
+	//public abstract Type<?> getResult(Program program);
 	
 	//We geven als argument een program mee om aan de globale variabelen te komen?
 	public abstract Expression evaluate(Program program);
-
+	// WORDT public abstract Literla evaluate(Program program);
 
 	// een methode toString voor alle expressies?
 }

@@ -3,30 +3,32 @@ package worms.model.program.expressions;
 import worms.model.program.Program;
 import worms.util.Util;
 
-public class LessThanOrEqualTo extends Expression<BooleanLiteral> {
+public class LessThanOrEqualTo extends Expression {
 	
-	public LessThanOrEqualTo(int line, int column, Expression<DoubleLiteral> e1, Expression<DoubleLiteral> e2) {
+	public LessThanOrEqualTo(int line, int column, Expression e1, Expression e2) {
 		super(line,column);
 		this.expressionLeft = e1;
 		this.expressionRight = e2;
 	}
 	
-	public Expression<DoubleLiteral> getExpressionLeft() {
+	public Expression getExprLeft() {
 		return this.expressionLeft;
 	}
 
-	public Expression<DoubleLiteral> getExpressionRight() {
+	public Expression getExprRight() {
 		return this.expressionRight;
 	}
 
-	private final Expression<DoubleLiteral> expressionLeft;
-	private final Expression<DoubleLiteral> expressionRight;
+	private final Expression expressionLeft;
+	private final Expression expressionRight;
 
-	
+	public Boolean getResult(Program program){
+		return new Boolean( Util.fuzzyLessThanOrEqualTo( ((DoubleLiteral) getExprLeft().evaluate(program)).getDoubleValue(), 
+														 ((DoubleLiteral) getExprRight().evaluate(program)).getDoubleValue() ) ) ;
+	}
 	@Override
 	public BooleanLiteral evaluate(Program program) {
-		boolean lessThanOrEqualToResult = Util.fuzzyLessThanOrEqualTo(getExpressionLeft().evaluate(program).getDoubleValue(), getExpressionRight().evaluate(program).getDoubleValue()) ;
-		return new BooleanLiteral(getLine(),getColumn(),lessThanOrEqualToResult);
+		return new BooleanLiteral(getLine(),getColumn(),getResult(program));
 	}
 
 }

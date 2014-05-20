@@ -11,11 +11,11 @@ public class Equality extends Expression {
 		this.expressionRight = e2;
 	}
 	
-	public Expression getExpressionLeft() {
+	public Expression getExprLeft() {
 		return this.expressionLeft;
 	}
 
-	public Expression getExpressionRight() {
+	public Expression getExprRight() {
 		return this.expressionRight;
 	}
 
@@ -23,8 +23,8 @@ public class Equality extends Expression {
 	private final Expression expressionRight;
 
 	public Boolean getResult(Program program){
-		return new Boolean(Util.fuzzyEquals(((DoubleLiteral)getExpressionLeft().evaluate(program)).getDoubleValue(), 
-				((DoubleLiteral)getExpressionRight().evaluate(program)).getDoubleValue()));
+		return new Boolean(Util.fuzzyEquals(( (DoubleLiteral) getExprLeft().evaluate(program) ).getDoubleValue(), 
+											( (DoubleLiteral) getExprRight().evaluate(program)).getDoubleValue()));
 	}
 	
 	@Override

@@ -3,6 +3,7 @@ package worms.model.program.expressions;
 import worms.model.program.Program;
 import worms.model.program.types.Double;
 
+//EXCEPTION
 public class Division extends Expression {
 	
 	public Division(int line, int column, Expression e1, Expression e2) {
@@ -11,11 +12,11 @@ public class Division extends Expression {
 		this.expressionRight = e2;
 	}
 	
-	public Expression getExpressionLeft() {
+	public Expression getExprLeft() {
 		return this.expressionLeft;
 	}
 
-	public Expression getExpressionRight() {
+	public Expression getExprRight() {
 		return this.expressionRight;
 	}
 
@@ -24,11 +25,10 @@ public class Division extends Expression {
 
 	public Double getResult(Program program) throws IllegalStateException{
 		//Division by zero.
-		//Het kan zijn dat JAVA zelf al NaN teruggeeft bij deling door 0.
-		if ( ((DoubleLiteral)getExpressionRight().evaluate(program)).getDoubleValue() == 0 )
+		if ( ( (DoubleLiteral) getExprRight().evaluate(program)).getDoubleValue() == 0 )
 			throw new IllegalStateException("Line: " + getLine() + " - Column: " + getColumn());
-		return new Double( ((DoubleLiteral) getExpressionLeft().evaluate(program)).getDoubleValue() / 
-						   ((DoubleLiteral) getExpressionRight().evaluate(program)).getDoubleValue() );
+		return new Double( ((DoubleLiteral) getExprLeft().evaluate(program)).getDoubleValue() / 
+						   ((DoubleLiteral) getExprRight().evaluate(program)).getDoubleValue() );
 	}
 	
 	@Override
