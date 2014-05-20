@@ -1,6 +1,5 @@
 package worms.model.program.statements; 
 
-import worms.model.Worm;
 import worms.model.program.expressions.BooleanLiteral;
 import worms.model.program.expressions.Expression;
 import worms.model.program.Program;
@@ -15,11 +14,11 @@ import be.kuleuven.cs.som.annotate.*;
  */
 public class While extends Statement{
 
-	While(int line,int column,Expression<BooleanLiteral> condition, Statement body){
+	While(int line,int column,Expression condition, Statement body){
 		super(line,column);
 		this.condition =  condition;
 		this.body = body;
-		this.booleanCondition = false;
+		this.setBooleanCondition(false);
 		this.setConditionChecked(false);
 	}
 	
@@ -27,7 +26,7 @@ public class While extends Statement{
 	//Setters en getters, allemaal privat want je mag deze niet gebruiken buiten deze klasse
 
 	@Basic
-	private Expression<BooleanLiteral> getCondition() {
+	private Expression getCondition() {
 		return condition;
 	}
 
@@ -59,7 +58,7 @@ public class While extends Statement{
 	//de Variabelen
 	
 	//Dit is de condition van de while lus
-	final private Expression<BooleanLiteral> condition;
+	final private Expression condition;
 	
 	// Dit is de body, het statement dat de while lus zal uitvoeren indien aan de condition voldaan is
 	final private Statement body;
@@ -71,26 +70,25 @@ public class While extends Statement{
 	// controleren
 	private boolean booleanCondition;
 	
-	
 	//De 3 programmas die bij alle statements moeten aanwezig zijn.
 	
 	@Override
-	public boolean execute(Program program,Worm worm){
+	public boolean executeStatement(Program program){
 		
 		if( this.getConditionChecked() == false){
 			this.setConditionChecked(true);
 			// De expression true en false zijn nog niet klaar
-			this.setBooleanCondition(this.getCondition().evaluate(program).getValue());
+			this.setBooleanCondition(((BooleanLiteral)this.getCondition().evaluate(program)).getBooleanValue());
 		}
 		
 		while(this.getConditionChecked()){
 			// Er is nog iets mis met de generische klassen Expression<BooleanLiteral>
-			if (!this.body.executeWithCheck(program,worm)){
+			if (!this.body.execute(program)){
 				return false;
 			}
 			else{
 				// Er is nog iets mis met de generische klassen Expression<BooleanLiteral>
-				this.setBooleanCondition(this.getCondition().evaluate(program).getValue());
+				this.setBooleanCondition(((BooleanLiteral)this.getCondition().evaluate(program)).getBooleanValue());
 			}
 		}
 		this.setConditionChecked(false);
@@ -103,7 +101,7 @@ public class While extends Statement{
 	}
 
 	@Override
-	public boolean wellFormedStatement() {
-		return (this.getBody().wellFormedStatement());
+	public boolean isWellFormed() {
+		return (this.getBody().isWellFormed());
 	}
 }

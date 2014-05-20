@@ -1,11 +1,8 @@
 package worms.model.program.statements;
 
-import worms.model.Worm;
-import worms.model.program.Program;
-import worms.model.program.statements.Statement;
-import be.kuleuven.cs.som.annotate.*;
-
 import java.util.List;
+
+import worms.model.program.Program;
 
 public class Sequence extends Statement{
 	
@@ -23,7 +20,6 @@ public class Sequence extends Statement{
 		this.index = index;
 	}
 
-	@Basic
 	private List<Statement> getStatements() {
 		return statements;
 	}
@@ -35,7 +31,7 @@ public class Sequence extends Statement{
 
 	// misschien doet het moeilijk omdat java denkt dat ik misschien niet uit de while lus ga geraken
 	@Override
-	public boolean execute(Program program, Worm worm) {
+	public boolean executeStatement(Program program) {
 		
 		
 		if (this.getStatements().size() == 0){
@@ -43,7 +39,7 @@ public class Sequence extends Statement{
 		}
 		
 		while(this.getIndex() <= this.getStatements().size()-1){
-			if (this.getStatements().get(index).executeWithCheck(program,worm)){
+			if (this.getStatements().get(index).execute(program)){
 				this.setIndex(this.getIndex()+1);
 			}
 			else{
@@ -65,9 +61,9 @@ public class Sequence extends Statement{
 	}
 
 	@Override
-	public boolean wellFormedStatement() {
+	public boolean isWellFormed() {
 		for(Statement statement : this.getStatements()){
-			if (!(statement.wellFormedStatement())){
+			if (!(statement.isWellFormed())){
 				return false;
 			}
 		}

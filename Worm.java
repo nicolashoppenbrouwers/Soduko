@@ -832,8 +832,7 @@ public class Worm extends MovableGameObject{
 	 * Checks whether the given worm is able to jump.
 	 * 
 	 * @return 	True if and only if the worm has enough action points left to perform a jump
-	 * 			and if the worm is not facing downwards.
-	 * 			|return !((this.getDirection() > Math.PI) && (this.getDirection() < 2*Math.PI))
+	 * 			|return !(this.getDirection() > Math.PI)
 	 * 
 	 */
 	@Override
@@ -998,13 +997,14 @@ public class Worm extends MovableGameObject{
 	
 	public void shoot(int yield){
 		Projectile projectile = createProjectile(yield);
-		if (!canShoot(projectile))
+		if (!canShoot(yield))
 			throw new IllegalStateException("The worm does not have enough action points left to shoot!");
 		this.getWorld().setProjectile(projectile);
 		this.setActionPoints( this.getActionPoints() - projectile.getActionPointsCost());
 	}
 	
-	public boolean canShoot(Projectile projectile){
+	public boolean canShoot(int yield){
+		Projectile projectile = createProjectile(yield);
 		return (this.getActionPoints() - projectile.getActionPointsCost() >= 0);
 	}
 		

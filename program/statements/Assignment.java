@@ -1,10 +1,9 @@
 package worms.model.program.statements;
 
-import worms.model.Worm;
+
 import worms.model.program.Program;
+import worms.model.program.expressions.BooleanLiteral;
 import worms.model.program.expressions.Expression;
-import worms.model.program.expressions.Literal;
-import worms.model.program.types.Type;
 
 public class Assignment extends Statement{
 
@@ -38,7 +37,7 @@ public class Assignment extends Statement{
 
 	@Override
 	public boolean executeStatement(Program program) {
-		program.getGlobals().put(this.getVariableName(),this.getExpression().evaluate(program).getType());
+		program.getGlobals().put((this.getVariableName()),((BooleanLiteral)this.getExpression().evaluate(program)).getType());
 		return true;
 	}
 

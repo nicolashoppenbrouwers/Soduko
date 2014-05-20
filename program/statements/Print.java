@@ -23,9 +23,7 @@ public class Print extends Statement{
 	
 	@Override
 	public boolean executeStatement(Program program){
-		Type typeExpression = this.getExpression().evaluate(program).getType();
-		if typeExpression.is
-		System.out.println(this.getExpression().getValue());
+		System.out.println(this.getExpression().generateString(program));
 		return true;
 	}
 
@@ -35,7 +33,7 @@ public class Print extends Statement{
 	}
 
 	@Override
-	public boolean wellFormedStatement() {
+	public boolean isWellFormed() {
 		return true;
 	}
 

@@ -1,6 +1,5 @@
 package worms.model.program.statements;
 
-import worms.model.Worm;
 import worms.model.program.Program;
 import worms.model.program.expressions.BooleanLiteral;
 import worms.model.program.expressions.Expression;
@@ -59,7 +58,7 @@ public class If extends Statement{
 		
 		if (this.getConditionChecked() == false){
 			this.setConditionChecked(true);
-			this.setConditionBoolean(this.getConditionExpression().evaluate(program).getType().getValue());
+			this.setConditionBoolean(((BooleanLiteral)this.getConditionExpression().evaluate(program)).getType().getValue());
 		}
 		
 		if(this.getConditionBoolean()){
