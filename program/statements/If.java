@@ -7,7 +7,7 @@ import worms.model.program.expressions.Expression;
 
 public class If extends Statement{
 
-	public If(int line, int column,Expression<BooleanLiteral> conditionExpression, Statement ifStatement,Statement elseStatement) {
+	public If(int line, int column,Expression conditionExpression, Statement ifStatement,Statement elseStatement) {
 		super(line, column);
 		this.conditionExpression = conditionExpression;
 		this.ifStatement = ifStatement;
@@ -35,7 +35,7 @@ public class If extends Statement{
 		this.conditionBoolean = conditionBoolean;
 	}
 
-	private Expression<BooleanLiteral> getConditionExpression() {
+	private Expression getConditionExpression() {
 		return conditionExpression;
 	}
 
@@ -47,7 +47,7 @@ public class If extends Statement{
 		return elseStatement;
 	}
 
-	private final Expression<BooleanLiteral> conditionExpression;
+	private final Expression conditionExpression;
 	private final Statement ifStatement;
 	private final Statement elseStatement;
 	private boolean conditionChecked;
@@ -55,15 +55,15 @@ public class If extends Statement{
 	
 
 	@Override
-	public boolean execute(Program program, Worm worm) {
+	public boolean executeStatement(Program program) {
 		
 		if (this.getConditionChecked() == false){
 			this.setConditionChecked(true);
-			this.setConditionBoolean(this.getConditionExpression().evaluate(program).getValue());
+			this.setConditionBoolean(this.getConditionExpression().evaluate(program).getType().getValue());
 		}
 		
 		if(this.getConditionBoolean()){
-			if (this.getIfStatement().executeWithCheck(program, worm)){
+			if (this.getIfStatement().execute(program)){
 				this.setConditionChecked(false);
 				return  true;
 			}
@@ -72,7 +72,7 @@ public class If extends Statement{
 			}
 		}
 		else {
-			if (this.getElseStatement().executeWithCheck(program, worm)){
+			if (this.getElseStatement().execute(program)){
 				this.setConditionChecked(false);
 				return  true;
 			}
@@ -89,7 +89,7 @@ public class If extends Statement{
 	}
 
 	@Override
-	public boolean wellFormedStatement() {
+	public boolean isWellFormed() {
 		return this.getElseStatement().containsActionStatement() && this.getIfStatement().containsActionStatement();
 	}
 

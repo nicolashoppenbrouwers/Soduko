@@ -4,6 +4,7 @@ import worms.model.Worm;
 import worms.model.program.Program;
 import worms.model.program.expressions.Expression;
 import worms.model.program.expressions.Literal;
+import worms.model.program.types.Type;
 
 
 public class Print extends Statement{
@@ -21,7 +22,9 @@ public class Print extends Statement{
 	
 	
 	@Override
-	public boolean execute(Program program, Worm worm) {
+	public boolean executeStatement(Program program){
+		Type typeExpression = this.getExpression().evaluate(program).getType();
+		if typeExpression.is
 		System.out.println(this.getExpression().getValue());
 		return true;
 	}

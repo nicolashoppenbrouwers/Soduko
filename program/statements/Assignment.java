@@ -38,7 +38,7 @@ public class Assignment extends Statement{
 
 	@Override
 	public boolean executeStatement(Program program) {
-		program.getGlobals().put(this.getVariableName(),this.getExpression().evaluate(program).getType(program));
+		program.getGlobals().put(this.getVariableName(),this.getExpression().evaluate(program).getType());
 		return true;
 	}
 

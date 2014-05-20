@@ -1,8 +1,11 @@
 package worms.model.program.statements;
 
+import java.util.ArrayList;
+import java.util.List;
+import worms.model.GameObject;
 import worms.model.program.Program;
 import worms.model.program.ProgramFactoryImpl.ForeachType;
-import worms.model.program.types.Type;
+import worms.model.program.types.Entity;
 
 public class Foreach extends Statement{
 
@@ -11,9 +14,12 @@ public class Foreach extends Statement{
 		this.type = type;
 		this.variableName = variableName;
 		this.body = body;
+		this.setGameObjects(new ArrayList <GameObject>());
+		this.setIndexCurrenGameObject(0);
+		this.setTypeChecked(false);
 	}
 	
-	private ForeachType getTyp(){
+	private ForeachType getType(){
 		return this.type;
 	}
 	
@@ -30,21 +36,76 @@ public class Foreach extends Statement{
 	}
 	
 	private Statement body;
+	
+	private void setGameObjects(List<GameObject> gameObjects){
+		this.gameObjects = gameObjects;
+	}
+	
+	private List<GameObject> getGameObjects(){
+		return this.gameObjects;
+	}
+	
+	private List<GameObject> gameObjects;
+	
+	private void setIndexCurrenGameObject(int IndexCurrentGameObject){
+		this.indexCurrentGameObject = IndexCurrentGameObject;
+	}
+	
+	private int getIndexCurrentGameObject(){
+		return this.indexCurrentGameObject;
+	}
+	
+	private int indexCurrentGameObject;
+	
+	public boolean isTypeChecked() {
+		return typeChecked;
+	}
+
+	public void setTypeChecked(boolean typeChecked) {
+		this.typeChecked = typeChecked;
+	}
+	
+	private boolean typeChecked;
 
 	@Override
 	public boolean executeStatement(Program program) {
-		if this.g
+		
+		if (!isTypeChecked()){
+			if ((this.getType() == ForeachType.WORM) || (this.getType() == ForeachType.ANY)) {
+				this.getGameObjects().addAll(program.getWorld().getWorms());
+			}
+			if ((this.getType() == ForeachType.FOOD) || (this.getType() == ForeachType.ANY)){
+				this.getGameObjects().addAll(program.getWorld().getFood());
+			}
+			this.setTypeChecked(true);
+		}
+		
+		while(this.getIndexCurrentGameObject() <= (this.getGameObjects().size()-1)) {
+			
+			Entity entityGameObject = new Entity(this.getGameObjects().get(this.getIndexCurrentGameObject()));
+			program.getGlobals().put(this.getVariableName(),entityGameObject);
+			
+			if (this.getBody().execute(program)){
+				this.setIndexCurrenGameObject(this.getIndexCurrentGameObject()+1);
+			}
+			else {
+				return false;
+			}
+		}
+		this.setGameObjects(new ArrayList <GameObject>());
+		this.setIndexCurrenGameObject(0);
+		this.setTypeChecked(false);
+		return true;
+		
 	}
 
 	@Override
 	public boolean containsActionStatement() {
-		// TODO Auto-generated method stub
-		return false;
+		return this.getBody().containsActionStatement();
 	}
 
 	@Override
 	public boolean isWellFormed() {
-		// TODO Auto-generated method stub
-		return false;
+		return !(this.containsActionStatement());
 	}
 }
