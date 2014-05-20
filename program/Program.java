@@ -3,7 +3,6 @@ import java.util.HashMap;
 
 import worms.gui.game.IActionHandler;
 import worms.model.*;
-import worms.model.program.expressions.Expression;
 import worms.model.program.statements.Statement;
 import worms.model.program.types.Type;
 
@@ -86,8 +85,8 @@ public class Program {
 		return this.isCorrupted;
 	}
 	
-	public void setIsCorrupted(){
-		this.isCorrupted = false;
+	public void setIsCorrupted(Boolean value){
+		this.isCorrupted = value;
 	}
 	
 	private boolean isCorrupted;
@@ -103,10 +102,10 @@ public class Program {
 	
 	
 	public void run(){
-		if (this.isCorrupted() == true)
+		if ((isCorrupted() == true) || (! isWellFormed()))
 			this.getWorld().startNextTurn();
-		//Exceptions catchen!!
-		//Je moet hier niet checken of je worm al geterminated is, want die worm komt niet aan de beurt.
+			//Exceptions catchen!!
+			//Je moet hier niet checken of je worm al geterminated is, want die worm komt niet aan de beurt.
 		mainStatement.execute(this);
 		this.resetAmountOfStatementsExecuted();
 		this.getWorld().startNextTurn();
