@@ -1,10 +1,7 @@
 package worms.model.program.statements;
 
-import worms.model.Worm;
 import worms.model.program.Program;
 import worms.model.program.expressions.Expression;
-import worms.model.program.expressions.Literal;
-import worms.model.program.types.Type;
 
 
 public class Print extends Statement{

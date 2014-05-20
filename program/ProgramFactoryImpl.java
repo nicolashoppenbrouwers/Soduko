@@ -7,9 +7,11 @@ import worms.model.programs.ProgramFactory.ForeachType;
 import worms.model.program.expressions.*;
 import worms.model.program.statements.*;
 import worms.model.program.types.*;
+import worms.model.program.types.Boolean;
+import worms.model.program.types.Double;
 
 @SuppressWarnings("unchecked")
-public class ProgramFactoryImpl implements ProgramFactory<Expression<?>, Statement, Type<?>> {
+public class ProgramFactoryImpl implements ProgramFactory<Expression, Statement, Type<?>> {
 
 	public ProgramFactoryImpl() {
 	}
@@ -22,32 +24,32 @@ public class ProgramFactoryImpl implements ProgramFactory<Expression<?>, Stateme
 
 	
 	@Override
-	public Expression<DoubleLiteral> createDoubleLiteral(int line, int column, double d) {
+	public DoubleLiteral createDoubleLiteral(int line, int column, double d) {
 		return new DoubleLiteral(line,column,d);
 	}
 
 	@Override
-	public Expression<BooleanLiteral> createBooleanLiteral(int line, int column, boolean b) {
+	public BooleanLiteral createBooleanLiteral(int line, int column, boolean b) {
 		return new BooleanLiteral(line,column,b);
 	}
 
 	
 	@Override
-	public Expression<BooleanLiteral> createAnd(int line, int column, Expression<?> e1,
-			Expression<?> e2) {
+	public And createAnd(int line, int column, Expression e1,
+			Expression e2) {
 		//JE MOET DE VRAAGTEKENS ERBIJ SCHRIJVEN EN DAN CASTEN OP DE VOLGENDE LIJN, anders werkt het niet precies...
-		return new And(line,column,(Expression<BooleanLiteral>) e1,(Expression<BooleanLiteral>) e2);
+		return new And(line,column,e1,e2);
 	}
 
 	@Override
-	public Expression<BooleanLiteral> createOr(int line, int column, Expression<?> e1,
-			Expression<?> e2) {
-		return new Or(line,column,(Expression<BooleanLiteral>) e1,(Expression<BooleanLiteral>) e2);
+	public Or createOr(int line, int column, Expression e1,
+			Expression e2) {
+		return new Or(line,column,e1,e2);
 	}
 
 	@Override
-	public Expression<BooleanLiteral> createNot(int line, int column, Expression<?> e) {
-		return new Not(line,column,(Expression<BooleanLiteral>) e);
+	public Not createNot(int line, int column, Expression e) {
+		return new Not(line,column,e);
 	}
 
 	@Override
@@ -63,48 +65,48 @@ public class ProgramFactoryImpl implements ProgramFactory<Expression<?>, Stateme
 	}
 
 	@Override
-	public Expression<DoubleLiteral> createGetX(int line, int column, Expression<?> e) {
-		return new GetX(line,column,(Expression<Entity>) e);
+	public GetX createGetX(int line, int column, Expression e) {
+		return new GetX(line,column,e);
 	}
 
 	@Override
-	public Expression<DoubleLiteral> createGetY(int line, int column, Expression<?> e) {
-		return new GetX(line,column,(Expression<Entity>) e);
+	public GetY createGetY(int line, int column, Expression e) {
+		return new GetY(line,column,e);
 	}
 
 	@Override
-	public Expression<DoubleLiteral> createGetRadius(int line, int column, Expression<?> e) {
-		return new GetRadius(line,column,(Expression<Entity>) e);
+	public GetRadius createGetRadius(int line, int column, Expression e) {
+		return new GetRadius(line,column,e);
 	}
 
 	@Override
-	public Expression<DoubleLiteral> createGetDir(int line, int column, Expression<?> e) {
-		return new GetDirection(line,column,(Expression<Entity>) e);
+	public GetDirection createGetDir(int line, int column, Expression e) {
+		return new GetDirection(line,column,e);
 	}
 
 	@Override
-	public Expression<DoubleLiteral> createGetAP(int line, int column, Expression<?> e) {
-		return new GetActionPoints(line,column,(Expression<Entity>) e);
+	public GetActionPoints createGetAP(int line, int column, Expression e) {
+		return new GetActionPoints(line,column,e);
 	}
 
 	@Override
-	public Expression<DoubleLiteral> createGetMaxAP(int line, int column, Expression<?> e) {
-		return new GetMaximumActionPoints(line,column,(Expression<Entity>) e);
+	public GetMaximumActionPoints createGetMaxAP(int line, int column, Expression e) {
+		return new GetMaximumActionPoints(line,column,e);
 	}
 
 	@Override
-	public Expression<DoubleLiteral> createGetHP(int line, int column, Expression<?> e) {
-		return new GetHitPoints(line,column,(Expression<Entity>) e);
+	public GetHitPoints createGetHP(int line, int column, Expression e) {
+		return new GetHitPoints(line,column,e);
 	}
 
 	@Override
-	public Expression<DoubleLiteral> createGetMaxHP(int line, int column, Expression<?> e) {
-		return new GetMaximumHitPoints(line,column,(Expression<Entity>) e);
+	public GetMaximumHitPoints createGetMaxHP(int line, int column, Expression e) {
+		return new GetMaximumHitPoints(line,column,e);
 	}
 
 	@Override
-	public Expression<BooleanLiteral> createSameTeam(int line, int column, Expression<?> e) {
-		return new SameTeam(line,column,(Expression<Entity>)e);
+	public SameTeam createSameTeam(int line, int column, Expression e) {
+		return new SameTeam(line,column,e);
 	}
 
 	@Override
@@ -139,86 +141,78 @@ public class ProgramFactoryImpl implements ProgramFactory<Expression<?>, Stateme
 	}
 
 	@Override
-	public Expression<BooleanLiteral> createLessThan(int line, int column, Expression<?> e1,
-			Expression<?> e2) {
-		return new LessThan(line,column,(Expression<DoubleLiteral>) e1,(Expression<DoubleLiteral>) e2);
-	}
-
-	@Override
-	public Expression<BooleanLiteral> createGreaterThan(int line, int column, Expression<?> e1,
-			Expression<?> e2) {
-		return new GreaterThan(line,column,(Expression<DoubleLiteral>) e1,(Expression<DoubleLiteral>) e2);
-	}
-
-	@Override
-	public Expression<BooleanLiteral> createLessThanOrEqualTo(int line, int column,
-			Expression<?> e1, Expression<?> e2) {
-		return new LessThanOrEqualTo(line,column,(Expression<DoubleLiteral>) e1,(Expression<DoubleLiteral>) e2);
-	}
-
-	@Override
-	public Expression<BooleanLiteral> createGreaterThanOrEqualTo(int line, int column,
-			Expression<?> e1, Expression<?> e2) {
-		return new GreaterThanOrEqualTo(line,column,(Expression<DoubleLiteral>) e1,(Expression<DoubleLiteral>) e2);
-	}
-
-	@Override
-	public Expression<BooleanLiteral> createEquality(int line, int column, Expression<?> e1,
-			Expression<?> e2) {
-		return new Equality(line,column,(Expression<DoubleLiteral>) e1, (Expression<DoubleLiteral>) e2);
-	}
-
-	@Override
-	public Expression createInequality(int line, int column, Expression e1,
+	public LessThan createLessThan(int line, int column, Expression e1,
 			Expression e2) {
-		// TODO Auto-generated method stub
-		return null;
+		return new LessThan(line,column,e1,e2);
 	}
 
 	@Override
-	public Expression createAdd(int line, int column, Expression e1,
+	public GreaterThan createGreaterThan(int line, int column, Expression e1,
 			Expression e2) {
-		// TODO Auto-generated method stub
-		return null;
+		return new GreaterThan(line,column,e1,e2);
 	}
 
 	@Override
-	public Expression createSubtraction(int line, int column, Expression e1,
+	public LessThanOrEqualTo createLessThanOrEqualTo(int line, int column,
+			Expression e1, Expression e2) {
+		return new LessThanOrEqualTo(line,column,e1,e2);
+	}
+
+	@Override
+	public GreaterThanOrEqualTo createGreaterThanOrEqualTo(int line, int column,
+			Expression e1, Expression e2) {
+		return new GreaterThanOrEqualTo(line,column,e1,e2);
+	}
+
+	@Override
+	public Equality createEquality(int line, int column, Expression e1,
 			Expression e2) {
-		// TODO Auto-generated method stub
-		return null;
+		return new Equality(line,column,e1,e2);
 	}
 
 	@Override
-	public Expression createMul(int line, int column, Expression e1,
+	public Inequality createInequality(int line, int column, Expression e1,
 			Expression e2) {
-		// TODO Auto-generated method stub
-		return null;
+		return new Inequality(line,column,e1,e2);
 	}
 
 	@Override
-	public Expression createDivision(int line, int column, Expression e1,
+	public Add createAdd(int line, int column, Expression e1,
 			Expression e2) {
-		// TODO Auto-generated method stub
-		return null;
+		return new Add(line,column,e1,e2);
 	}
 
 	@Override
-	public Expression createSqrt(int line, int column, Expression e) {
-		// TODO Auto-generated method stub
-		return null;
+	public Substraction createSubtraction(int line, int column, Expression e1,
+			Expression e2) {
+		return new Substraction(line,column,e1,e2);
 	}
 
 	@Override
-	public Expression createSin(int line, int column, Expression e) {
-		// TODO Auto-generated method stub
-		return null;
+	public Multiplication createMul(int line, int column, Expression e1,
+			Expression e2) {
+		return new Multiplication(line,column,e1,e2);
 	}
 
 	@Override
-	public Expression createCos(int line, int column, Expression e) {
-		// TODO Auto-generated method stub
-		return null;
+	public Division createDivision(int line, int column, Expression e1,
+			Expression e2) {
+		return new Division(line,column,e1,e2);
+	}
+
+	@Override
+	public Sqrt createSqrt(int line, int column, Expression e) {
+		return new Sqrt(line,column,e1,e2);
+	}
+
+	@Override
+	public Sin createSin(int line, int column, Expression e) {
+		return new Sin(line,column,e);
+	}
+
+	@Override
+	public Cos createCos(int line, int column, Expression e) {
+		return new Cos(line,column,e);
 	}
 
 	@Override
@@ -300,20 +294,20 @@ public class ProgramFactoryImpl implements ProgramFactory<Expression<?>, Stateme
 	}
 
 	@Override
-	public Type createDoubleType() {
+	public Double createDoubleType() {
 		// TODO Auto-generated method stub
-		return null;
+		return new Double();
 	}
 
 	@Override
-	public Type createBooleanType() {
+	public Boolean createBooleanType() {
 		// TODO Auto-generated method stub
-		return null;
+		return new Boolean();
 	}
 
 	@Override
-	public Type createEntityType() {
+	public Entity createEntityType() {
 		// TODO Auto-generated method stub
-		return null;
+		return new Entity();
 	}	
 }
