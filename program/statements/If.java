@@ -89,7 +89,7 @@ public class If extends Statement{
 	}
 
 	@Override
-	public boolean welFormedStatement() {
+	public boolean wellFormedStatement() {
 		return this.getElseStatement().containsActionStatement() && this.getIfStatement().containsActionStatement();
 	}
 

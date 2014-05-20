@@ -1,23 +1,23 @@
 package worms.model.program.statements;
 
+import worms.model.Worm;
 import worms.model.program.Program;
-import worms.model.program.ProgramFactoryImpl.ForeachType;
 import worms.model.program.types.Type;
 
-public class Foreach extends Statement{
+public class ForeEach extends Statement{
 
-	public Foreach(int line, int column,ForeachType type,String variableName,Statement body ) {
+	public ForeEach(int line, int column,Fore type,String variableName,Statement body ) {
 		super(line, column);
 		this.type = type;
 		this.variableName = variableName;
 		this.body = body;
 	}
 	
-	private ForeachType getTyp(){
+	private Type getTyp(){
 		return this.type;
 	}
 	
-	private ForeachType type;
+	private Type type;
 	
 	private String getVariableName(){
 		return this.variableName;
@@ -33,7 +33,7 @@ public class Foreach extends Statement{
 
 	@Override
 	public boolean executeStatement(Program program) {
-		if this.g
+		teturn ;
 	}
 
 	@Override

@@ -30,21 +30,22 @@ public abstract class Statement {
 	
 	
 	/**
-	 * 	Deze functie geeft false terug als er al mee dan 1000 statements zijn opgeroepen
-	 *	Anders voert deze functie de normale excute() uit
+	 * 	Deze functie geeft false terug als er al meer dan 1000 statements zijn opgeroepen
+	 *	Anders voert deze functie de normale executeStatement() uit
 	 */
-	public boolean executeWithCheck(Program program,Worm worm){
+	public boolean execute(Program program){
 		program.setAmountOfStatementsExecuted(program.getAmountOfStatementsExecuted()+1);
 		if (program.tooManyStatementsExecuted()){
 			return false;
 		}
 		else{
-			return this.execute(program,worm);
+			return this.executeStatement(program);
 		}
 	}
 	
 	// Elk Statement moet over deze functies beschikken, om al de nodige functionaliteiten van een programma mogelijk te maken
-	// Als je ervoor zorgt dat elk statement aan deze functies voldoen zal je deze functies kunnen oproepen op je mainstatement.
+	// Als je ervoor zorgt dat elk statement aan deze functies voldoen zal je deze functies ook kunnen oproepen op je mainstatement
+	// door de recursie
 	/**
 	 * 	Deze functie voert het statement uit
 	 *	Het moet true returnen als het statement volledig is uitgevoerd
@@ -56,7 +57,7 @@ public abstract class Statement {
 	 *	het statement verder gaan vanaf waar het gebleven was
 	 *	(je moet geen rekening meer houden met het aantal statements een programma al heeft uitevoerd in een gegeven beurt)
 	 */
-	public abstract boolean execute(Program program,Worm worm);
+	public abstract boolean executeStatement(Program program);
 
 	
 	/**
@@ -68,5 +69,5 @@ public abstract class Statement {
 	/**
 	 * Deze functie geeft weer of dit Statement een welformed statement is
 	 */
-	public abstract boolean wellFormedStatement();
+	public abstract boolean isWellFormed();
 }
