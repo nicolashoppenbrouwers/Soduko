@@ -25,9 +25,19 @@ public class BooleanLiteral extends Expression {
 	public boolean getBooleanValue(){
 		return this.getType().getValue();
 	}
+	
+	//ONNODIGE methode, enkel voor consistentie.
+	public Boolean getResult(Program program){
+		return getType();
+	}
 
 	@Override
 	public BooleanLiteral evaluate(Program program) {
 		return this;
+	}
+	
+	@Override
+	public String generateString(Program program) {
+		return String.valueOf( getBooleanValue() );
 	}
 }

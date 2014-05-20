@@ -2,6 +2,7 @@ package worms.model.program.expressions;
 
 import worms.model.program.Program;
 import worms.util.Util;
+import worms.model.program.types.Boolean;
 
 public class LessThanOrEqualTo extends Expression {
 	
@@ -26,9 +27,14 @@ public class LessThanOrEqualTo extends Expression {
 		return new Boolean( Util.fuzzyLessThanOrEqualTo( ((DoubleLiteral) getExprLeft().evaluate(program)).getDoubleValue(), 
 														 ((DoubleLiteral) getExprRight().evaluate(program)).getDoubleValue() ) ) ;
 	}
+	
 	@Override
 	public BooleanLiteral evaluate(Program program) {
 		return new BooleanLiteral(getLine(),getColumn(),getResult(program));
 	}
 
+	@Override
+	public String generateString(Program program) {
+		return getResult(program).toString();
+	}
 }

@@ -1,6 +1,7 @@
 package worms.model.program.expressions;
 
 import worms.model.program.Program;
+import worms.model.program.types.Boolean;
 import worms.util.Util;
 
 public class Inequality extends Expression {
@@ -32,4 +33,8 @@ public class Inequality extends Expression {
 		return new BooleanLiteral(getLine(),getColumn(),getResult(program));
 	}
 
+	@Override
+	public String generateString(Program program) {
+		return getResult(program).toString();
+	}
 }

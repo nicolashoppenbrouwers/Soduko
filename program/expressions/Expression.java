@@ -33,5 +33,6 @@ public abstract class Expression{
 	public abstract Expression evaluate(Program program);
 	// WORDT public abstract Literla evaluate(Program program);
 
-	// een methode toString voor alle expressies?
+
+	public abstract String generateString(Program program);
 }

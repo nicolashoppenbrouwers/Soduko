@@ -1,31 +1,39 @@
 package worms.model.program.expressions;
 
+import worms.model.GameObject;
 import worms.model.program.Program;
-import worms.model.program.types.Entity;
+import worms.model.program.types.Double;
 
-public class GetX extends Expression<DoubleLiteral>{
+public class GetX extends Expression{
 
-	public GetX(int line, int column, Expression<Entity> e){
+	//Exception
+	public GetX(int line, int column, Expression e){
 		super(line,column);
 		this.entityExpression = e;
 	}
 	
-	public Expression<Entity> getEntityExpression(){
+	public Expression getEntityExpression(){
 		return this.entityExpression;
 	}
 	
-	private final Expression<Entity> entityExpression;
+	private final Expression entityExpression;
+	
+	public Double getResult(Program program) throws NullPointerException{
+		if (((EntityLiteral) getEntityExpression().evaluate(program)).getGameObjectValue() == null)
+			throw new NullPointerException("Line: " + getLine() + " - Column: " + getColumn());
+		GameObject gameObject = ((EntityLiteral) getEntityExpression().evaluate(program)).getGameObjectValue();
+		return new Double(gameObject.getPosition().getX());
+	}
 
 	@Override
-	public DoubleLiteral evaluate(Program program) {
-		if (getEntityExpression().evaluate(program).getValue() == null)
-			return new DoubleLiteral(getLine(),getColumn(),Double.NaN);
-		//PROGRAMMA MOET STOPPEN
-
-		double xCoordinate = getEntityExpression().evaluate(program).getValue().getPosition().getX();
-		return new DoubleLiteral(getLine(),getColumn(),xCoordinate);
+	public DoubleLiteral evaluate(Program program) throws NullPointerException {
+		return new DoubleLiteral(getLine(),getColumn(),getResult(program));
 	}
 	
+	@Override
+	public String generateString(Program program) throws NullPointerException {
+		return getResult(program).toString();
+	}
 
 
 }

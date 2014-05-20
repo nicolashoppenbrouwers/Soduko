@@ -20,4 +20,9 @@ public class Double extends Type<java.lang.Double> {
 	public int getIntegerValue(){
 		return (int) Math.floor(this.getValue());
 	}
+	
+	@Override
+	public String toString(){
+		return java.lang.Double.toString(this.getDoubleValue());
+	}
 }

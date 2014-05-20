@@ -34,8 +34,18 @@ public class DoubleLiteral extends Expression {
 
 
 
+	//ONNODIGE methode, enkel voor consistentie.
+	public Double getResult(Program program){
+		return getType();
+	}
+	
 	@Override
 	public DoubleLiteral evaluate(Program program) {
 		return this;
+	}
+	
+	@Override
+	public String generateString(Program program) {
+		return String.valueOf( getDoubleValue() );
 	}
 }

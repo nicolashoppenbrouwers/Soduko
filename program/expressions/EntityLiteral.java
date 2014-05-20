@@ -26,8 +26,20 @@ public class EntityLiteral extends Expression{
 		return this.getType().getValue();
 	}
 
+	//ONNODIGE methode, enkel voor consistentie.
+	public Entity getResult(Program program){
+		return getType();
+	}
+	
 	@Override
 	public EntityLiteral evaluate(Program program) {
 		return this;
 	}
+	
+	@Override
+	public String generateString(Program program) {
+		return getResult(program).toString();
+	}
+
 }
+

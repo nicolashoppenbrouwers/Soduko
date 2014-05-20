@@ -1,6 +1,7 @@
 package worms.model.program.expressions;
 
 import worms.model.program.Program;
+import worms.model.program.types.Double;
 
 public class Cos extends Expression {
 	
@@ -25,4 +26,8 @@ public class Cos extends Expression {
 		return new DoubleLiteral(getLine(),getColumn(),getResult(program));
 	}
 
+	@Override
+	public String generateString(Program program) {
+		return getResult(program).toString();
+	}
 }

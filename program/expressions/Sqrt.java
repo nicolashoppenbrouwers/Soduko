@@ -24,8 +24,13 @@ public class Sqrt extends Expression {
 	}
 
 	@Override
-	public DoubleLiteral evaluate(Program program) {
+	public DoubleLiteral evaluate(Program program) throws IllegalStateException {
 		return new DoubleLiteral(getLine(),getColumn(),getResult(program));
+	}
+
+	@Override
+	public String generateString(Program program) throws IllegalStateException {
+		return getResult(program).toString();
 	}
 
 }

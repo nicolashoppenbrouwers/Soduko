@@ -695,8 +695,8 @@ public class Worm extends MovableGameObject{
 //									+ 4 *Math.abs( Math.sin( this.getDirection() ) ) * nbSteps * this.getRadius())));
 //			this.Eat();
 //		}
-		if (!canMove())
-			throw new IllegalStateException("This worm does not have enough action points left to perform this move!");
+//		if (!canMove())
+//			throw new IllegalStateException("This worm does not have enough action points left to perform this move!");
 		double[] newPosition = findOptimalMovePosition();
 		this.setActionPoints(getActionPoints() - getMoveActionPointsCost(newPosition) );
 		
@@ -729,7 +729,7 @@ public class Worm extends MovableGameObject{
 			// Kleinste kwadraten optimalisatie.
 			double factorSoFar = Math.pow(distanceSoFar / getRadius(),2) - Math.pow(Math.abs(divergence / 0.7875),2);
 			//Distance covered must be atleast 0.1 meters.
-			if ( (distanceSoFar > 0.1) && (factorSoFar > optimalFactor) ){
+			if ( (distanceSoFar > 0.1) && (factorSoFar > optimalFactor) && (canMove(positionSoFar)) ){
 				optimalFactor = factorSoFar;
 				optimalPosition[0] = positionSoFar[0];
 				optimalPosition[1] = positionSoFar[1];
@@ -767,8 +767,8 @@ public class Worm extends MovableGameObject{
 	}
 	
 	//DUMMY
-	public int getMoveActionPointsCost(double[] newPosition){
-		double distanceMoved = this.getPosition().calculateDistance(newPosition[0],newPosition[1]);
+	public int getMoveActionPointsCost(Position newPosition){
+		double distanceMoved = this.getPosition().calculateDistance(newPosition.getX(),newPosition.getY());
 		double cost = Math.abs(distanceMoved * Math.cos(getDirection())) + Math.abs(4 * distanceMoved * Math.sin(getDirection()));
 		return (int)Math.ceil(cost);
 	}
@@ -789,8 +789,8 @@ public class Worm extends MovableGameObject{
      *					+ 4*Math.abs(Math.sin(this.getDirection()))*nbSteps*this.getRadius())) >= 0)
 	 */
 	//DUMMY!!!!
-	public boolean canMove(){
-		return true;
+	public boolean canMove(Position position){
+		return (this.getActionPoints() >= getMoveActionPointsCost(position));
 		//OUD
 //		return (this.getActionPoints() 
 //				- (Math.abs(Math.cos(this.getDirection()))*nbSteps*this.getRadius()

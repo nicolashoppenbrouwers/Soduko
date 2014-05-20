@@ -1,6 +1,7 @@
 package worms.model.program.types;
 
 public abstract class Type<T> {
+	//VOLLEDIG HERBEKIJKEN... GENERISCH ... PROBLEMEN...
 
 	public Type(T value) {
 		this.setValue(value);
@@ -18,9 +19,9 @@ public abstract class Type<T> {
 		this.value = value;
 	}
 
-	private T value;
+	public T value;
+
+	public abstract String toString();
 	
 	//Functie misscien getType()
-	
-
 }

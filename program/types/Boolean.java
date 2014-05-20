@@ -13,5 +13,10 @@ public class Boolean extends Type<java.lang.Boolean> {
 		super(bool);
 	}
 	
+	@Override
+	public String toString(){
+		return java.lang.Boolean.toString(this.getValue());
+	}
+	
 	
 }
