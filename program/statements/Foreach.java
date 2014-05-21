@@ -14,7 +14,7 @@ public class Foreach extends Statement{
 		this.type = type;
 		this.variableName = variableName;
 		this.body = body;
-		this.setGameObjects(new ArrayList <GameObject>());
+		this.setGameObjects(new ArrayList<GameObject>());
 		this.setIndexCurrenGameObject(0);
 		this.setTypeChecked(false);
 	}
@@ -23,19 +23,19 @@ public class Foreach extends Statement{
 		return this.type;
 	}
 	
-	private ForeachType type;
+	private final ForeachType type;
 	
 	private String getVariableName(){
 		return this.variableName;
 	}
 	
-	private String variableName;
+	private final String variableName;
 	
 	private Statement getBody(){
 		return this.body;
 	}
 	
-	private Statement body;
+	private final Statement body;
 	
 	private void setGameObjects(List<GameObject> gameObjects){
 		this.gameObjects = gameObjects;
@@ -47,18 +47,18 @@ public class Foreach extends Statement{
 	
 	private List<GameObject> gameObjects;
 	
-	private void setIndexCurrenGameObject(int IndexCurrentGameObject){
-		this.indexCurrentGameObject = IndexCurrentGameObject;
-	}
-	
 	private int getIndexCurrentGameObject(){
 		return this.indexCurrentGameObject;
+	}
+	
+	private void setIndexCurrenGameObject(int indexCurrentGameObject){
+		this.indexCurrentGameObject = indexCurrentGameObject;
 	}
 	
 	private int indexCurrentGameObject;
 	
 	public boolean isTypeChecked() {
-		return typeChecked;
+		return this.typeChecked;
 	}
 
 	public void setTypeChecked(boolean typeChecked) {

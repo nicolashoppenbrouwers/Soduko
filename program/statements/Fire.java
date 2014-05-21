@@ -19,7 +19,7 @@ public class Fire extends Statement {
 
 	@Override
 	public boolean executeStatement(Program program) throws IllegalStateException{
-		if (program.getWorm().canShoot(this.getYield().getIntegerValue())){
+		if (program.getWorm().canShoot( this.getYield().getIntegerValue()) ){
 			program.getHandler().fire(program.getWorm(), this.getYield().getIntegerValue());
 			// stel dat worm zich zelf dood schiet
 			if (program.getWorm().isTerminated()){

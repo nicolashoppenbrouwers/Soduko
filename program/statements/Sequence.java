@@ -10,7 +10,7 @@ public class Sequence extends Statement{
 		super(line,column);
 		this.setIndex(0);
 		this.statements = statements;
-		}
+	}
 	
 	private int getIndex() {
 		return index;
@@ -19,12 +19,14 @@ public class Sequence extends Statement{
 	private void setIndex(int index) {
 		this.index = index;
 	}
+	
+	private int index;
+	
+	
 
 	private List<Statement> getStatements() {
 		return statements;
 	}
-	
-	private int index;
 	
 	private final List<Statement> statements;
 	

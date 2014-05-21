@@ -17,13 +17,14 @@ public abstract class Statement {
 	public int getLine() {
 		return line;
 	}
+
+	private final int line;
 	
 	@Basic
 	public int getColumn() {
 		return column;
 	}
-	
-	private final int line;
+
 	
 	private final int column;
 	

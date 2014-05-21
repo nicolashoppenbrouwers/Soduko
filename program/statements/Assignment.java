@@ -17,13 +17,13 @@ public class Assignment extends Statement{
 		return this.variableName;
 	}
 	
-	private String variableName;
+	private final String variableName;
 	
 	private Expression getExpression(){
 		return this.expression;
 	}
 	
-	private Expression expression;
+	private final Expression expression;
 
 	@Override
 	public boolean containsActionStatement() {
@@ -37,7 +37,7 @@ public class Assignment extends Statement{
 
 	@Override
 	public boolean executeStatement(Program program) {
-		program.getGlobals().put((this.getVariableName()),((BooleanLiteral)this.getExpression().evaluate(program)).getType());
+		program.getGlobals().put(this.getVariableName() , ((BooleanLiteral) this.getExpression().evaluate(program)).getType());
 		return true;
 	}
 

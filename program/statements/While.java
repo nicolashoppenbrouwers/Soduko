@@ -29,10 +29,28 @@ public class While extends Statement{
 	private Expression getCondition() {
 		return condition;
 	}
+	
+	//Dit is de condition van de while lus
+	private final Expression condition;
 
+	
+	
+	
+	
 	@Basic
 	private Statement getBody() {
 		return body;
+	}
+	
+	// Dit is de body, het statement dat de while lus zal uitvoeren indien aan de condition voldaan is
+	private final Statement body;
+	
+	
+	
+	
+	@Basic
+	private boolean getConditionChecked() {
+		return this.conditionChecked;
 	}
 	
 	@Basic
@@ -40,10 +58,12 @@ public class While extends Statement{
 		this.conditionChecked = coditionChecked;
 	}
 	
-	@Basic
-	private boolean getConditionChecked() {
-		return this.conditionChecked;
-	}
+	// Deze variabele houdt bij of we de conditie al hebben gecontroleerd.
+	private boolean conditionChecked;
+	
+	
+	
+	
 
 	@Basic
 	private boolean getBooleanCondition() {
@@ -54,24 +74,13 @@ public class While extends Statement{
 		this.booleanCondition = booleanCondition;
 	}
 	
-	
-	//de Variabelen
-	
-	//Dit is de condition van de while lus
-	final private Expression condition;
-	
-	// Dit is de body, het statement dat de while lus zal uitvoeren indien aan de condition voldaan is
-	final private Statement body;
-	
-	// Deze variabele houdt bij of we de conditie al hebben gecontroleerd.
-	private boolean conditionChecked;
-
 	// We slagen het condition op, want wanneer je het programma stopt halverwege de body, mag je niet de condition opnieuw
 	// controleren
 	private boolean booleanCondition;
 	
-	//De 3 programmas die bij alle statements moeten aanwezig zijn.
 	
+	
+	//De 3 programmas die bij alle statements moeten aanwezig zijn.
 	@Override
 	public boolean executeStatement(Program program){
 		

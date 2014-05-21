@@ -16,6 +16,29 @@ public class If extends Statement{
 		
 	}
 	
+	private Expression getConditionExpression() {
+		return conditionExpression;
+	}
+	
+	private final Expression conditionExpression;
+	
+	
+	
+	private Statement getIfStatement() {
+		return ifStatement;
+	}
+
+	private final Statement ifStatement;
+	
+	
+	
+	private Statement getElseStatement() {
+		return elseStatement;
+	}
+	
+	private final Statement elseStatement;
+	
+	
 	
 	
 	private boolean getConditionChecked() {
@@ -24,7 +47,13 @@ public class If extends Statement{
 
 	private void setConditionChecked(boolean conditionChecked) {
 		this.conditionChecked = conditionChecked;
-	}
+	}	
+
+	private boolean conditionChecked;
+	
+	
+	
+	
 
 	private boolean getConditionBoolean() {
 		return conditionBoolean;
@@ -34,25 +63,11 @@ public class If extends Statement{
 		this.conditionBoolean = conditionBoolean;
 	}
 
-	private Expression getConditionExpression() {
-		return conditionExpression;
-	}
-
-	private Statement getIfStatement() {
-		return ifStatement;
-	}
-
-	private Statement getElseStatement() {
-		return elseStatement;
-	}
-
-	private final Expression conditionExpression;
-	private final Statement ifStatement;
-	private final Statement elseStatement;
-	private boolean conditionChecked;
 	private boolean conditionBoolean;
 	
 
+	
+	
 	@Override
 	public boolean executeStatement(Program program) {
 		
