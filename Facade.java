@@ -538,15 +538,13 @@ public class Facade implements IFacade {
 
 	@Override
 	public void addNewWorm(World world, worms.model.Program program) {
-		// TODO Auto-generated method stub
-		
+		world.addNewWorm(program);
 	}
 
 	@Override
 	public Worm createWorm(World world, double x, double y, double direction,
 			double radius, String name, worms.model.Program program) {
-		// TODO Auto-generated method stub
-		return null;
+		return new Worm(world,x,y,direction,radius,name,program);
 	}
 
 	@Override
@@ -563,8 +561,7 @@ public class Facade implements IFacade {
 
 	@Override
 	public boolean isWellFormed(worms.model.Program program) {
-		// TODO Auto-generated method stub
-		return false;
+		return program.isWellFormed();
 	}
 
 }
