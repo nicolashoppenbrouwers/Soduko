@@ -86,6 +86,13 @@ public class Team {
 		this.setNbCurrentWorm(0);
 	}
 	
+	
+	
+	
+	
+	
+	
+	//TERMINAT
 	/**
 	 * Check whether this team is terminated.
 	 */
@@ -107,6 +114,8 @@ public class Team {
 	
 	
 
+	
+	
 	//NOG DOEN
 	/**
 	 * Return the world of this team.
@@ -135,6 +144,7 @@ public class Team {
 	
 	/**
 	 * Check whether this team has a world.
+	 * 
 	 * @return	True if and only if the world of this team is effective.
 	 * 			| (this.getWorld() != null)
 	 */
@@ -147,6 +157,7 @@ public class Team {
 	 * Variable registering the world of this team.
 	 */
 	private World world;
+	
 	
 	
 	
@@ -181,23 +192,22 @@ public class Team {
 	/**
 	 * Checks whether the given string is a valid name for any team.
 	 * 
-	 * @param 	name
-	 * 			The name which has to be checked. 
-	 * @return	True if and only if the team's name meets the following requirements
-	 * 			1) at least two characters long
-	 * 			2) start with an uppercase letter
-	 * 			3) only use letters
-	 * 			| ((name.length() < 2)
+	 * @param	world
+	 * 			The world of this team.
+	 * @param 	teamName
+	 * 			The team name which has to be checked. 
+	 * @return	True if and only if the team's name meets the following requirements:
+	 * 			1) the name is a unique name for this world
+	 * 			2) the name is at least two characters long
+	 * 			3) the name starts with an uppercase letter
+	 * 			4) the name only uses letters
+	 * 			| ((teamName.length() < 2)
 	 * 			|  && (Character.isLetter(name.charAt(0))) || !(Character.isUpperCase(name.charAt(0)))
 	 * 			|  && (for c in name:
 	 * 			|      		c.isLetter(c) ))
 	 */
 	public static boolean isValidName(World world, String teamName){
-		/* We willen dat de TeamNaam een unieke naam is. */
-		for (Team team: world.getTeams() ){
-			if (team.getName().equals(teamName))
-				return false;
-		}
+		
 		if (teamName.length() < 2)
 			return false;
 		//OPMERKING: als je deze if na de for-lus zet, dan je moet enkel nog checken op Uppercase.
@@ -211,6 +221,14 @@ public class Team {
 		}
 		
 		return true;
+	}
+	
+	public static boolean isUniqueTeamName(World world, String teamName){
+		for (Team team: world.getTeams() ){
+			if (team.getName().equals(teamName))
+				return false;
+		}
+		return true
 	}
 	
 	/**
@@ -344,7 +362,7 @@ public class Team {
 	 * 
 	 * @param 	worm
 	 * 			The worm that should be added to this team.
-	 * @post	The given worm is added to the list of worms which are a member of this team.
+	 * @effect	The given worm is added to the list of worms which are a member of this team.
 	 * 			| new.getTeamMembers() == this.getTeamMembers() U ('union') worm
 	 * @throws 	IllegalArgumentException
 	 * 			The given worm is terminated.
@@ -367,7 +385,7 @@ public class Team {
 	 * 
 	 * @param 	worm
 	 * 			The worm that should be removed from this team.
-	 * @post	The given worm, if is part of this team, is removed from the list of worms that are a member of this team.
+	 * @effect	The given worm, if is part of this team, is removed from the list of worms that are a member of this team.
 	 * 			| new.getTeamMembers() == this.getTeamMembers() / ("without") worm
 	 */
 	/*Als je een worm removet die niet in dit team zit, is er geen probleem. Dan gebeurt er niets.*/
@@ -377,6 +395,7 @@ public class Team {
 	
 	/**
 	 * Checks whether the given worm's world is equal to the world of this team.
+	 * 
 	 * @param 	worm
 	 * 			The worm to check.
 	 * @return	True if and only if the given worm's world is equal to the world of this team.
@@ -387,6 +406,19 @@ public class Team {
 	}
 	
 	
+	
+	
+	// IN ORDE
+	/**
+	 * Set the index of the current worm of this team so that it references the next worm in this team.
+	 * 
+	 * @effect	If the current worm was the last worm in the team, the index of the current worm of this team is set to zero.
+	 * 			Otherwise, the index is equal to the previous index + 1.
+	 * 			| if (this.getNbCurrentWorm() == this.getTeamMembers().size() - 1)
+	 * 			|	new.getNbCurrentWorm() == 0
+	 * 			| else if (this.getNbCurrentWorm() != this.getTeamMembers().size() )
+	 * 			| 	new.getNbCurrentWorm() == this.getNbCurrentWorm() + 1
+	 */
 	public void nextWorm(){
 		if (this.getNbCurrentWorm() == this.getTeamMembers().size() - 1)
 			this.setNbCurrentWorm(0);
