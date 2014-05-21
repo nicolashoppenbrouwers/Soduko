@@ -2,6 +2,7 @@ package worms.model;
 
 import be.kuleuven.cs.som.annotate.*;
 import worms.model.program.Program;
+import worms.util.Util;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -67,25 +68,25 @@ public class Worm extends MovableGameObject{
 	 * 			The radius of the new worm (in meters).
 	 * @param 	name
 	 * 			The name of the new worm.
-	 * @post	The x-coordinate of this new worm is equal to the given X-position.
+	 * @effect	The x-coordinate of this new worm is equal to the given X-position.
 	 * 			| new.getPositionX() == positionX
-	 * @post	The y-coordinate of this new worm is equal to the given Y-position.
+	 * @effect	The y-coordinate of this new worm is equal to the given Y-position.
 	 * 			| new.getPositionY() == positionY
-	 * @post	The direction of this new worm is equal to the given direction.
+	 * @effect	The direction of this new worm is equal to the given direction.
 	 * 			| new.getDirection() == direction
-	 * @post	The radius of this new worm is equal to the given radius.
+	 * @effect	The radius of this new worm is equal to the given radius.
 	 * 			| new.getRadius() == radius
-	 * @post	The maximum amount of action points of this new worm are initialized to the worm's mass.
+	 * @effect	The maximum amount of action points of this new worm are initialized to the worm's mass.
 	 * 			| new.getMaximumActionPoints() == (int)Math.round(getMass())
-	 * @post	The current number of action points of this new worm are initialized to 
+	 * @effect	The current number of action points of this new worm are initialized to 
 	 * 			the maximum amount of action points.
 	 * 			| new.getActionPoints == this.getMaximumActionPoints()
-	 * @post	The maximum amount of hit points of this new worm are initialized to the worm's mass.
+	 * @effect	The maximum amount of hit points of this new worm are initialized to the worm's mass.
 	 * 			| new.getMaximumHitPoints() == (int)Math.round(getMass())
-	 * @post	The current number of hit points of this new worm are initialized to 
+	 * @effect	The current number of hit points of this new worm are initialized to 
 	 * 			the maximum amount of hit points.
 	 * 			| new.getHitPoints == this.getMaximumHitPoints()
-	 * @post	The name of this new worm is equal to the given name.
+	 * @effect	The name of this new worm is equal to the given name.
 	 * 			| new.getName() == name
 	 */
 	// Use the @effect tag
@@ -506,11 +507,11 @@ public class Worm extends MovableGameObject{
 	 *
 	 * @post    This worm no longer has a team.
 	 *        	| ! new.hasTeam()
-	 * @post    The former team of this worm, if any, no longer
+	 * @effect  The former team of this worm, if any, no longer
 	 *          has this worm as one of its team members.
 	 *        	|    (getTeam() == null)
 	 *          |     || (! (new getTeam()).hasAsOwning(owning))
-	 * @post    All ownings registered beyond the position at which
+	 * @effect   All ownings registered beyond the position at which
 	 *          this owning was registered shift one position to the left.
 	 *        	| (getOwner() == null) ||
 	 *        	| (for each index in
@@ -837,7 +838,7 @@ public class Worm extends MovableGameObject{
 	 */
 	@Override
 	public boolean canJump(){
-		return !(this.getActionPoints() == 0);
+		return !( Util.fuzzyEquals(this.getActionPoints(), 0));
 	}
 	
 	

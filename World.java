@@ -520,7 +520,7 @@ public class World {
 		if ( this.getWorms().size() == 0){
 			return true;
 		}
-		if ( (this.listOfTeams.size() == 1) && (this.getTeams().get(0).getName() == "Independent") ) {
+		if ( (this.listOfTeams.size() == 1) && (this.getTeams().get(0).getName().equals("Independent")) ) {
 			if (this.listOfWorms.size() == 1){
 				return true;
 			}
@@ -538,7 +538,7 @@ public class World {
 		else {
 			if ( this.getWorms().size() == 0)
 				return "nobody, since no worms were added before this game was started.";
-			if ( (this.listOfTeams.size() == 1) && (this.getTeams().get(0).getName() == "Independent") ){
+			if ( (this.listOfTeams.size() == 1) && (this.getTeams().get(0).getName().equals("Independent")) ){
 				return this.getWorms().get(0).getName();
 			}
 			else{
