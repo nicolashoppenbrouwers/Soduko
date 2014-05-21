@@ -1,33 +1,36 @@
 package worms.model.program.expressions;
 
 import worms.model.program.Program;
-import worms.model.program.types.Type;
+import worms.model.program.types.Boolean;
+import worms.model.program.types.Double;
+import worms.model.program.types.*;
 //?????
-public class VariableAccess extends Expression<DoubleLiteral or BooleanLiteral> {
+public class VariableAccess extends Expression {
 
-	public VariableAccess(int line, int column, String name, Type T) {
+	public VariableAccess(int line, int column, String name) {
 		super(line,column);
-		this.name = name;
-		this.type = T;
+		this.variableName = name;
 	}
 	
-	public String getName(){
-		return this.name;
+	private String getVariableName() {
+		return this.variableName;
 	}
 	
-	private final String name;
-	
-	public Type getType(){
-		return this.type;
-	}
-	
-	private final Type type;
-	
-	
-	//?
+	private final String variableName;
+
 	@Override
-	public Expression<?> evaluate(Program program) {
-		return program.getGlobals().get(getName()).convertToExpression();
+	public Expression evaluate(Program program) {
+		if (this.getResult(program) instanceof Boolean)
+			return new BooleanLiteral(getLine(),getColumn(),(Boolean)getResult(program));
+		if (this.getResult(program) instanceof Double)
+			return new DoubleLiteral(getLine(),getColumn(),(Double)getResult(program));
+		else
+			return new EntityLiteral(getLine(),getColumn(),(Entity)getResult(program));
+	}
+
+	@Override
+	public Type<?> getResult(Program program) {
+		return program.getGlobals().get(this.getVariableName());
 	}
 
 }
