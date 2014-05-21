@@ -47,10 +47,9 @@ import java.util.Set;
  * @invar	The name of each worm must be a valid name for a worm.
  * 			| isValidName(this.getName())
  * 
- * @author 	Nicolas Hoppenbrouwers:	Bachelor Ingenieurswetenschappen Computerwetenschappen-Werktuigkunde
- * 			Bram Lust: 				Bachelor Ingenieurswetenschappen Computerwetenschappen-Elektrotechniek
- * 			We didn't work with Git.
- * @version 2.0
+ * @author 	Nicolas Hoppenbrouwers
+ * 			Bram Lust
+ * @version 3.0
  *
  */
 public class Worm extends MovableGameObject{
@@ -591,6 +590,7 @@ public class Worm extends MovableGameObject{
 	
 	
 	
+	//ALLES VAN PROGRAM NOG
 	
 	public Program getProgram(){
 		return this.program;
@@ -599,7 +599,9 @@ public class Worm extends MovableGameObject{
 	private final Program program;
 	//canHaveAsProgram en alle dynamische binding shit
 	
-	
+	public boolean hasProgram(){
+		return (this.getProgram() != null);
+	}
 	
 	
 	
@@ -768,8 +770,8 @@ public class Worm extends MovableGameObject{
 	}
 	
 	//DUMMY
-	public int getMoveActionPointsCost(Position newPosition){
-		double distanceMoved = this.getPosition().calculateDistance(newPosition.getX(),newPosition.getY());
+	public int getMoveActionPointsCost(double[] newPosition){
+		double distanceMoved = this.getPosition().calculateDistance(newPosition[0],newPosition[1]);
 		double cost = Math.abs(distanceMoved * Math.cos(getDirection())) + Math.abs(4 * distanceMoved * Math.sin(getDirection()));
 		return (int)Math.ceil(cost);
 	}
@@ -790,7 +792,7 @@ public class Worm extends MovableGameObject{
      *					+ 4*Math.abs(Math.sin(this.getDirection()))*nbSteps*this.getRadius())) >= 0)
 	 */
 	//DUMMY!!!!
-	public boolean canMove(Position position){
+	public boolean canMove(double[] position){
 		return (this.getActionPoints() >= getMoveActionPointsCost(position));
 		//OUD
 //		return (this.getActionPoints() 

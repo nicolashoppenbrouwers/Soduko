@@ -168,6 +168,7 @@ public class Position {
 	 * 			| result ==  ( Math.sqrt(Math.pow( this.getX() - position.getX() , 2) +  Math.pow( this.getY() - position.getY() , 2)) )
 	 */
 	public double calculateDistance(Position position) {
+		/* Geen probleem met negatieve wortel want kwadraten zijn altijd positief*/
 		return ( Math.sqrt(Math.pow( this.getX() - position.getX() , 2) +  Math.pow( this.getY() - position.getY() , 2)) );
 	}
 	
@@ -183,6 +184,7 @@ public class Position {
 	 * 			| result ==  ( Math.sqrt(Math.pow( this.getX() - position.getX() , 2) +  Math.pow( this.getY() - position.getY() , 2)) )
 	 */
 	public double calculateDistance(double positionX, double positionY) {
+		/* Geen probleem met negatieve wortel want kwadraten zijn altijd positief*/
 		return ( Math.sqrt(Math.pow( this.getX() - positionX , 2) +  Math.pow( this.getY() - positionY , 2)) );
 	}
 	

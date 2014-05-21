@@ -162,7 +162,7 @@ public class Team {
 	
 	
 	
-	//SETNAME
+	// IN ORDE.
 	/**
 	 * Returns the name of this team.
 	 */
@@ -188,12 +188,12 @@ public class Team {
 		this.name = teamName;
 	}	
 	
-	//NOG DOEN
+	
 	/**
 	 * Checks whether the given string is a valid name for any team.
 	 * 
 	 * @param	world
-	 * 			The world of this team.
+	 * 			The world of the team.
 	 * @param 	teamName
 	 * 			The team name which has to be checked. 
 	 * @return	True if and only if the team's name meets the following requirements:
@@ -201,16 +201,18 @@ public class Team {
 	 * 			2) the name is at least two characters long
 	 * 			3) the name starts with an uppercase letter
 	 * 			4) the name only uses letters
-	 * 			| ((teamName.length() < 2)
-	 * 			|  && (Character.isLetter(name.charAt(0))) || !(Character.isUpperCase(name.charAt(0)))
-	 * 			|  && (for c in name:
-	 * 			|      		c.isLetter(c) ))
+	 * 			| ((isUniqueTeamName(world,teamName)) 
+	 * 			|  && ((teamName.length() > 2)
+	 * 			|  && ((Character.isLetter(name.charAt(0))) || (Character.isUpperCase(name.charAt(0))))
+	 * 			|  && (for (char c: teamName){
+	 * 			|      		c.isLetter(c)
+	 * 			|		} )
 	 */
 	public static boolean isValidName(World world, String teamName){
-		
+		if (! isUniqueTeamName(world,teamName))
+			return false;
 		if (teamName.length() < 2)
 			return false;
-		//OPMERKING: als je deze if na de for-lus zet, dan je moet enkel nog checken op Uppercase.
 		if (!(Character.isLetter(teamName.charAt(0))) || !(Character.isUpperCase(teamName.charAt(0))))
 			return false;
 		
@@ -223,12 +225,26 @@ public class Team {
 		return true;
 	}
 	
+	/**
+	 * Checks whether the given name is a unique team name for the given world.
+	 * 
+	 * @param	world
+	 * 			The world of the team.
+	 * @param 	teamName
+	 * 			The team name which has to be checked. 
+	 * @return	True if and only if the given name is a unique team name in the world of that team.
+	 * 			| for (Team team: world.getTeams() ){
+	 *			|	if (team.getName().equals(teamName))
+	 *			|		result == false;
+	 * 			|	}
+	 * 			| result == true;
+	 */
 	public static boolean isUniqueTeamName(World world, String teamName){
 		for (Team team: world.getTeams() ){
 			if (team.getName().equals(teamName))
 				return false;
 		}
-		return true
+		return true;
 	}
 	
 	/**

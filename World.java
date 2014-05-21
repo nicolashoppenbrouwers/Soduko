@@ -5,6 +5,8 @@ package worms.model;
 
 import java.util.*;
 
+import worms.model.program.Program;
+
 //Methoden:
 // DONE addEmptyTeam(World world, String newName)
 // DONE addNewFood(World world)
@@ -28,10 +30,9 @@ import java.util.*;
 
 //KLASSEINVARIANT DYNAMISCHE BINDING!!!
 /**
- * @author 	Nicolas Hoppenbrouwers:	Bachelor Ingenieurswetenschappen Computerwetenschappen-Werktuigkunde
- * 			Bram Lust: Bachelor Ingenieurswetenschappen Computerwetenschappen-Elektrotechniek
- * 			We didn't work with Git.
- * @version 1.0
+ * @author 	Nicolas Hoppenbrouwers
+ * 			Bram Lust
+ * @version 2.0
  */
 public class World {
 	public World (double width, double height, boolean[][] passableMap, Random random){
@@ -145,13 +146,13 @@ public class World {
 	
 	
 	//EXTRA FUNCTIONALITEIT eventueel: zien dat wormen niet overlappen. 
-	public void addNewWorm(){
+	public void addNewWorm(Program program){
 		//?????.....................
 		double radius = 0.40;
 		double[] startPos= this.searchAdjacentStartingPos(radius);
 		//Nog exception throwen als hij geen positie kan vinden.
 		//Hier nog functie schrijven dat hij een echte naam pakt ipv Worm.
-		Worm worm = new worms.model.Worm(this,startPos[0],startPos[1],0.0,radius,Worm.getRandomName());
+		Worm worm = new worms.model.Worm(this,startPos[0],startPos[1],0.0,radius,Worm.getRandomName(),program);
 		this.listOfWorms.add(worm);
 	}
 	
@@ -204,7 +205,7 @@ public class World {
 		Team team  = new Team(this, newName);
 		this.listOfTeams.add(team);
 		setLastTeamAdded(team);
-		setNbCurrentTeam(getNbCurrenTeam() + 1);
+		setNbCurrentTeam(getNbCurrentTeam() + 1);
 	}
 	
 	public boolean isValidAmountOfTeams(){
