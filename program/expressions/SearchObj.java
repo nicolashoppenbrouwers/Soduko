@@ -1,10 +1,12 @@
 package worms.model.program.expressions;
 
+import java.util.ArrayList;
+
+
 import worms.model.GameObject;
 import worms.model.Worm;
 import worms.model.program.Program;
 import worms.model.program.types.Entity;
-import worms.model.program.types.Type;
 import worms.util.Util;
 
 public class SearchObj extends Expression{
@@ -42,18 +44,46 @@ public class SearchObj extends Expression{
 		}
 	}
 	
-	private boolean
+	private boolean isInDirectionOfWorm(double direction,double e){
+		if((e > Math.PI) ||(Double.isNaN(direction))){
+			return true;
+		}
+		double lowerBound = direction - Math.abs(e);
+		double upperBound = direction + Math.abs(e);
+		if (upperBound > 2*Math.PI){
+			 upperBound = upperBound - 2*Math.PI;
+			 return (direction <= upperBound) || (direction >= lowerBound);
+		}
+		if(lowerBound < 0){
+			 lowerBound = lowerBound + 2*Math.PI;
+			 return (direction <= upperBound) || (direction >= lowerBound);
+		}
+		return (direction >= lowerBound) && (direction <= upperBound);
+	}
 
 	@Override
-	public Type<?> getResult(Program program) {
-		// TODO Auto-generated method stub
-		return null;
+	public Entity getResult(Program program){
+		GameObject closestGameObjectSoFar = null;
+		double smallestDistance = Double.MAX_VALUE;
+		ArrayList<GameObject> allGameObjects= new ArrayList<GameObject>();
+		allGameObjects.addAll(program.getWorld().getWorms());
+		double e = ((DoubleLiteral)this.getEntityExpression().evaluate(program)).getDoubleValue();
+		for(GameObject gameObject:allGameObjects){
+			double direction = this.getRelativeDirection(program.getWorm(), gameObject);
+			if(this.isInDirectionOfWorm(direction, e)){
+				double distance = program.getWorm().getPosition().calculateDistance(gameObject.getPosition());
+				if(distance < smallestDistance){
+					smallestDistance = distance;
+					closestGameObjectSoFar = gameObject;
+				}
+			}
+		}
+		return new Entity(closestGameObjectSoFar);
 	}
 
 	@Override
 	public Expression evaluate(Program program) {
-		// TODO Auto-generated method stub
-		return null;
+		return new EntityLiteral(getLine(),getColumn(),this.getResult(program));
 	}
 
 }
