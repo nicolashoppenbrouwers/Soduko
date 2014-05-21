@@ -57,7 +57,7 @@ public class Food extends GameObject {
 	 *
 	 * @post    This food no longer has a world.
 	 *        	| ! new.hasWorld()
-	 * @post    The former world of this food, if any, no longer
+	 * @effect  The former world of this food, if any, no longer
 	 *          has this food as one of its foods.
 	 *        	| (this.getWorld() == null)
 	 *        	| 	|| (! (new this.getWorld()).hasAsFood(food))

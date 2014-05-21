@@ -96,7 +96,7 @@ public class Position {
 	 * 
 	 * @param	positionX
 	 * 			The x-coordinate to set this position's x-coordinate to.
-	 * @effect	The position's x-coordinate is set to the given x-coordinate.
+	 * @post	The position's x-coordinate is set to the given x-coordinate.
 	 * 			| 	new.getPositionX == positionX
 	 * @throws	IllegalArgumentException
 	 * 			The given coordinate is an invalid position.
@@ -114,7 +114,7 @@ public class Position {
 	 * 
 	 * @param	positionY
 	 * 			The y-coordinate to set this position's y-coordinate to.
-	 * @effect	The position's y-coordinate is set to the given y-coordinate.
+	 * @post	The position's y-coordinate is set to the given y-coordinate.
 	 * 			| 	new.getPositionY == positionY
 	 * @throws	IllegalArgumentException
 	 * 			The given coordinate is an invalid position.

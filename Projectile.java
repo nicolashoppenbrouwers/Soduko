@@ -62,7 +62,7 @@ public abstract class Projectile extends MovableGameObject{
 	 *
 	 * @post    This projectile no longer has a world.
 	 *        	| ! new.hasWorld()
-	 * @post    The former world of this projectile, if any, no longer
+	 * @effect  The former world of this projectile, if any, no longer
 	 *          has a projectile as its active projectile.
 	 *        	| (this.getWorld() == null)
 	 *        	| 	|| (new this.getWorld()).getProjectile() == null)

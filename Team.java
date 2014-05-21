@@ -27,9 +27,9 @@ public class Team {
 	 * 
 	 * @param 	name
 	 * 			The name of this new team.
-	 * @post	The name of this new team is equal to the given name.
+	 * @effect	The name of this new team is equal to the given name.
 	 * 			| new.getName() == name
-	 * @post	The membership list of this new team is initialized as an empty array.
+	 * @effect	The membership list of this new team is initialized as an empty array.
 	 * 			| new.getTeamMembers() == null;
 	 */
 	public Team(World world, String name){
@@ -55,9 +55,9 @@ public class Team {
 	 * 			The name of this new team.
 	 * @param 	team
 	 * 			The Worms that this team should contain as members.
-	 * @post	The name of this new team is equal to the given name.
+	 * @effect  The name of this new team is equal to the given name.
 	 * 			| new.getName() == name
-	 * @post	The membership list of this new team is equal to the given list of worms.
+	 * @effect	The membership list of this new team is equal to the given list of worms.
 	 * 			| new.getTeamMembers() == team
 	 */
 	public Team(World world, String name, ArrayList<Worm> team){
