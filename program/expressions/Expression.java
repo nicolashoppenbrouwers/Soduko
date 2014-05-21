@@ -35,5 +35,7 @@ public abstract class Expression{
 	// WORDT public abstract Literla evaluate(Program program);
 
 
-	public abstract String generateString(Program program);
+	public String generateString(Program program){
+		return (getResult(program).toString());
+	}
 }

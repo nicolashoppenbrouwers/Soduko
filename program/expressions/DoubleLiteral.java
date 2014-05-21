@@ -44,8 +44,5 @@ public class DoubleLiteral extends Expression {
 		return this;
 	}
 	
-	@Override
-	public String generateString(Program program) {
-		return String.valueOf( getDoubleValue() );
-	}
+
 }

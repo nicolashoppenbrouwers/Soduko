@@ -35,9 +35,4 @@ public class BooleanLiteral extends Expression {
 	public BooleanLiteral evaluate(Program program) {
 		return this;
 	}
-	
-	@Override
-	public String generateString(Program program) {
-		return String.valueOf( getBooleanValue() );
-	}
 }

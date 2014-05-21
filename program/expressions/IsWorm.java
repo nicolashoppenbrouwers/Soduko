@@ -1,13 +1,14 @@
 package worms.model.program.expressions;
 
 import worms.model.GameObject;
+import worms.model.Worm;
 import worms.model.program.Program;
-import worms.model.program.types.Double;
+import worms.model.program.types.Boolean;
 
-public class GetX extends Expression{
+public class IsWorm extends Expression{
 
 	//Exception
-	public GetX(int line, int column, Expression e){
+	public IsWorm(int line, int column, Expression e) {
 		super(line,column);
 		this.entityExpression = e;
 	}
@@ -17,20 +18,21 @@ public class GetX extends Expression{
 	}
 	
 	private final Expression entityExpression;
-	
-	public Double getResult(Program program) throws NullPointerException{
+
+	@Override
+	public Boolean getResult(Program program) throws NullPointerException {
 		GameObject gameObject = ((EntityLiteral) getEntityExpression().evaluate(program)).getGameObjectValue();
 		if (gameObject == null)
 			throw new NullPointerException("Line: " + getLine() + " - Column: " + getColumn());
-		return new Double(gameObject.getPosition().getX());
+		boolean isWorm = false;		
+		if (gameObject instanceof Worm)
+			isWorm = true;
+		return new Boolean(isWorm);
 	}
 
 	@Override
-	public DoubleLiteral evaluate(Program program) throws NullPointerException {
-		return new DoubleLiteral(getLine(),getColumn(),getResult(program));
+	public BooleanLiteral evaluate(Program program) throws NullPointerException {
+		return new BooleanLiteral(getLine(),getColumn(),getResult(program));
 	}
-	
-
-
 
 }

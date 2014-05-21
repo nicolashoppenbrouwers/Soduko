@@ -31,11 +31,6 @@ public class Add extends Expression {
 	public DoubleLiteral evaluate(Program program) {
 		return new DoubleLiteral(getLine(),getColumn(),getResult(program));
 	}
-
-	@Override
-	public String generateString(Program program){
-		return getResult(program).toString();
-	}
 	
 	
 

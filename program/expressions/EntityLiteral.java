@@ -36,10 +36,6 @@ public class EntityLiteral extends Expression{
 		return this;
 	}
 	
-	@Override
-	public String generateString(Program program) {
-		return getResult(program).toString();
-	}
 
 }
 

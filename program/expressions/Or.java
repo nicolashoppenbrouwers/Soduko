@@ -1,6 +1,7 @@
 package worms.model.program.expressions;
 
 import worms.model.program.Program;
+import worms.model.program.types.Boolean;
 
 public class Or extends Expression{
 
@@ -31,9 +32,6 @@ public class Or extends Expression{
 		return new BooleanLiteral(getLine(),getColumn(),getResult(program));
 	}
 
-	@Override
-	public String generateString(Program program) {
-		return getResult(program).toString();
-	}
+
 
 }

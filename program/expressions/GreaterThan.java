@@ -32,9 +32,6 @@ public class GreaterThan extends Expression {
 		return new BooleanLiteral(getLine(),getColumn(),getResult(program));
 	}
 	
-	@Override
-	public String generateString(Program program) {
-		return getResult(program).toString();
-	}
+
 
 }

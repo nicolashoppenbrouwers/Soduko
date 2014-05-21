@@ -1,6 +1,7 @@
 package worms.model.program.expressions;
 
 import worms.model.program.Program;
+import worms.model.program.types.Boolean;
 
 public class Not extends Expression{
 
@@ -25,10 +26,7 @@ public class Not extends Expression{
 		return new BooleanLiteral(getLine(),getColumn(),getResult(program));
 	}
 	
-	@Override
-	public String generateString(Program program) {
-		return getResult(program).toString();
-	}
+
 
 
 }

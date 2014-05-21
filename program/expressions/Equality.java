@@ -32,10 +32,5 @@ public class Equality extends Expression {
 	public BooleanLiteral evaluate(Program program) {
 		return new BooleanLiteral(getLine(),getColumn(),getResult(program));
 	}
-	
-	@Override
-	public String generateString(Program program) {
-		return getResult(program).toString();
-	}
 
 }

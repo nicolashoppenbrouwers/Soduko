@@ -19,9 +19,9 @@ public class GetRadius extends Expression{
 	private final Expression entityExpression;
 	
 	public Double getResult(Program program) throws NullPointerException{
-		if (((EntityLiteral)getEntityExpression().evaluate(program)).getGameObjectValue() == null)
-			throw new NullPointerException("Line: " + getLine() + " - Column: " + getColumn());
 		GameObject gameObject = ((EntityLiteral) getEntityExpression().evaluate(program)).getGameObjectValue();
+		if (gameObject == null)
+			throw new NullPointerException("Line: " + getLine() + " - Column: " + getColumn());
 		return new Double(gameObject.getRadius());
 	}
 
@@ -30,10 +30,7 @@ public class GetRadius extends Expression{
 		return new DoubleLiteral(getLine(),getColumn(),getResult(program));
 	}
 	
-	@Override
-	public String generateString(Program program) throws NullPointerException {
-		return getResult(program).toString();
-	}
+
 	
 
 

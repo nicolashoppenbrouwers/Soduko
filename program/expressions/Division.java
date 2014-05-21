@@ -36,8 +36,5 @@ public class Division extends Expression {
 		return new DoubleLiteral(getLine(),getColumn(),getResult(program));
 	}
 
-	@Override
-	public String generateString(Program program) throws IllegalStateException {
-		return getResult(program).toString();
-	}
+
 }

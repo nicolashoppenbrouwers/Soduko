@@ -1,5 +1,6 @@
 package worms.model.program.expressions;
 
+import worms.model.GameObject;
 import worms.model.MovableGameObject;
 import worms.model.program.Program;
 import worms.model.program.types.Double;
@@ -20,11 +21,12 @@ public class GetDirection extends Expression{
 	private final Expression entityExpression;
 	
 	public Double getResult(Program program) throws NullPointerException,IllegalArgumentException {
-		if ( ((EntityLiteral) getEntityExpression().evaluate(program)).getGameObjectValue() == null)
+		GameObject gameObject = ((EntityLiteral) getEntityExpression().evaluate(program)).getGameObjectValue();
+		if (gameObject == null)
 			throw new NullPointerException("Line: " + getLine() + " - Column: " + getColumn());
-		if (! (((EntityLiteral) getEntityExpression().evaluate(program)).getGameObjectValue() instanceof worms.model.MovableGameObject))
+		if (! (gameObject instanceof worms.model.MovableGameObject))
 			throw new IllegalArgumentException("Line: " + getLine() + " - Column: " + getColumn());
-		MovableGameObject movableGameObject = (MovableGameObject) ((EntityLiteral) getEntityExpression().evaluate(program)).getGameObjectValue();
+		MovableGameObject movableGameObject = (MovableGameObject) gameObject;
 		return new Double(movableGameObject.getDirection());
 	}
 
@@ -33,9 +35,6 @@ public class GetDirection extends Expression{
 		return new DoubleLiteral(getLine(),getColumn(),getResult(program));
 	}
 	
-	@Override
-	public String generateString(Program program) throws NullPointerException, IllegalArgumentException {
-		return getResult(program).toString();
-	}
+
 
 }

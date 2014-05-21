@@ -1,6 +1,7 @@
 package worms.model.program.expressions;
 
 import worms.model.program.Program;
+import worms.model.program.types.Double;
 
 //EXCEPTION
 public class Sqrt extends Expression {
@@ -28,9 +29,6 @@ public class Sqrt extends Expression {
 		return new DoubleLiteral(getLine(),getColumn(),getResult(program));
 	}
 
-	@Override
-	public String generateString(Program program) throws IllegalStateException {
-		return getResult(program).toString();
-	}
+
 
 }

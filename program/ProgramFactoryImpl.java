@@ -10,7 +10,7 @@ import worms.model.program.types.*;
 import worms.model.program.types.Boolean;
 import worms.model.program.types.Double;
 
-@SuppressWarnings("unchecked")
+
 public class ProgramFactoryImpl implements ProgramFactory<Expression, Statement, Type<?>> {
 
 	public ProgramFactoryImpl() {
@@ -37,7 +37,6 @@ public class ProgramFactoryImpl implements ProgramFactory<Expression, Statement,
 	@Override
 	public And createAnd(int line, int column, Expression e1,
 			Expression e2) {
-		//JE MOET DE VRAAGTEKENS ERBIJ SCHRIJVEN EN DAN CASTEN OP DE VOLGENDE LIJN, anders werkt het niet precies...
 		return new And(line,column,e1,e2);
 	}
 
@@ -53,15 +52,13 @@ public class ProgramFactoryImpl implements ProgramFactory<Expression, Statement,
 	}
 
 	@Override
-	public Expression createNull(int line, int column) {
-		// TODO Auto-generated method stub
-		return null;
+	public Null createNull(int line, int column) {
+		return new Null(line,column);
 	}
 
 	@Override
-	public Expression createSelf(int line, int column) {
-		// TODO Auto-generated method stub
-		return null;
+	public Self createSelf(int line, int column) {
+		return new Self(line,column);
 	}
 
 	@Override
@@ -117,14 +114,12 @@ public class ProgramFactoryImpl implements ProgramFactory<Expression, Statement,
 
 	@Override
 	public Expression createIsWorm(int line, int column, Expression e) {
-		// TODO Auto-generated method stub
-		return null;
+		return new IsWorm(line,column,e);
 	}
 
 	@Override
 	public Expression createIsFood(int line, int column, Expression e) {
-		// TODO Auto-generated method stub
-		return null;
+		return new IsFood(line,column,e);
 	}
 
 	@Override
@@ -202,7 +197,7 @@ public class ProgramFactoryImpl implements ProgramFactory<Expression, Statement,
 
 	@Override
 	public Sqrt createSqrt(int line, int column, Expression e) {
-		return new Sqrt(line,column,e1,e2);
+		return new Sqrt(line,column,e);
 	}
 
 	@Override
