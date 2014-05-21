@@ -14,7 +14,7 @@ import be.kuleuven.cs.som.annotate.*;
  */
 public class While extends Statement{
 
-	While(int line,int column,Expression condition, Statement body){
+	public While(int line,int column,Expression condition, Statement body){
 		super(line,column);
 		this.condition =  condition;
 		this.body = body;

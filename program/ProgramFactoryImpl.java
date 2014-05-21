@@ -108,8 +108,7 @@ public class ProgramFactoryImpl implements ProgramFactory<Expression, Statement,
 
 	@Override
 	public Expression createSearchObj(int line, int column, Expression e) {
-		// TODO Auto-generated method stub
-		return null;
+		return new SameTeam(line,column,e);
 	}
 
 	@Override
@@ -124,14 +123,12 @@ public class ProgramFactoryImpl implements ProgramFactory<Expression, Statement,
 
 	@Override
 	public Expression createVariableAccess(int line, int column, String name) {
-		// TODO Auto-generated method stub
-		return null;
+		return new VariableAccess(line,column,name);
 	}
 
 	@Override
 	public Expression createVariableAccess(int line, int column, String name,
 			Type type) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
@@ -212,97 +209,82 @@ public class ProgramFactoryImpl implements ProgramFactory<Expression, Statement,
 
 	@Override
 	public Statement createTurn(int line, int column, Expression angle) {
-		// TODO Auto-generated method stub
-		return null;
+		return new Turn(line,column,angle);
 	}
 
 	@Override
 	public Statement createMove(int line, int column) {
-		// TODO Auto-generated method stub
-		return null;
+		return new Move(line,column);
 	}
 
 	@Override
 	public Statement createJump(int line, int column) {
-		// TODO Auto-generated method stub
-		return null;
+		return new Jump(line,column);
 	}
 
 	@Override
 	public Statement createToggleWeap(int line, int column) {
-		// TODO Auto-generated method stub
-		return null;
+		return new ToggleWeap(line,column);
 	}
 
 	@Override
 	public Statement createFire(int line, int column, Expression yield) {
-		// TODO Auto-generated method stub
-		return null;
+		return new Fire(line,column,yield);
 	}
 
 	@Override
 	public Statement createSkip(int line, int column) {
-		// TODO Auto-generated method stub
-		return null;
+		return new Skip(line,column);
 	}
 
 	@Override
 	public Statement createAssignment(int line, int column,
 			String variableName, Expression rhs) {
-		// TODO Auto-generated method stub
-		return null;
+		return new Assignment(line,column,variableName,rhs);
 	}
 
 	@Override
 	public Statement createIf(int line, int column, Expression condition,
 			Statement then, Statement otherwise) {
-		// TODO Auto-generated method stub
-		return null;
+		return new If(line,column,condition,then,otherwise);
 	}
 
 	@Override
 	public Statement createWhile(int line, int column, Expression condition,
 			Statement body) {
-		// TODO Auto-generated method stub
-		return null;
+		return new While(line,column,condition,body);
 	}
 
 	@Override
 	public Statement createForeach(int line, int column,
 			worms.model.programs.ProgramFactory.ForeachType type,
 			String variableName, Statement body) {
-		// TODO Auto-generated method stub
-		return null;
+		return new Foreach(line,column,type,variableName,body);
 	}
 
 	@Override
 	public Statement createSequence(int line, int column,
 			List<Statement> statements) {
-		// TODO Auto-generated method stub
-		return null;
+		return new Sequence(line,column,statements);
 	}
 
 	@Override
 	public Statement createPrint(int line, int column, Expression e) {
-		// TODO Auto-generated method stub
-		return null;
+		return new Print(line,column,e);
 	}
 
 	@Override
 	public Double createDoubleType() {
-		// TODO Auto-generated method stub
 		return new Double();
 	}
 
 	@Override
 	public Boolean createBooleanType() {
-		// TODO Auto-generated method stub
 		return new Boolean();
 	}
 
 	@Override
 	public Entity createEntityType() {
-		// TODO Auto-generated method stub
 		return new Entity();
 	}	
 }

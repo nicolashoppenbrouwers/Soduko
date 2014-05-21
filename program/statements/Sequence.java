@@ -6,7 +6,7 @@ import worms.model.program.Program;
 
 public class Sequence extends Statement{
 	
-	Sequence(int line, int column, List <Statement> statements){
+	public Sequence(int line, int column, List <Statement> statements){
 		super(line,column);
 		this.setIndex(0);
 		this.statements = statements;

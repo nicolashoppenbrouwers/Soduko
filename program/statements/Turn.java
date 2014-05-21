@@ -2,24 +2,25 @@ package worms.model.program.statements;
 
 import worms.model.program.Program;
 import worms.model.program.expressions.DoubleLiteral;
+import worms.model.program.expressions.Expression;
 
 public class Turn extends Statement {
 
-	public Turn(int line, int column,DoubleLiteral angle) {
+	public Turn(int line, int column,Expression angle) {
 		super(line, column);
 		this.angle = angle;
 	}
 	
-	private DoubleLiteral getAngle() {
+	private Expression getAngle() {
 		return angle;
 	}
 
-	private final  DoubleLiteral angle;
+	private final  Expression angle;
 
 	@Override
 	public boolean executeStatement(Program program) {
-		if (program.getWorm().canTurn(this.getAngle().getDoubleValue())){
-			program.getHandler().turn(program.getWorm(), this.getAngle().getDoubleValue());
+		if (program.getWorm().canTurn(((DoubleLiteral)this.getAngle().evaluate(program)).getDoubleValue())){
+			program.getHandler().turn(program.getWorm(), ((DoubleLiteral)this.getAngle().evaluate(program)).getDoubleValue());
 			return true;
 		}
 		else {

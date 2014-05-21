@@ -2,25 +2,26 @@ package worms.model.program.statements;
 
 import worms.model.program.Program;
 import worms.model.program.expressions.DoubleLiteral;
+import worms.model.program.expressions.Expression;
 
 public class Fire extends Statement {
 	// Exceptions
 
-	public Fire(int line, int column, DoubleLiteral yield) {
+	public Fire(int line, int column, Expression yield) {
 		super(line, column);
 		this.yield = yield;
 	}
 	
-	public DoubleLiteral getYield() {
+	public Expression getYield() {
 		return yield;
 	}
 
-	private final DoubleLiteral yield;
+	private final Expression yield;
 
 	@Override
 	public boolean executeStatement(Program program) throws IllegalStateException{
-		if (program.getWorm().canShoot( this.getYield().getIntegerValue()) ){
-			program.getHandler().fire(program.getWorm(), this.getYield().getIntegerValue());
+		if (program.getWorm().canShoot(((DoubleLiteral)this.getYield().evaluate(program)).getIntegerValue()) ){
+			program.getHandler().fire(program.getWorm(),((DoubleLiteral)this.getYield().evaluate(program)).getIntegerValue());
 			// stel dat worm zich zelf dood schiet
 			if (program.getWorm().isTerminated()){
 				return false;

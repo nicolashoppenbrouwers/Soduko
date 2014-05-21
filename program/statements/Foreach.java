@@ -9,7 +9,7 @@ import worms.model.program.types.Entity;
 
 public class Foreach extends Statement{
 
-	public Foreach(int line, int column,ForeachType type,String variableName,Statement body ) {
+	public Foreach(int line, int column,worms.model.programs.ProgramFactory.ForeachType type,String variableName,Statement body ) {
 		super(line, column);
 		this.type = type;
 		this.variableName = variableName;
@@ -19,11 +19,11 @@ public class Foreach extends Statement{
 		this.setTypeChecked(false);
 	}
 	
-	private ForeachType getType(){
+	private worms.model.programs.ProgramFactory.ForeachType getType(){
 		return this.type;
 	}
 	
-	private final ForeachType type;
+	private final worms.model.programs.ProgramFactory.ForeachType type;
 	
 	private String getVariableName(){
 		return this.variableName;
@@ -71,10 +71,10 @@ public class Foreach extends Statement{
 	public boolean executeStatement(Program program) {
 		
 		if (!isTypeChecked()){
-			if ((this.getType() == ForeachType.WORM) || (this.getType() == ForeachType.ANY)) {
+			if ((this.getType() == worms.model.programs.ProgramFactory.ForeachType.WORM) || (this.getType() == worms.model.programs.ProgramFactory.ForeachType.ANY)) {
 				this.getGameObjects().addAll(program.getWorld().getWorms());
 			}
-			if ((this.getType() == ForeachType.FOOD) || (this.getType() == ForeachType.ANY)){
+			if ((this.getType() == worms.model.programs.ProgramFactory.ForeachType.FOOD) || (this.getType() == worms.model.programs.ProgramFactory.ForeachType.ANY)){
 				this.getGameObjects().addAll(program.getWorld().getFood());
 			}
 			this.setTypeChecked(true);
