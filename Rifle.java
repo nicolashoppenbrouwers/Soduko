@@ -13,7 +13,7 @@ package worms.model;
 import be.kuleuven.cs.som.annotate.*;
 
 //canJump?
-
+//KLASSEINVARIANT DYNAMISCHE BINDING!!!
 
 /**
  * A final class of rifles as a special kind of Projectiles, involving a world,

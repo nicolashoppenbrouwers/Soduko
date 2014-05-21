@@ -26,7 +26,7 @@ import java.util.*;
 
 
 
-
+//KLASSEINVARIANT DYNAMISCHE BINDING!!!
 /**
  * @author 	Nicolas Hoppenbrouwers:	Bachelor Ingenieurswetenschappen Computerwetenschappen-Werktuigkunde
  * 			Bram Lust: Bachelor Ingenieurswetenschappen Computerwetenschappen-Elektrotechniek

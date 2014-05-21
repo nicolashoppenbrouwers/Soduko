@@ -1,3 +1,13 @@
+/*
+ * Assignment 'Worms' Object-Oriented Programming
+ * University:		KU Leuven
+ * Study:			Bachelor Ingenieurswetenschappen
+ * Course:			Objectgericht Programmeren (H01P1A)
+ * Year:			2013 - 2014
+ * Authors: 		Nicolas Hoppenbrouwers 	(Computerwetenschappen - Werktuigkunde)
+ * 					Bram Lust 				(Computerwetenschappen - Elektrotechniek)
+ * Git: 			https://github.com/nicolashoppenbrouwers/Soduko.git
+ */
 
 package worms.model;
 import java.util.ArrayList;
@@ -5,11 +15,14 @@ import java.util.ArrayList;
 import be.kuleuven.cs.som.annotate.*;
 
 
-// NOG DOEN --> NICOLAS 
+// KLASSEINVARIANT DYNAMISCHE BINDING!!!
 /**
- * A help class of teams for worms, involving a name, a membershiplist and a current worm.
+ * A help class of teams for worms, involving a name, a membershiplist and an index which contains 
+ * 		whose turn it currently is.
  * 
- * @invar	...
+ * @invar 	The name of each Team must be a valid name for a Team.
+ * 			| isValidName(this.getName())
+ *
  * @invar	...
  * @author 	Nicolas Hoppenbrouwers
  * 			Bram Lust
@@ -21,45 +34,51 @@ import be.kuleuven.cs.som.annotate.*;
 // Het spel crasht wanneer je een team wilt toevoegen en independent heeft geen wormen
 
 public class Team {
-	
+	//IN ORDE
 	/**
-	 * Initialize this new team with the given name.
+	 * Initialize this new team with the given world and name.
 	 * 
+	 * @param 	world
+	 * 			The world of this new team.
 	 * @param 	name
 	 * 			The name of this new team.
+	 * @effect	The world of this new team is equal to the given team.
+	 * 			| new.getWorld() == world
 	 * @effect	The name of this new team is equal to the given name.
 	 * 			| new.getName() == name
 	 * @effect	The membership list of this new team is initialized as an empty array.
 	 * 			| new.getTeamMembers() == null;
+	 * @effect	The index of the current worm of this new team is initialized as zero.
+	 * 			| new.getNbCurrentWorm() == 0;
 	 */
+	@Raw
 	public Team(World world, String name){
 		this.setWorld(world);
 		this.setName(name);
-		//		 Deze lijn code is vervangen door een setter.
-		//OUD:	 this.listOfWorms = new ArrayList<Worm>();
-		//VRAAG: IS DIT WEL DE JUISTE MANIER OM EEN LEGE LIJST IN TE VOEREN? IK VIND NIET METEEN DE JUISTE MANIER!
 		this.listOfWorms = new ArrayList<Worm>();
 		this.setNbCurrentWorm(0);
-		//OUD: this.setTeamMembers(null)
-		//ik heb de vorige versie terug gezet want ik denk dat in de oude een foutje zit
-		//bij de this.setTeamMembers(null) sla je
-		//null op in de plaats van een lege lijst.
 	}
 	
-	//Eventueel is hier ook nog de mogelijkheid om nog een andere constructor te definiëren, 
-	// een waarbij je meteen ook een lijst van wormen kan meegeven als lijst van teamleden, maar
-	// dit is misschien overbodig.
+	//IN ORDE
 	/**
-	 * Initialize this new team with the given name and list of members (Worms).
+	 * Initialize this new team with the given world, name and list of members (Worms).
+	 * 
+	 * @param	world
+	 * 			The world of this new team.
 	 * @param 	name
 	 * 			The name of this new team.
 	 * @param 	team
-	 * 			The Worms that this team should contain as members.
+	 * 			The worms that this team should contain as members.
+	 * @effect	The world of this new team is equal to the given world.
+	 * 			| new.getWorld() == world
 	 * @effect  The name of this new team is equal to the given name.
 	 * 			| new.getName() == name
 	 * @effect	The membership list of this new team is equal to the given list of worms.
 	 * 			| new.getTeamMembers() == team
+	 * @effect	The index of the current worm of this new team is initialized as zero.
+	 * 			| new.getNbCurrentWorm() == 0;
 	 */
+	@Raw
 	public Team(World world, String name, ArrayList<Worm> team){
 		this.setWorld(world);
 		this.setName(name);
@@ -67,11 +86,16 @@ public class Team {
 		this.setNbCurrentWorm(0);
 	}
 	
-	
+	/**
+	 * Check whether this team is terminated.
+	 */
+	@Basic
 	public boolean isTerminated(){
 		return (! this.hasWorld());
 	}
 	
+	
+	//NOG DOEN
 	public void terminate(){
 		if (this.getWorld().getTeams().indexOf(this) <= this.getWorld().getNbCurrentTeam())
 			 this.getWorld().setNbCurrentTeam(this.getWorld().getNbCurrentTeam() - 1);
@@ -80,12 +104,16 @@ public class Team {
 	
 	
 	
-	
-	
+
+	/**
+	 * Return the world of this team.
+	 */
+	@Basic
 	public World getWorld(){
 		return this.world;
 	}
 	
+	//NOG DOEN
 	public void setWorld(World world){
 		//De eerste voorwaarde moet er bij anders krijg je een NullPointerException op de tweede voorwaarde.
 		if ((world != null) && (!world.isValidAmountOfTeams()) )
@@ -93,6 +121,7 @@ public class Team {
 		this.world = world;
 	}
 	
+	//NOG DOEN
 	public void unsetWorld(){
 		if (this.hasWorld()){
 			World formerWorld = this.getWorld();
@@ -101,16 +130,25 @@ public class Team {
 		}
 	}
 	
+	/**
+	 * Check whether this team has a world.
+	 * @return	True if and only if the world of this team is effective.
+	 * 			| (this.getWorld() != null)
+	 */
+	//@Raw?
 	public boolean hasWorld(){
 		return (this.getWorld() != null);
 	}
 	
+	/**
+	 * Variable registering the world of this team.
+	 */
 	private World world;
 	
 	
 	
 	
-		
+	//IN ORDE
 	/**
 	 * Returns the name of this team.
 	 */
@@ -121,8 +159,15 @@ public class Team {
 	
 	/**
 	 * Sets the name of this team to the given team name.
+	 * 
+	 * @param	teamName
+	 * 			The name to set this team's name to.
+	 * @post	If the given name is a valid name, this team's new name is equal to the given name.
+	 * 			| new.getName() == teamName
+	 * @throws	IllegalArgumentException
+	 * 			The given name is an invalid name for a team.
+	 * 			| (!isValidName())
 	 */
-	@Basic
 	public void setName(String teamName) throws IllegalArgumentException{
 		if (!isValidName(this.getWorld(), teamName))
 			throw new IllegalArgumentException("Invalid team name!");
@@ -135,7 +180,7 @@ public class Team {
 	private String name;
 	
 	
-	
+	//NOG DOEN
 	/**
 	 * Checks whether the given string is a valid name for any team.
 	 * @param 	name
@@ -194,9 +239,21 @@ public class Team {
 	
 	/**
 	 * Sets the list of worms of this team to the given list of worms.
+	 * 
+	 * @param	team
+	 * 			The worms that this team's list of members should be set to.
+	 * @post	If the team can have this list of worms as its team, 
+	 * 			this team's new list of members is equal to the given list of members.
+	 * 			| new.getTeamMembers() == team
+	 * @throws	IllegalArgumentException
+	 * 			The given list of members contains one or more worms that do not belong
+	 * 			to the same world as this team.
+	 * 			| (!canHaveAsTeam(team))
 	 */
-	@Basic
-	public void setTeamMembers(ArrayList<Worm> team){
+	public void setTeamMembers(ArrayList<Worm> team) throws IllegalArgumentException{
+		if (!canHaveAsTeam(team))
+			throw new IllegalArgumentException(
+					"The given list of members contains one or more worms that do not belong to the same world as this team.");
 		this.listOfWorms = team;
 	}
 	
@@ -205,7 +262,24 @@ public class Team {
 	 */
 	private ArrayList<Worm> listOfWorms;
 	
-	
+	/**
+	 * Checks whether this team can have the given list of worms as its list of team members.
+	 * @param 	team
+	 * 			The list of worms to check.
+	 * @return	True if and only if every worm of the given team belongs to the same world as this team.
+	 * 			| if {for (Worm worm: team)
+	 * 			|		worm.getWorld() == this.getWorld() }
+	 * 			| 	result == true
+	 * 			| else
+	 * 			| 	result == false
+	 */
+	public boolean canHaveAsTeam(ArrayList<Worm> team){
+		for (Worm worm: team){
+			if (! (canHaveAsWorm(worm)))
+				return false;
+		}
+		return true;
+	}
 	
 	
 	
@@ -237,10 +311,12 @@ public class Team {
 	 * 			The given worm that should be added to this team is terminated.
 	 * 			| (worm.isTerminated())
 	 */
-	public void addNewWorm(Worm worm) throws IllegalStateException{
+	public void addNewWorm(Worm worm) throws IllegalStateException, IllegalArgumentException{
 		//VRAAG: moet dit erbij?
 		if (worm.isTerminated())
 			throw new IllegalStateException("This worm is terminated. Cannot add worm to team.");
+		if (! canHaveAsWorm(worm))
+			throw new IllegalStateException("This worm does not belong to the same world as this team.");
 		this.listOfWorms.add(worm);
 	}
 	
@@ -256,6 +332,9 @@ public class Team {
 		this.listOfWorms.remove(worm);		
 	}
 	
+	public boolean canHaveAsWorm(Worm worm){
+		return (this.getWorld() == worm.getWorld());
+	}
 	
 	
 	public void nextWorm(){

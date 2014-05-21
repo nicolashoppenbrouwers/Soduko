@@ -26,7 +26,7 @@ import java.util.Set;
 
 //Bij terminated: overal exceptions toevoegen zoals bij Dog. IllegalStateExceptions.
 
-
+//KLASSEINVARIANT DYNAMISCHE BINDING!!!
 /**
  * A class of worms for playing the game Worms, involving a position, a direction, a radius, an amount of
  * 			action points, an amount of maximum action points and a name.
@@ -976,8 +976,8 @@ public class Worm extends MovableGameObject{
 	
 	
 	public void Eat(){
-		while (this.closeToFood()){
-			this.closeToWhichFood().terminate();
+		while (this.isCloseToFood()){
+			this.getNearbyFood().terminate();
 			int formerMaximumHitPoints = this.getMaximumHitPoints();
 			this.setRadius(this.getRadius()*1.1);
 			this.setHitPoints(this.getHitPoints() + this.getMaximumHitPoints() - formerMaximumHitPoints);

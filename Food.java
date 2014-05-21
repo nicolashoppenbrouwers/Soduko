@@ -13,7 +13,7 @@ package worms.model;
 import be.kuleuven.cs.som.annotate.*;
 
 //Documentatie en opmerking bij unsetWorld. (dynamische binding shit)
-
+//KLASSEINVARIANT DYNAMISCHE BINDING!!!
 /**
  * A class of food as a special kind of GameObjects, involving a world,
  *	 position, direction, and radius.

@@ -14,6 +14,7 @@ import be.kuleuven.cs.som.annotate.*;
 
 //Alles met dynamische binding: world (en miss terminate)
 //documentatie laatste 4 methodes
+//KLASSEINVARIANT DYNAMISCHE BINDING!!!
 /**
  * An abstract class of GameObjects for playing the game Worms, involving a World, a position and a radius.
  * 
@@ -176,7 +177,7 @@ public abstract class GameObject {
 	
 	
 	/**
-	 * Variable referencing the world of this GameObject.
+	 * Variable registering the world of this GameObject.
 	 */
 	protected World world;
 	
@@ -310,7 +311,7 @@ public abstract class GameObject {
 
 	
 	//DOCUMENTATIE.
-	public boolean closeToWorm(double x,double y){
+	public boolean isCloseToWorm(double x,double y){
 		for (Worm worm: this.getWorld().getWorms()){
 			if (Math.pow(x - worm.getPosition().getX(), 2) + Math.pow(y - worm.getPosition().getY(), 2) <=
 					Math.pow(this.getRadius() + worm.getRadius(), 2)){
@@ -322,7 +323,7 @@ public abstract class GameObject {
 	
 	
 	//DOCUMENTATIE.
-	public Worm closeToWhichWorm(double x,double y){
+	public Worm getNearbyWorm(double x,double y){
 		for (Worm worm:this.getWorld().getWorms()){
 			if (Math.pow(x - worm.getPosition().getX(), 2) + Math.pow(y - worm.getPosition().getY(), 2) <
 					Math.pow(this.getRadius()+worm.getRadius(), 2)){
@@ -334,7 +335,7 @@ public abstract class GameObject {
 	
 	
 	//DOCUMENTATIE.
-	public boolean closeToFood(){
+	public boolean isCloseToFood(){
 		for (Food food:this.getWorld().getFood()){
 			if (Math.pow(this.getPosition().getX() - food.getPosition().getX(), 2) + Math.pow(this.getPosition().getY() - food.getPosition().getY(), 2) <=
 					Math.pow(this.getRadius()+food.getRadius(), 2)){
@@ -346,7 +347,7 @@ public abstract class GameObject {
 	
 	
 	//DOCUMENTATIE.
-	public Food closeToWhichFood(){
+	public Food getNearbyFood(){
 		for (Food food:this.getWorld().getFood()){
 			if (Math.pow(this.getPosition().getX() - food.getPosition().getX(), 2) + Math.pow(this.getPosition().getY() - food.getPosition().getY(), 2) <
 					Math.pow(this.getRadius()+food.getRadius(), 2)){

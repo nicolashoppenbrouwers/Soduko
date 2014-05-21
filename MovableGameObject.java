@@ -14,6 +14,7 @@ import be.kuleuven.cs.som.annotate.*;
 //Alles met JUMP herbekijken.
 //VRAAG: moeten bij subklassen ook nog de KlasseInvarianten gekopieerd worden van de superklasse of niet?
 // Zo ja, dan moet ook overal (bij alle klassen!) de documentatie van de constructor worden aangepast!
+//KLASSEINVARIANT DYNAMISCHE BINDING!!!
 /**
  * An abstract class of Movable Game Objects as a special kind of GameObjects. In addition to the world,
  * position and radius, Movable GameObjects also have a direction they face.

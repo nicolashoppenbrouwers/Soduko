@@ -12,6 +12,10 @@
 package worms.model;
 import java.util.*;
 
+import worms.gui.game.IActionHandler;
+import worms.model.program.Program;
+import worms.model.programs.ParseOutcome;
+
 /**
  * A class for the facade of the worm.
  * 
@@ -48,16 +52,6 @@ public class Facade implements IFacade {
 	 */
 	public void addNewFood(World world){
 		world.addNewFood();
-	}
-
-	/**
-	 * Create and add a new worm to the given world.
-	 * The new worm must be placed at a random adjacent location.
-	 * The new worm can have an arbitrary (but valid) radius and direction.
-	 * The new worm may (but isn't required to) have joined a team.
-	 */
-	public void addNewWorm(World world){
-		world.addNewWorm();
 	}
 
 	/**
@@ -127,26 +121,7 @@ public class Facade implements IFacade {
 		return world;
 	}
 	
-	/**
-	 * Create a new worm that is positioned at the given location,
-	 * looks in the given direction, has the given radius and the given name.
-	 * 
-	 * @param x
-	 * The x-coordinate of the position of the new worm (in meter)
-	 * @param y
-	 * The y-coordinate of the position of the new worm (in meter)
-	 * @param direction
-	 * The direction of the new worm (in radians)
-	 * @param radius 
-	 * The radius of the new worm (in meter)
-	 * @param name
-	 * The name of the new worm
-	 */
-	public Worm createWorm(World world,double x, double y, double direction, double radius,String name){
-		Worm worm  = new Worm(world,x,y,direction,radius,name);
-		return worm;
-	}
-	
+
 	/**
 	 * Makes the given worm fall down until it rests on impassable terrain again.
 	 */
@@ -560,6 +535,37 @@ public class Facade implements IFacade {
 	public ArrayList<Food> getFood(Food food){
 		ArrayList<Food> usersArrayList = new ArrayList<Food>();
 		return usersArrayList;
+	}
+
+	@Override
+	public void addNewWorm(World world, Program program) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public Worm createWorm(World world, double x, double y, double direction,
+			double radius, String name, Program program) {
+		return new Worm(world,x,y,direction,radius,name,program);
+	}
+
+	@Override
+	public ParseOutcome<?> parseProgram(String programText,
+			IActionHandler handler) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public boolean hasProgram(Worm worm) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean isWellFormed(Program program) {
+		// TODO Auto-generated method stub
+		return false;
 	}
 }
 

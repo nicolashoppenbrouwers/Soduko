@@ -14,6 +14,7 @@ import be.kuleuven.cs.som.annotate.*;
 //Alles met JUMP
 // Unsetworld: Dynamische binding shit.
 // Paar opmerkingen.
+//KLASSEINVARIANT DYNAMISCHE BINDING!!!
 /**
  * An abstract class of projectiles as a special kind of movable GameObjects, involving a world,
  *	 position, direction, and radius.
@@ -219,9 +220,9 @@ public abstract class Projectile extends MovableGameObject{
 		//OUD: this.setPositionX(step[0]);
 		//OUD: this.setPositionY(step[1]);
 		this.setPosition(step[0],step[1]);
-		if (this.closeToWorm(this.getPosition().getX(),this.getPosition().getY())){
-			Worm worm = this.closeToWhichWorm(this.getPosition().getX(),this.getPosition().getY());
-			this.closeToWhichWorm(this.getPosition().getX(),this.getPosition().getY()).setHitPoints(worm.getHitPoints()-this.getHitPointsDamage());
+		if (this.isCloseToWorm(this.getPosition().getX(),this.getPosition().getY())){
+			Worm worm = this.getNearbyWorm(this.getPosition().getX(),this.getPosition().getY());
+			this.getNearbyWorm(this.getPosition().getX(),this.getPosition().getY()).setHitPoints(worm.getHitPoints()-this.getHitPointsDamage());
 		}
 	}
 		//double initialVelocity = getForce() / getMass() * 0.5;
@@ -287,7 +288,7 @@ public abstract class Projectile extends MovableGameObject{
 //					return t;
 //				}
 			}
-			if (this.closeToWorm(x,y)){
+			if (this.isCloseToWorm(x,y)){
 				return t;
 			}
 			t = t + timeStep;
