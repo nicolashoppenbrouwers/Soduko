@@ -51,7 +51,6 @@ public final class Bazooka extends Projectile {
 	public Bazooka(World world, double positionX, double positionY,
 			double direction, int propulsionYield) {
 		super(world, positionX, positionY, direction);
-		//DIT MAG WEG: zit al in constructor projectile? this.setRadius(calculateRadius());
 		this.setPropulsionYield(propulsionYield);
 	}
 	

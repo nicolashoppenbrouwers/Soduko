@@ -102,48 +102,14 @@ public abstract class Projectile extends MovableGameObject{
 	 * 			| result == (Math.pow(3.0/4.0 * getMass() / getDensity() / Math.PI, 1.0/3.0))
 	 */
 	public double calculateRadius(){
+		/*De density kan nooit nul zijn*/
 		return (Math.pow(3.0/4.0 * getMass() / getDensity() / Math.PI, 1.0/3.0));
 	}
 	
 	
 	
 	
-	//DIT MAG ALLEMAAL WEG NORMAAL.
-	
-//	/**
-//	 * Return the propulsion yield of this projectile.
-//	 */
-//	public int getPropulsionYield(){
-//		return this.propulsionYield;
-//	}
-//	
-//	/**
-//	 * Set the propulsion yield of this projectile to the given value.
-//	 * @param 	propulsionYield
-//	 * 			The propulsion yield to set this projectile's propulsionYield to.
-//	 * 
-//	 */
-//	public void setPropulsionYield(int propulsionYield) throws IllegalArgumentException{
-//		if (! isValidPropulsionYield(propulsionYield))
-//			throw new IllegalArgumentException("Non effective propulsion yield!");
-//		this.propulsionYield = propulsionYield;
-//	}
-//
-//	/**
-//	 * Check whether the given propulsion yield is a valid propulsion yield for any projectile.
-//	 * @param 	propulsion yield
-//	 * 			The propulsion yield to check.
-//	 * @return 	True if and only if the given propulsion yield is not equal to NaN,
-//	 * 			is bigger or equal to zero and is smaller or equal to 100.
-//	 */
-//	public boolean isValidPropulsionYield(int propulsionYield){
-//		return (propulsionYield >= 0) && (propulsionYield <= 100) && (! Double.isNaN(propulsionYield));
-//	}
-//	
-//	/**
-//	 * Variable registering the propulsion yield of this projectile. 
-//	 */
-//	public int propulsionYield;
+
 	
 	
 	// IN ORDE
@@ -191,7 +157,7 @@ public abstract class Projectile extends MovableGameObject{
 	public abstract int getHitPointsDamage();
 	
 	/**
-	 * Return the amount of action points it costs to use this Projectile
+	 * Return the amount of action points it costs to use this Projectile.
 	 */
 	public abstract int getActionPointsCost();
 

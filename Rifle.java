@@ -46,7 +46,6 @@ public final class Rifle extends Projectile {
 	public Rifle(World world, double positionX, double positionY,
 			double direction) {
 		super(world, positionX, positionY, direction);
-		//DIT MAG WEG: zit al in constructor projectile? this.setRadius(this.calculateRadius());
 	}
 	
 	
