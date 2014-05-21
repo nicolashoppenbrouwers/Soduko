@@ -2,7 +2,7 @@ package worms.model.program.statements;
 
 import java.util.List;
 
-import worms.model.program.Program;
+import worms.model.Program;
 
 public class Sequence extends Statement{
 	

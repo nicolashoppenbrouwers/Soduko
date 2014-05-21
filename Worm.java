@@ -1,7 +1,6 @@
 package worms.model;
 
 import be.kuleuven.cs.som.annotate.*;
-import worms.model.program.Program;
 import worms.util.Util;
 
 import java.util.HashSet;

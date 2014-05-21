@@ -2,9 +2,10 @@ package worms.model.program.statements;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import worms.model.GameObject;
-import worms.model.program.Program;
-import worms.model.program.ProgramFactoryImpl.ForeachType;
+import worms.model.Program;
+import worms.model.ProgramFactoryImpl.ForeachType;
 import worms.model.program.types.Entity;
 
 public class Foreach extends Statement{

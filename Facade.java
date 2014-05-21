@@ -13,7 +13,6 @@ package worms.model;
 import java.util.*;
 
 import worms.gui.game.IActionHandler;
-import worms.model.program.Program;
 import worms.model.programs.ParseOutcome;
 
 /**

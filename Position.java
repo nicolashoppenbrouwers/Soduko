@@ -199,6 +199,7 @@ public class Position {
 	 * 			| result ==  ( Math.sqrt(Math.pow( position1.getX() - position2.getX() , 2) +  Math.pow( position1.getY() - position2.getY() , 2)))
 	 */
 	public static double calculateDistance(Position position1, Position position2){
+		/* Geen probleem met negatieve wortel want kwadraten zijn altijd positief*/
 		return ( Math.sqrt(Math.pow( position1.getX() - position2.getX() , 2) +  Math.pow( position1.getY() - position2.getY() , 2)));
 	}
 }

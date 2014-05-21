@@ -1,5 +1,5 @@
 package worms.model.program.statements;
-import worms.model.program.Program;
+import worms.model.Program;
 import be.kuleuven.cs.som.annotate.*;
 
 /**

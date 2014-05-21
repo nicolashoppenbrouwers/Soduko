@@ -1,6 +1,6 @@
 package worms.model.program.expressions;
 
-import worms.model.program.Program;
+import worms.model.Program;
 import worms.model.program.types.Boolean;
 import worms.model.program.types.Double;
 import worms.model.program.types.*;

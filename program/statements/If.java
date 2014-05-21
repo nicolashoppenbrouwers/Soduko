@@ -1,6 +1,6 @@
 package worms.model.program.statements;
 
-import worms.model.program.Program;
+import worms.model.Program;
 import worms.model.program.expressions.BooleanLiteral;
 import worms.model.program.expressions.Expression;
 

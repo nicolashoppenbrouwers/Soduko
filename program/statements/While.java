@@ -1,8 +1,8 @@
 package worms.model.program.statements; 
 
+import worms.model.Program;
 import worms.model.program.expressions.BooleanLiteral;
 import worms.model.program.expressions.Expression;
-import worms.model.program.Program;
 import worms.model.program.statements.Statement;
 import be.kuleuven.cs.som.annotate.*;
 

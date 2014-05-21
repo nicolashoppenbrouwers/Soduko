@@ -1,6 +1,6 @@
 package worms.model.program.expressions;
 
-import worms.model.program.Program;
+import worms.model.Program;
 import worms.model.program.types.Entity;
 
 public class Null extends Expression{

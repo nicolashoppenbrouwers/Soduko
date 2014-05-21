@@ -1,9 +1,8 @@
-package worms.model.program;
+package worms.model;
 
 import java.util.List;
 
 import worms.model.programs.ProgramFactory;
-import worms.model.programs.ProgramFactory.ForeachType;
 import worms.model.program.expressions.*;
 import worms.model.program.statements.*;
 import worms.model.program.types.*;

@@ -2,7 +2,7 @@ package worms.model.program.expressions;
 
 import worms.model.GameObject;
 import worms.model.Food;
-import worms.model.program.Program;
+import worms.model.Program;
 import worms.model.program.types.Boolean;
 
 public class IsFood extends Expression{

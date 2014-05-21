@@ -1,8 +1,7 @@
-package worms.model.program;
+package worms.model;
 import java.util.HashMap;
 
 import worms.gui.game.IActionHandler;
-import worms.model.*;
 import worms.model.program.statements.Statement;
 import worms.model.program.types.Type;
 

@@ -5,8 +5,6 @@ package worms.model;
 
 import java.util.*;
 
-import worms.model.program.Program;
-
 //Methoden:
 // DONE addEmptyTeam(World world, String newName)
 // DONE addNewFood(World world)

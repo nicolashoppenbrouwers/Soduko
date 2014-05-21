@@ -1,9 +1,9 @@
 package worms.model.program.expressions;
 
 import worms.model.GameObject;
+import worms.model.Program;
 import worms.model.Worm;
 import worms.model.program.types.Boolean;
-import worms.model.program.Program;
 
 public class SameTeam extends Expression{
 	//exceptions
