@@ -172,4 +172,8 @@ public abstract class MovableGameObject extends GameObject {
 	public double getInitialVelocity(){
 		return (getForce() / getMass() * 0.5);
 	}
+	
+	public abstract void jump();
+	
+	public abstract double getJumpTime(double timeStep);
 }
