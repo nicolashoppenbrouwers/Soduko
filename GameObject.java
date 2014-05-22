@@ -179,7 +179,7 @@ public abstract class GameObject {
 	/**
 	 * Variable registering the world of this GameObject.
 	 */
-	protected World world;
+	private World world;
 	
 	
 	

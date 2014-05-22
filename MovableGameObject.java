@@ -148,6 +148,13 @@ public abstract class MovableGameObject extends GameObject {
 
 	
 	
+	
+	
+	
+	//JUMPPPPPPPPP
+	
+	public abstract double getJumpTime(double timeStep);
+	
 	public double[] jumpStep(double time){
 		double initialVelocity = this.getInitialVelocity();
 		double initialVelocityX = initialVelocity * Math.cos( this.getDirection() );
@@ -172,8 +179,4 @@ public abstract class MovableGameObject extends GameObject {
 	public double getInitialVelocity(){
 		return (getForce() / getMass() * 0.5);
 	}
-	
-	public abstract void jump();
-	
-	public abstract double getJumpTime(double timeStep);
 }

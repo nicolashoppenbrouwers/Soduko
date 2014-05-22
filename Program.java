@@ -1,5 +1,5 @@
 package worms.model;
-import java.util.HashMap;
+import java.util.Map;
 
 import worms.gui.game.IActionHandler;
 import worms.model.program.statements.Statement;
@@ -9,7 +9,7 @@ import worms.model.program.types.Type;
 
 public class Program {
 
-	public Program(Worm worm, Statement mainStatement, HashMap<String,Type<?>> globals, IActionHandler handler) {
+	public Program(Worm worm, Statement mainStatement, Map<String, Type<?>> globals, IActionHandler handler) {
 		this.worm = worm;
 		this.mainStatement = mainStatement;
 		this.setGlobals(globals);
@@ -55,15 +55,15 @@ public class Program {
 	private int amountOfStatementsExecuted;
 	
 	//Nagaan of de values inderdaad Expressions moeten zijn, anders moeten het types zijn.
-	public HashMap<String,Type<?>> getGlobals(){
+	public Map<String,Type<?>> getGlobals(){
 		return this.globals;
 	}
 	
-	public void setGlobals(HashMap<String,Type<?>> globals) {
+	public void setGlobals(Map<String,Type<?>> globals) {
 		this.globals = globals;
 	}
 	
-	private HashMap<String,Type<?>> globals; 
+	private Map<String,Type<?>> globals; 
 	
 	// Deze functie controleerd of er nog niet te veel statements zijn uitgevoerd deze beurt
 	//indien dit het duizendste statement is dat werdt uitgevoerd sinds de functie resetAmountStatements
@@ -110,13 +110,4 @@ public class Program {
 		this.getWorld().startNextTurn();
 	}
 	
-	public static ParseOutcome<?> parseProgram(String programText,
-            IActionHandler handler) {
-	
-	ProgramFactoryImpl factory = new ProgramFactoryImpl();
-    ProgramParser<Expression<?>, Statement, Variable<?>> parser = new ProgramParser<>(factory);
-    factory.setProgramParser(parser); //NullPointerException
-    Program program;
-
-    parser.parse(programText);
 }

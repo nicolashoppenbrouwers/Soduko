@@ -805,7 +805,6 @@ public class Worm extends MovableGameObject{
 	 * @return 	True if and only if the worm has enough action points left to perform a turn by the given angle.
 				| result == (this.getActionPoints() - (angle/(2*Math.PI))*60 >= 0)
 	 */
-	//fuzzyEquals
 	public boolean canTurn(double angle){
 		return (Util.fuzzyGreaterThanOrEqualTo((this.getActionPoints() - (Math.abs(angle)/(2*Math.PI))*60) , 0));
 	}
@@ -875,7 +874,7 @@ public class Worm extends MovableGameObject{
 		double[] positionFound = new double[] {getPosition().getX(),getPosition().getY()};		
 		double x = getPosition().getX();
 		double y = getPosition().getY();
-		/* We are aware we calculate too many points. Tussen 0 en 1 moeten niet echt gecontroleerd worden -> optimaliserenv*/
+		/* We are aware we calculate too many points. Tussen 0 en 1 moeten niet echt gecontroleerd worden -> optimaliseren */
 		double step = 0;
 		while (Util.fuzzyLessThanOrEqualTo(step,getRadius()) && getWorld().isPassable(x,y,getRadius())){
 			x = getPosition().getX() + step * Math.cos(direction);
@@ -924,6 +923,14 @@ public class Worm extends MovableGameObject{
 	public boolean canMove(double[] position){
 		return (this.getActionPoints() >= getMoveActionPointsCost(position));
 	}
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	//DOCUMENTATIE & METHODE
 	/**
@@ -978,7 +985,6 @@ public class Worm extends MovableGameObject{
 	 * @return 	Return the total amount of time that a jump of a given worm would take
 	 * 			| time = distance / ( initialVelocity * Math.cos( this.getDirection() ));
 	 */
-
 	public double getJumpTime(double timeStep){
 		double t = 0.01;
 		boolean jumpCompleted = false;
@@ -1006,21 +1012,28 @@ public class Worm extends MovableGameObject{
 		return 0.0;
 	}
 	
+	//DONE
+	/**
+	 * Returns the force a worm exerts to jump.
+	 * 
+	 * @return	The force this worm exerts to jump;
+	 * 			| result == 5.0 * this.getActionPoints() + this.getMass() * g
+	 */
 	@Override
 	public double getForce(){
-		return 5.0 * this.getActionPoints() + getMass() * g;
+		return 5.0 * this.getActionPoints() + this.getMass() * g;
 	}
 	
+	//DONE
 	/**
 	 * Checks whether the given worm is able to jump.
 	 * 
-	 * @return 	True if and only if the worm has enough action points left to perform a jump
-	 * 			|return !(this.getDirection() > Math.PI)
-	 * 
+	 * @return 	True if and only if the worm has enough action points left to perform a jump.
+	 * 			| result == (this.getActionPoints() > 0)
 	 */
 	@Override
 	public boolean canJump(){
-		return !( Util.fuzzyEquals(this.getActionPoints(), 0));
+		return !(Util.fuzzyEquals(this.getActionPoints(), 0));
 	}
 	
 	
@@ -1036,7 +1049,7 @@ public class Worm extends MovableGameObject{
 // fall(Worm worm)	 ---> gewoon de kolom onder uw huidige position checken tot je FALSE tegenkomt en dan stop je en anders stop je niet en ben je dood
 //	 --> altijd de functie fall laten uitvoeren voor als je met je kop tegen het plafond zou hangen.
 //fallStep???
-	
+	//ALLES VAN FALL 
 
 	public void fall() throws IllegalStateException, NullPointerException{
 		//if (! canFall())
@@ -1139,9 +1152,16 @@ public class Worm extends MovableGameObject{
 
 	}
 	
+	/**
+	 * Returns the amount of hit points the worm loses when it falls to the given position.
+	 * 
+	 * @param 	newY
+	 * 			The new y-coordinate of the position of this worm if it would perform the fall.
+	 * @return	The amount of hit points the worms loses when it falls to the given position.
+	 * 			| result == (int) Math.round(3*(getPosition().getY() - newY))
+	 */
 	public int getFallHitPoints(double newY){
-		double fallDistance = getPosition().getY() - newY;
-		return ((int)Math.round(3*fallDistance));
+		return ( (int) Math.round(3*(getPosition().getY() - newY)));
 	}
 	
 	
@@ -1157,47 +1177,22 @@ public class Worm extends MovableGameObject{
 	
 	
 	
+
+	
+
 	
 	
-	public void Eat(){
-		while (this.isCloseToFood()){
-			this.getNearbyFood().terminate();
-			int formerMaximumHitPoints = this.getMaximumHitPoints();
-			this.setRadius(this.getRadius()*1.1);
-			this.searchClosestAdjacentPosition();
-			this.setHitPoints(this.getHitPoints() + this.getMaximumHitPoints() - formerMaximumHitPoints);
-		}
-		
-	}
-	
-	public void searchClosestAdjacentPosition(){
-		double angle = 0;
-		double distance = 0;
-		boolean adjacentPositionFound = false;
-		Position adjacentPosition = new Position(0,0);
-		while(!adjacentPositionFound){
-			while((angle < 2*Math.PI) && (!adjacentPositionFound)){
-				adjacentPosition.setX(this.getPosition().getX()+distance*Math.cos(angle));
-				adjacentPosition.setY(this.getPosition().getY()+distance*Math.sin(angle));
-				if (this.getWorld().isAdjacentForShoot(adjacentPosition, this.getRadius()))
-					adjacentPositionFound = true;
-				angle = angle + 0.1*Math.PI;
-			}
-			angle = 0;
-			distance = distance + 0.05*this.getRadius();
-		}
-		this.setPosition(adjacentPosition);
-	}
-	
-	
-	// void selectNextWeapon(Worm worm);
-	// void shoot(Worm worm, int yield);
-	// canShoot
-	// Weapon wordt attribuut van worm.
-	// getWeapon en setWeapon enzovoort
-	// listOfWeapons.
-	//Alles met projectile.
-	
+
+	/**
+	 * Shoots the active projectile of this worm in the direction the worm is currently facing with a given propulsion yield.
+	 * @param 	yield
+	 * 			The propulsion yield this worm's active projectile should be shot with.
+	 * @effect	The projectile that should be shot is created.
+	 * 			| createProjectile(yield)
+	 * @effect	The new projectile of this world is equal to the projectile that will be shot.
+	 * 			| this.getWorld().getProjectile() = createProjectile(yield)
+	 * @effect	
+	 */
 	public void shoot(int yield){
 		Projectile projectile = createProjectile(yield);
 		if (!canShoot(yield))
@@ -1206,12 +1201,33 @@ public class Worm extends MovableGameObject{
 		this.setActionPoints( this.getActionPoints() - projectile.getActionPointsCost());
 	}
 	
+	/**
+	 * Returns whether or not this worm has enough action points to shoot.
+	 * 
+	 * @param 	yield
+	 * 			The propulsion yield that would be used if the worm performed this shoot.
+	 * @return	True if and only if the worm has enough action points to perform this shoot.
+	 * 			| projectile = createProjectile(yield)
+	 * 			| result == (this.getActionPoints() - projectile.getActionPointsCost() >= 0)
+	 */
 	public boolean canShoot(int yield){
 		Projectile projectile = createProjectile(yield);
-		return (this.getActionPoints() - projectile.getActionPointsCost() >= 0);
+		return Util.fuzzyGreaterThanOrEqualTo(this.getActionPoints() - projectile.getActionPointsCost(), 0);
 	}
 		
-	
+	/**
+	 * Create a projectile with given yield that belongs to this worm.
+	 * 
+	 * @param 	yield
+	 * 			The propulsion yield of this new projectile.
+	 * @return	Returns a new bazooka or rifle with given propulsion yield,
+	 * 			depending on the active weapon of this worm.
+	 * 			| if (this.getActiveWeapon().equals("Bazooka"))
+	 *			| 	result == Bazooka(getWorld(), projectileX, projectileY, getDirection(), yield)
+	 *			| if (this.getActiveWeapon().equals("Rifle"))
+	 * 			|	result == Rifle(getWorld(), projectileX, projectileY, getDirection())
+	 * @note	This method should be adjusted when a new sort of weapons gets added to the game.
+	 */
 	public Projectile createProjectile(int yield){
 		Projectile projectile = null;
 		double projectileX = this.getPosition().getX() + Math.cos( this.getDirection() ) * getRadius();
@@ -1223,4 +1239,42 @@ public class Worm extends MovableGameObject{
 		return projectile;
 	}
 
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	/**
+	 * Eat all the food, if any, that is close to this worm.
+	 * 
+	 * @effect	As long as the worm is close to food, the worm eats the food and terminates it.
+	 * 			The worm's new radius is equal to the current radius times 1.1.
+	 * 			The worm's maximum hit points are changed accordingly and the worms new amount of hit points
+	 * 			are equal to the current amount of hit points added with the amount of maximum hit points it gained by eating this food.
+	 * 			The worm's new position is equal to the position closest to the current position, but no longer overlapping with impassable terrain.
+	 * 			| while (this.isCloseToFood())
+	 * 			| 	(new (this.getNearbyFood())).isTerminated == true
+	 * 			| 	new.getRadius() == this.getRadius() * 1.1
+	 * 			| 	new.getHitPoints() == this.getHitPoints() + new.getMaximumHitPoints() - this.getMaximumHitPoints()
+	 * 			| 	new.getPosition() == this.getWorld().searchClosestAdjacentPosition(this))
+	 * 			
+	 */
+	public void Eat(){
+		while (this.isCloseToFood()){
+			this.getNearbyFood().terminate();
+			int formerMaximumHitPoints = this.getMaximumHitPoints();
+			this.setRadius(this.getRadius()*1.1);
+			this.setHitPoints(this.getHitPoints() + this.getMaximumHitPoints() - formerMaximumHitPoints);
+			/* Dit moet erbij, anders kan de worm niet moven na te eten */
+			this.setPosition(this.getWorld().searchClosestAdjacentPosition(this));
+		}
+		
+	}
 }

@@ -157,10 +157,14 @@ public final class Bazooka extends Projectile {
 	
 	
 	//WAT DOET DEZE FUNCTIE HIER?
+	
 	@Override
 	public boolean canJump() {
 		// TODO Auto-generated method stub
 		return false;
 	}
+
+
+
 
 }

@@ -125,7 +125,7 @@ public class ProgramFactoryImpl implements ProgramFactory<Expression, Statement,
 
 	@Override
 	public Expression createVariableAccess(int line, int column, String name,
-			Type type) {
+			Type<?> type) {
 		return null;
 	}
 

@@ -383,7 +383,7 @@ public class World {
 			if (this.getPassableMap()[(int)Math.floor(y/this.getPixelHeight())][(int)Math.floor(highestX/this.getPixelHeight())] == false)
 				return false;	
 			// 10
-			y = y + radius /10;
+			y = y + radius / 10;
 		}
 		return true;
 		}
@@ -438,8 +438,25 @@ public class World {
 		}
 		return true; 
 	}
-
-
+	
+	public Position searchClosestAdjacentPosition(GameObject gameObject){
+		double angle = 0;
+		double distance = 0;
+		boolean adjacentPositionFound = false;
+		Position adjacentPosition = new Position(0,0);
+		while(!adjacentPositionFound){
+			while((angle < 2*Math.PI) && (!adjacentPositionFound)){
+				adjacentPosition.setX(gameObject.getPosition().getX()+distance*Math.cos(angle));
+				adjacentPosition.setY(gameObject.getPosition().getY()+distance*Math.sin(angle));
+				if (this.isAdjacentForShoot(adjacentPosition, gameObject.getRadius()))
+					adjacentPositionFound = true;
+				angle = angle + 0.1*Math.PI;
+			}
+			angle = 0;
+			distance = distance + 0.05*gameObject.getRadius();
+		}
+		return adjacentPosition;
+	}
 
 	public boolean isAdjacentForShoot(Position position, double radius){
 		return isAdjacent(position.getX(), position.getY(), radius);
