@@ -66,66 +66,6 @@ public class WormTest {
 	@After
 	public void tearDown() throws Exception {
 	}
-
-//	@Test
-//	public void test_Constructor_SingleCase(){
-//		Worm testWorm = new Worm(world,6.0,6.0,3*Math.PI/2,1.0,"Test");
-//		assertEquals(5.0, testWorm.getPositionX(),EPS);
-//		assertEquals(5.0, testWorm.getPositionY(),EPS);
-//		assertEquals(3*Math.PI/2, testWorm.getDirection(),EPS);
-//		assertEquals(1.0, testWorm.getRadius(),EPS);
-//		assertEquals("Test", testWorm.getName());
-//	}
-	
-//	@Test
-//	public void test_setPositionX_NormalCase(){
-//		testWorm.setPositionX(5);
-//		assertEquals(5,testWorm.getPositionX(),EPS);	
-//	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-//	@Test(expected = IllegalArgumentException.class)
-//	public void test_setPositionY_ArgumentException() {
-//		Worm worm = new Worm(world,0,0,0,1,"Test",null);
-//		worm.setPosition(Double.NaN,0);
-//	}
 	
 	@Test(expected = IllegalArgumentException.class)
 	public void test_setPositionX_ArgumentException() {
@@ -255,13 +195,6 @@ public class WormTest {
 		assertEquals(2000,worm.getActionPoints(),EPS);
 	}
 	
-//	@Test
-//	public void test_setActionPoints_NegativeCase() {
-//		Worm worm = new Worm(world,0, 0, 0, 1, "Test");
-//		worm.setActionPoints(-1000);
-//		assertEquals(0,worm.getActionPoints(),EPS);
-//	}
-	
 	@Test
 	public void test_setActionPoints_TooMany() {
 		Worm worm = new Worm(world,0, 0, 0, 1, "Test",null);
@@ -288,11 +221,6 @@ public class WormTest {
 		worm.setName("test");
 	}
 	
-//	@Test(expected = IllegalArgumentException.class)
-//	public void test_setName_NonAlphabeticCharacter() {
-//		Worm worm = new Worm(world,0,0,0,1,"Test");
-//		worm.setName("Test!");
-//	}
 	
 	@Test
 	public void isValidName_TrueCase(){
@@ -309,10 +237,6 @@ public class WormTest {
 		assertFalse(Worm.isValidName("test"));
 	}
 	
-//	@Test
-//	public void isValidName_FalseCase_InvalidCharacter(){
-//		assertFalse(Worm.isValidName("Test="));
-//	}
 	
 	@Test
 	public void test_turn_NormalCase() {
@@ -353,76 +277,27 @@ public class WormTest {
 		assertTrue(worm.canTurn(-Math.PI));
 	}
 	
-	
-//	@Test
-//	public void test_move() {
-//		Worm worm = new Worm(world,0, 0, 0, 1, "Test");
-//		worm.move();
-//		assertEquals(1,worm.getPositionX(),EPS);
-//		assertEquals(0,worm.getPositionY(),EPS);
-//		assertEquals(4444,worm.getActionPoints());
-//	}
-	
-//	@Test(expected = IllegalStateException.class)
-//	public void test_move_tooMuchSteps() {
-//		Worm worm = new Worm(0,0,0,1,"Test");
-//		worm.move(10000);
-//	}
-	
-//	@Test(expected = IllegalArgumentException.class)
-//	public void test_move_NegativeStepts() {
-//		Worm worm = new Worm(0,0,0,1,"Test");
-//		worm.move(-5);
-//	}
-	
-	
-//	@Test
-//	public void test_canMove_FalseCase() {
-//		Worm worm = new Worm(0, 0, 0, 1, "Test");
-//		worm.setActionPoints(0);
-//		assertTrue(worm.canMove(0));
-//	}
-	
-	
-//	@Test
-//	public void test_jump() {
-//		Worm worm = new Worm(world,0, 0, Math.PI/3, 1, "Test");
-//		worm.jump();
-//		assertEquals(4.83983922184745,worm.getPositionX(),EPS);
-//		assertEquals(0.0,worm.getPositionY(),EPS);
-//		assertEquals(0.0,worm.getActionPoints(),EPS);
-//	}
-	
-//	@Test(expected = IllegalStateException.class)
-//	public void test_jump_FacingDown() {
-//		Worm worm = new Worm(world,0,4.0,1.5*Math.PI,1,"Test");
-//		worm.jump();
-//	}
-	
 	@Test
-	public void test_canJump_TrueCase() {
-		Worm worm = new Worm(world,0,4.0,Math.PI*1.5,1, "Test",null);
-		assertTrue(worm.canJump());
+	public void test_setHitPoints() {
+		Worm worm = new Worm(world,0, 0, 0, 1, "Test",null);
+		assertEquals(worm.getHitPoints(), 4448, EPS);
+		worm.setHitPoints(4000);
+		assertEquals(worm.getHitPoints(), 4000, EPS);
+		worm.setHitPoints(6000);
+		assertEquals(worm.getHitPoints(), 4448, EPS);
+		worm.setHitPoints(-10);
+		assertTrue(worm.isTerminated());
 	}
 	
-//	@Test
-//	public void test_canJump_FalseCase_NoActionPoints() {
-//		Worm worm = new Worm(world,0,4.0, 0, 1, "Test",null);
-//		worm.setActionPoints(0);
-//		assertFalse(worm.canJump());
-//	}
-	
-	
-//	@Test
-//	public void test_getJumpTime() {
-//		Worm worm = new Worm(world,0, 4.00, Math.PI/3, 1, "Test");
-//		assertEquals(1.3075263238687838,worm.getJumpTime(0.001),EPS);
-//	}
-	
-	
-	
-	
-	
+	@Test
+	public void test_getIndexActiveWeapon() {
+		Worm worm = new Worm(world,0, 0, 0, 1, "Test",null);
+		assertEquals(worm.getIndexActiveWeapon(), 0);
+		worm.selectNextWeapon();
+		assertEquals(worm.getIndexActiveWeapon(), 1);
+		worm.selectNextWeapon();
+		assertEquals(worm.getIndexActiveWeapon(), 0);
+	}
 	
 
 }
