@@ -102,7 +102,7 @@ public class Program {
 	private boolean isCorrupted;
 	
 	public boolean isWellFormed(){
-		return mainStatement.isWellFormed();
+		return getMainStatement().isWellFormed();
 	}
 	
 	
@@ -116,7 +116,18 @@ public class Program {
 			this.getWorld().startNextTurn();
 			//Exceptions catchen!!
 			//Je moet hier niet checken of je worm al geterminated is, want die worm komt niet aan de beurt.
-		mainStatement.execute(this);
+		try{
+		getMainStatement().execute(this);
+		}
+		catch(NullPointerException exc){
+			this.setIsCorrupted(true);
+		}
+		catch(IllegalStateException exc){
+			this.setIsCorrupted(true);
+		}
+		catch(IllegalArgumentException exc){
+			this.setIsCorrupted(true);
+		}
 		this.resetAmountOfStatementsExecuted();
 		this.getWorld().startNextTurn();
 	}
