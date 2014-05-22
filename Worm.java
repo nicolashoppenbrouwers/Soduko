@@ -1051,7 +1051,7 @@ public class Worm extends MovableGameObject{
 	 */
 	@Override
 	public boolean canJump(){
-		return !( Util.fuzzyEquals(this.getActionPoints(), 0));
+		return (this.getActionPoints() > 0);
 	}
 	
 	
@@ -1081,7 +1081,6 @@ public class Worm extends MovableGameObject{
 				fallPositionYSoFar = fallPositionYSoFar - 0.01 * getRadius();
 				i++;
 				if (i == 10000){
-					System.out.println("a");
 					this.terminate();
 					break;
 				}

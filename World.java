@@ -364,12 +364,12 @@ public class World {
 		double lowestY= centerY - radius;
 		double highestY = centerY + radius; 
 		double y = lowestY;
-		System.out.println((int)Math.floor(lowestY/this.getPixelHeight()));
-		if (this.getPassableMap()[(int)Math.floor(lowestY/this.getPixelHeight())][(int)Math.floor(centerX/this.getPixelHeight())] == false)
+		double pixelHeight = this.getPixelHeight();
+		if (this.getPassableMap()[(int)Math.floor(lowestY/pixelHeight)][(int)Math.floor(centerX/this.getPixelHeight())] == false)
 			return false;
-		if (this.getPassableMap()[(int)Math.floor(highestY/this.getPixelHeight())][(int)Math.floor(centerX/this.getPixelHeight())] == false)
+		if (this.getPassableMap()[(int)Math.floor(highestY/this.getPixelHeight()-0.001)][(int)Math.floor(centerX/this.getPixelHeight())] == false)
 			return false;
-		while (y <= highestY) {
+		while (y < highestY-0.001) {
 			double lowestX = centerX - Math.sqrt(Math.pow(radius,2) - Math.pow( centerY - y , 2 ));
 			double highestX = centerX + Math.sqrt(Math.pow(radius,2) - Math.pow( centerY - y , 2 ));
 			if (Double.isNaN(lowestX))
@@ -498,11 +498,6 @@ public class World {
 		double randX = this.random.nextDouble()*this.getWidth();
 		double randY = this.random.nextDouble()*this.getHeight();
 		while (true) {
-/*			System.out.println(this.getWidth());
-			System.out.println(this.getHeight());
-			System.out.println(randX);
-			System.out.println(randY);
-			System.out.println(isAdjacent(randX,randY,radius));*/
 			if (this.isAdjacent(randX,randY,radius)) {
 				double[] randomStartPos = new double[]{randX,randY};
 				return randomStartPos;

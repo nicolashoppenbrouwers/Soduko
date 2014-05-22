@@ -58,7 +58,7 @@ public class WormTest {
 	@Before
 	public void setup() {
 		world = new World(4.0, 4.0, passableMap, random);
-		testWorm = new Worm(world, 0, 2, 0, 1, "Test");
+		testWorm = new Worm(world, 0, 2, 0, 1, "Test",null);
 	}
 	/**
 	 * @throws java.lang.Exception
@@ -82,53 +82,99 @@ public class WormTest {
 //		testWorm.setPositionX(5);
 //		assertEquals(5,testWorm.getPositionX(),EPS);	
 //	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+//	@Test(expected = IllegalArgumentException.class)
+//	public void test_setPositionY_ArgumentException() {
+//		Worm worm = new Worm(world,0,0,0,1,"Test",null);
+//		worm.setPosition(Double.NaN,0);
+//	}
+	
 	@Test(expected = IllegalArgumentException.class)
 	public void test_setPositionX_ArgumentException() {
-		Worm worm = new Worm(world,0,0,0,1,"Test");
-		worm.setPositionX(Double.NaN);
+		Worm worm = new Worm(world,0,0,0,1,"Test",null);
+		worm.setPosition(Double.NaN,0);
 	}
 	
 	@Test
 	public void test_isValidPosition_TrueCase(){
-		assertTrue(testWorm.isValidPosition(5));
+		assertTrue(Position.isValidPosition(5));
 	}
 	
 	@Test
 	public void test_isValidPosition_FalseCase(){
-		assertFalse(testWorm.isValidPosition(Double.NaN));
+		assertFalse(Position.isValidPosition(Double.NaN));
 	}
 	
 	@Test
-	public void test_setPositionY_NormalCase(){
-		Worm worm = new Worm(world,0,0,0,1,"Test");
-		worm.setPositionY(3);
-		assertEquals(3,worm.getPositionY(),EPS);
+	public void test_setPosition_NormalCase(){
+		Worm worm = new Worm(world,0,0,0,1,"Test",null);
+		worm.setPosition(2,3);
+		assertEquals(worm.getPosition().getX(),2,EPS);
+		assertEquals(worm.getPosition().getY(),3,EPS);
 	}
 	
 	@Test(expected = IllegalArgumentException.class)
-	public void test_setPositionY_ArgumentException() {
-		Worm worm = new Worm(world,0,0,0,1,"Test");
-		worm.setPositionY(Double.NaN);
+	public void test_setPosition_ArgumentException() {
+		Worm worm = new Worm(world,0,0,0,1,"Test",null);
+		worm.setPosition(Double.NaN,0);
 	}
 	
 	
 	@Test
 	public void test_setDirection_NormalCase(){
-		Worm worm = new Worm(world,0,0,0,1,"Test");
+		Worm worm = new Worm(world,0,0,0,1,"Test",null);
 		worm.setDirection(Math.PI);
 		assertEquals(Math.PI,worm.getDirection(),EPS);
 	}
 	
 	@Test
 	public void test_setDirection_DirectionTooLarge(){
-		Worm worm = new Worm(world,0,0,0,1,"Test");
+		Worm worm = new Worm(world,0,0,0,1,"Test",null);
 		worm.setDirection(9*Math.PI);
 		assertEquals(Math.PI,worm.getDirection(),EPS);
 	}
 	
 	@Test
 	public void test_setDirection_DirectionTooSmall(){
-		Worm worm = new Worm(world,0,0,0,1,"Test");
+		Worm worm = new Worm(world,0,0,0,1,"Test",null);
 		worm.setDirection(-3.5*Math.PI);
 		assertEquals(Math.PI/2,worm.getDirection(),EPS);
 	}
@@ -145,7 +191,7 @@ public class WormTest {
 	
 	@Test
 	public void test_setRadius_NormalCase() {
-		Worm worm = new Worm(world,0, 0, 0, 1, "Test");
+		Worm worm = new Worm(world,0, 0, 0, 1, "Test",null);
 		worm.setRadius(0.25);
 		assertEquals(0.25,worm.getRadius(),EPS);
 		assertEquals(70, worm.getMaximumActionPoints());
@@ -153,13 +199,13 @@ public class WormTest {
 	
 	@Test(expected = IllegalArgumentException.class)
 	public void test_setRadius_RadiusTooSmall() {
-		Worm worm = new Worm(world,0,0,0,1,"Test");
+		Worm worm = new Worm(world,0,0,0,1,"Test",null);
 		worm.setRadius(0.2);
 	}
 	
 	@Test(expected = IllegalArgumentException.class)
 	public void test_setRadius_IllegalArgument() {
-		Worm worm = new Worm(world,0,0,0,1,"Test");
+		Worm worm = new Worm(world,0,0,0,1,"Test",null);
 		worm.setRadius(Double.NaN);
 	}
 	
@@ -186,25 +232,25 @@ public class WormTest {
 	
 	@Test
 	public void test_getMass_SingleCase() {
-		Worm worm = new Worm(world,0, 0, 0, 1, "Test");
+		Worm worm = new Worm(world,0, 0, 0, 1, "Test",null);
 		assertEquals(4448.495197483147,worm.getMass(),EPS);
 	}
 	
 	@Test
 	public void test_getMaximumActionPoints_NormalCase() {
-		Worm worm = new Worm(world,0, 0, 0, 1, "Test");
+		Worm worm = new Worm(world,0, 0, 0, 1, "Test",null);
 		assertEquals(4448,worm.getMaximumActionPoints(),EPS);
 	}
 	
 	@Test
 	public void test_getActionPoints_NormalCase() {
-		Worm worm = new Worm(world,0, 0, 0, 1, "Test");
+		Worm worm = new Worm(world,0, 0, 0, 1, "Test",null);
 		assertEquals(4448,worm.getActionPoints(),EPS);
 	}
 	
 	@Test
 	public void test_setActionPoints_NormalCase() {
-		Worm worm = new Worm(world,0, 0, 0, 1, "Test");
+		Worm worm = new Worm(world,0, 0, 0, 1, "Test",null);
 		worm.setActionPoints(2000);
 		assertEquals(2000,worm.getActionPoints(),EPS);
 	}
@@ -218,27 +264,27 @@ public class WormTest {
 	
 	@Test
 	public void test_setActionPoints_TooMany() {
-		Worm worm = new Worm(world,0, 0, 0, 1, "Test");
+		Worm worm = new Worm(world,0, 0, 0, 1, "Test",null);
 		worm.setActionPoints(6000);
 		assertEquals(4448,worm.getActionPoints(),EPS);
 	}
 	
 	@Test
 	public void test_setName_NormalCase() {
-		Worm worm = new Worm(world,0, 0, 0, 1, "Test");
+		Worm worm = new Worm(world,0, 0, 0, 1, "Test",null);
 		worm.setName("TestNaam");
 		assertEquals("TestNaam",worm.getName());
 	}
 	
 	@Test(expected = IllegalArgumentException.class)
 	public void test_setName_NameTooShort() {
-		Worm worm = new Worm(world,0,0,0,1,"Test");
+		Worm worm = new Worm(world,0,0,0,1,"Test",null);
 		worm.setName("T");
 	}
 	
 	@Test(expected = IllegalArgumentException.class)
 	public void test_setName_LowerCaseLetter() {
-		Worm worm = new Worm(world,0,0,0,1,"Test");
+		Worm worm = new Worm(world,0,0,0,1,"Test",null);
 		worm.setName("test");
 	}
 	
@@ -265,45 +311,45 @@ public class WormTest {
 	
 //	@Test
 //	public void isValidName_FalseCase_InvalidCharacter(){
-//		assertFalse(Worm.isValidName("Test*"));
+//		assertFalse(Worm.isValidName("Test="));
 //	}
 	
 	@Test
 	public void test_turn_NormalCase() {
-		Worm worm = new Worm(world,0, 0, 0, 1, "Test");
+		Worm worm = new Worm(world,0, 0, 0, 1, "Test",null);
 		worm.turn(Math.PI);
 		assertEquals(Math.PI,worm.getDirection(),EPS);
 	}
 	
 	@Test
 	public void test_turn_AngleTooBig() {
-		Worm worm = new Worm(world,0, 0, 4*Math.PI, 1, "Test");
+		Worm worm = new Worm(world,0, 0, 4*Math.PI, 1, "Test",null);
 		worm.turn(7*Math.PI);
 		assertEquals(Math.PI,worm.getDirection(),EPS);
 	}
 	
 	@Test
 	public void test_turn_AngleNegative() {
-		Worm worm = new Worm(world,0, 0, 0, 1, "Test");
+		Worm worm = new Worm(world,0, 0, 0, 1, "Test",null);
 		worm.turn(-3*Math.PI/2);
 		assertEquals(Math.PI/2,worm.getDirection(),EPS);
 	}
 	
 	@Test
 	public void test_canTurn_TrueCase() {
-		Worm worm = new Worm(world,0, 0, 0, 1, "Test");
+		Worm worm = new Worm(world,0, 0, 0, 1, "Test",null);
 		assertTrue(worm.canTurn(Math.PI));
 	}
 	
 	@Test
 	public void test_canTurn_FalseCase_AngleTooBig() {
-		Worm worm = new Worm(world,0, 0, 0, 1, "Test");
+		Worm worm = new Worm(world,0, 0, 0, 1, "Test",null);
 		assertFalse(worm.canTurn(1000*Math.PI));
 	}
 	
 	@Test
 	public void test_canTurn_TrueCase_Negative() {
-		Worm worm = new Worm(world,0, 0, 0, 1, "Test");
+		Worm worm = new Worm(world,0, 0, 0, 1, "Test",null);
 		assertTrue(worm.canTurn(-Math.PI));
 	}
 	
@@ -329,11 +375,6 @@ public class WormTest {
 //		worm.move(-5);
 //	}
 	
-	@Test
-	public void test_canMove_TrueCase() {
-		Worm worm = new Worm(world,0, 0, 0, 1, "Test");
-		assertTrue(worm.canMove());
-	}
 	
 //	@Test
 //	public void test_canMove_FalseCase() {
@@ -360,22 +401,17 @@ public class WormTest {
 	
 	@Test
 	public void test_canJump_TrueCase() {
-		Worm worm = new Worm(world,0,4.0,Math.PI*1.5,1, "Test");
+		Worm worm = new Worm(world,0,4.0,Math.PI*1.5,1, "Test",null);
 		assertTrue(worm.canJump());
 	}
 	
 //	@Test
 //	public void test_canJump_FalseCase_NoActionPoints() {
-//		Worm worm = new Worm(world,0,4.0, 0, 1, "Test");
+//		Worm worm = new Worm(world,0,4.0, 0, 1, "Test",null);
 //		worm.setActionPoints(0);
 //		assertFalse(worm.canJump());
 //	}
 	
-//	@Test
-//	public void test_canJump_FacingDown() {
-//		Worm worm = new Worm(world,0,4.0, 1.5*Math.PI, 1, "Test");
-//		assertFalse(worm.canJump());
-//	}
 	
 //	@Test
 //	public void test_getJumpTime() {
