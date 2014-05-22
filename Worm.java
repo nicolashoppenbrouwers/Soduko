@@ -53,6 +53,7 @@ import java.util.Set;
  */
 public class Worm extends MovableGameObject{
 	
+	// NOG DOEN
 	/**
 	 * Initialize this new worm with given position, direction, radius and name.
 	 * 
@@ -104,7 +105,8 @@ public class Worm extends MovableGameObject{
 	
 	
 	
-	
+	//NOG DOEN
+
 	/**
 	 * Check whether this worm is terminated.
 	 * @result 	True if and only if the worm's hitpoints are zero or the worm has no world.
@@ -186,20 +188,28 @@ public class Worm extends MovableGameObject{
 
 	
 
-	//DEZE FUNCTIE IS VOLGENS MIJ NIET MEER BASIC.
+	 // IN ORDE.
 	/**
 	 * Sets the radius of this worm to the given value.
+	 * 
+	 * @param	radius
+	 * 			The new radius of this worm
+	 * @post	The new radius of this worm is equal to the given radius.
+	 * 			| new.getRadius() == radius
+	 * @effect	The maximum action and hit points are changed accordingly.
+	 * 			| setMaximumActionPoints()
+	 * 			| 	&& setMaximumHitPoints()
+	 * @throws	IllegalArgumentException
+	 * 			The radius is an invalid radius for this GameObject.
+	 * 			| (!isValidRadius(radius))
 	 */
-	@Basic @Override
+	@Override
 	public void setRadius(double radius) throws IllegalArgumentException{
-		// OUDE CODE:		
-		//		if (!isValidRadius(radius))
-		//			throw new IllegalArgumentException("Non effective radius!"); 
-		//		this.radius = radius;
 		super.setRadius(radius);
 		this.setMaximumActionPoints();
 		this.setMaximumHitPoints();
 	}
+		
 	
 	/**
 	 * Returns the minimal radius of this worm.
@@ -222,12 +232,13 @@ public class Worm extends MovableGameObject{
 	
 	
 	
+	// IN ORDE.
 	/**
 	 * Returns the mass of this worm.
 	 * 
 	 * @return	The mass of this worm, calculated with following formula:
 	 * 			mass = density * 4/3 * Pi * radius^3
-	 * 			| result = density * 4.0/3.0 * Math.PI * Math.pow(this.getRadius(),3)
+	 * 			| result == density * 4.0/3.0 * Math.PI * Math.pow(this.getRadius(),3)
 	 */
 	@Override
 	public double getMass(){
@@ -235,7 +246,7 @@ public class Worm extends MovableGameObject{
 		return mass;
 	}
 	
-	@Override
+	@Override @Immutable
 	public double getDensity(){
 		return density;
 	}
@@ -254,6 +265,7 @@ public class Worm extends MovableGameObject{
 	
 	
 	
+	//IN ORDE
 	/**
 	 * Returns the maximum number of action points of this worm.
 	 */
@@ -265,11 +277,9 @@ public class Worm extends MovableGameObject{
 	/**
 	 * Sets the maximum number of action points of this worm to the mass of this worm, rounded to the nearest integer.
 	 */
-	//NIET MEER BASIC. DOCUMENTATIE.
-	//@Basic
+	@Basic
 	public void setMaximumActionPoints(){
-		this.maximumActionPoints = (int)Math.round(getMass());
-		//this.setActionPoints(this.getActionPoints());
+		this.maximumActionPoints = (int) Math.round(getMass());
 	}
 	
 	/**
@@ -279,6 +289,11 @@ public class Worm extends MovableGameObject{
 	
 	
 	
+	
+	
+	
+	
+	// IN ORDE.
 	/**
 	 * Returns the current number of action points of this worm.
 	 */
@@ -289,20 +304,31 @@ public class Worm extends MovableGameObject{
 	
 	/**
 	 * Sets the current number of action points of this worm to the given value.
+	 * 
+	 * @param	actionPoints
+	 * 			The new amount of action points of this worm.
+	 * @post	If the given amount of action points is larger than the maximum amount of action points of this worm,
+	 * 			the new amount of action points of this worm is equal to the maximum amount of action points of this worm.
+	 *			| if (actionPoints > this.getMaximumActionPoints())
+	 * 			|   new.getActionPoints() == this.getMaximumActionPoints()
+	 * @post	If the given amount of action points is smaller than or equal to zero, 
+	 * 			the new amount of action points of this worm is equal to zero, and the next turn is started.
+	 * 			| else if (actionPoints <= 0)
+	 * 			| 	new.getActionPoints() == 0
+	 * 			| 	this.getWorld().startNextTurn()
+	 * @post	Otherwise, the new amount of action points of this worm is equal to the given amount of action points.
+	 * 			| else
+	 * 			|	new.getActionPoints() == actionPoints
 	 */
-	@Basic
-	//NIET BASIC VOLGENS MIJ.
 	public void setActionPoints(int actionPoints){
-		if (actionPoints > this.getMaximumActionPoints()){
+		if (actionPoints > this.getMaximumActionPoints())
 			this.actionPoints = this.getMaximumActionPoints();
-		}
 		else if (actionPoints <= 0){
 			this.actionPoints = 0;
 			this.getWorld().startNextTurn();
 		}
-		else{
+		else
 			this.actionPoints = actionPoints;
-		}
 	}
 	
 	/**
@@ -314,9 +340,39 @@ public class Worm extends MovableGameObject{
 	
 	
 	
+	// IN ORDE
+	/**
+	 * Returns the maximum number of hit points of this worm.
+	 */
+	@Basic
+	public int getMaximumHitPoints(){
+		return this.maximumHitPoints;
+	}
+	
+	/**
+	 * Sets the maximum number of hit points of this worm to the mass of this worm, rounded to the nearest integer.
+	 */
+	@Basic
+	public void setMaximumHitPoints(){
+		this.maximumHitPoints = (int)Math.round(getMass());
+	}
+	
+	/**
+	 * Variable registering the maximum number of hit points of this worm.
+	 */
+	private int maximumHitPoints;
 	
 	
 	
+	
+	
+	
+	
+	
+	
+	
+	
+	// IN ORDE
 	/**
 	 * Returns the current number of hit points of this worm.
 	 */
@@ -327,9 +383,22 @@ public class Worm extends MovableGameObject{
 	
 	/**
 	 * Sets the current number of hit points of this worm to the given value.
+	 * 
+	 * @param	hitPoints
+	 * 			The new amount of hit points for this worm.
+	 * @post	If the given amount of hit points is larger than the maximum amount of hit points of this worm,
+	 * 			the new amount of hit points of this worm is equal to the maximum amount of action points of this worm.
+	 *			| if (hitPoints > this.getMaximumHitPoints())
+	 * 			|   new.getHitPoints() == this.getMaximumHitPoints()
+	 * @effect	If the given amount of hit points is smaller than or equal to zero, 
+	 * 			this worm is terminated.
+	 * 			| else if (actionPoints <= 0)
+	 * 			| 	this.isTerminated() == true
+	 * @post	Otherwise, the new amount of hit points of this worm is equal to the given amount of hit points.
+	 * 			| else
+	 * 			|	new.getActionPoints() == actionPoints
+	 * 
 	 */
-	@Basic
-	//NIET BASIC VOLGENS MIJ.
 	public void setHitPoints(int hitPoints){
 		if (hitPoints > this.getMaximumHitPoints()){
 			this.hitPoints = this.getMaximumHitPoints();
@@ -347,38 +416,7 @@ public class Worm extends MovableGameObject{
 	 */
 	private int hitPoints;
 	
-	/**
-	 * Returns the maximum number of hit points of this worm.
-	 */
-	@Basic
-	public int getMaximumHitPoints(){
-		return this.maximumHitPoints;
-	}
 	
-	/**
-	 * Sets the maximum number of hit points of this worm to the mass of this worm, rounded to the nearest integer.
-	 */
-	@Basic
-	public void setMaximumHitPoints(){
-		this.maximumHitPoints = (int)Math.round(getMass());
-		//this.setHitPoints(this.getHitPoints());
-	}
-	
-	/**
-	 * Variable registering the maximum number of hit points of this worm.
-	 */
-	private int maximumHitPoints;
-		
-		
-		
-		
-		
-	
-	
-	
-
-	
-
 	
 	
 	
@@ -387,8 +425,17 @@ public class Worm extends MovableGameObject{
 	
 	
 
+		
+		
+		
+		
 	
 	
+	
+	
+
+	
+	// IN ORDE
 	/**
 	 * Returns the current name of this worm.
 	 */
@@ -399,8 +446,16 @@ public class Worm extends MovableGameObject{
 	
 	/**
 	 * Sets the name of this worm to the given string.
+	 * 
+	 * @param	name
+	 * 			The new name for this worm.
+	 * @post	If the given name is a valid name for a worm,
+	 * 			the new name of this worm is equal to the given name.
+	 * 			| new.getName() == name
+	 * @throws	IllegalArgumentException
+	 * 			The given name is an invalid name for a worm.
+	 * 			| (!isValidName(name))
 	 */
-	@Basic
 	public void setName(String name) throws IllegalArgumentException{
 		if (!isValidName(name))
 			throw new IllegalArgumentException("Invalid name!");
@@ -412,30 +467,18 @@ public class Worm extends MovableGameObject{
 	 */
 	private String name;
 	
-	public static String getRandomName(){
-		int randomIndex = (int) Math.floor(Math.random() *randomWormNames.length);
-		return randomWormNames[randomIndex];
-	}
-	
-	//Zijn er nog andere variabele ndie ook static zijn?
-	//Nog aanvullen
-	private final static String[] randomWormNames = { "Bram", "Nicolas", "Erik", "Professor Steegmans", "Professor Vandewalle", 
-		"Professor Creemers", "Rector Torfs", "Professor Vander Sloten", "Professor Vandepitte", 
-		"Professor Dutree", "Professor Rijmen", "Professor Beernaert", "Professor Rummens", "Professor Baelmans",
-		"Professor Houssa", "Professor Verlinden", "Professor Blanpain", "Professor Dehaene", "Professor Smet",
-		"Professor Meerbergen", "Professor Roose", "Professor Nauwelaers", "Professor Dhaene", "Professor De Laet",
-		"Professor Preneel", "Professor Berendt", "Professor Van Leeuwen", "Voormalig Rector Waes", "Voormalig Rector Vervenne"};
 	
 	/**
 	 * Checks whether the given string is a valid name for any worm.
+	 * 
 	 * @param 	name
 	 * 			The name which has to be checked. 
 	 * @return	True if and only if the worm's name meets the following requirements
-	 * 			1) at least two characters long
-	 * 			2) start with an uppercase letter
-	 * 			3) only use letters, spaces, quotes (both single and double), and numbers
-	 * 			| (name.length() < 2)
-	 * 			|  	&& (Character.isLetter(name.charAt(0))) || !(Character.isUpperCase(name.charAt(0)))
+	 * 			1) It is at least two characters long
+	 * 			2) It starts with an uppercase letter
+	 * 			3) It only uses letters, spaces, quotes (both single and double), and numbers
+	 * 			| (name.length() > 2)
+	 * 			|  	&& (Character.isLetter(name.charAt(0))) || (Character.isUpperCase(name.charAt(0)))
 	 * 			|  	&& (containsValidCharacters(name))
 	 */
 	public static boolean isValidName(String name){
@@ -448,15 +491,18 @@ public class Worm extends MovableGameObject{
 		return true;
 	}
 	
-	
-	//DOCUMENTATIE INCORRECT.
+
+
 	/**
 	 * Checks whether the given string contains valid characters
 	 * @param 	name
 	 * 			The name to check.
-	 * @return	True if and only if the given name contains only letters, spaces or quotes (single and double)
-	 * 			| for c in name
-	 * 			| 		((Character.isLetter(c)) || (c.isSpaceOrQuote()) || (c.isDigit()))
+	 * @return	True if and only if the given name contains only letters, spaces or quotes (single and double).
+	 * 			| validCharacters = { '"', '\'', ' '}
+	 * 			| for (char c: name){
+	 * 			|	if ((Character.isLetter(c)) || (validCharacters.contains(c)) || (c.isDigit()))
+	 * 			| 		result == true}
+	 * 			| result == false
 	 */
 	public static boolean containsValidCharacters(String name){
 		Set<Character> validCharacters = new HashSet<>();
@@ -473,12 +519,38 @@ public class Worm extends MovableGameObject{
 	    return false;
 	    }
 	
+	/**
+	 * Returns a random name of a professor of the KU Leuven, as an example name for a worm.
+	 * 
+	 * @return 	A random name for a worm.
+	 * 			| randomIndex = (int) Math.floor(Math.random() * randomWormNames.length)
+	 * 			| result == randomWormNames[randomIndex]
+	 */
+	public static String getRandomName(){
+		int randomIndex = (int) Math.floor(Math.random() *randomWormNames.length);
+		return randomWormNames[randomIndex];
+	}
+	
+	/**
+	 * A list of random names as examples for a worm.
+	 */
+	private final static String[] randomWormNames = { "Bram", "Nicolas", "Erik", "Professor Steegmans", "Professor Vandewalle", 
+		"Professor Creemers", "Rector Torfs", "Professor Vander Sloten", "Professor Vandepitte", 
+		"Professor Dutree", "Professor Rijmen", "Professor Beernaert", "Professor Rummens", "Professor Baelmans",
+		"Professor Houssa", "Professor Verlinden", "Professor Blanpain", "Professor Dehaene", "Professor Smet",
+		"Professor Meerbergen", "Professor Roose", "Professor Nauwelaers", "Professor Dhaene", "Professor De Laet",
+		"Professor Preneel", "Professor Berendt", "Professor Van Leeuwen", "Voormalig Rector Waes", "Voormalig Rector Vervenne"};
 	
 	
 	
 	
 	
 	
+	
+	
+	
+	
+	// DYNAMISCHE BINDING!!!
 	/**
 	 * Returns the current team of this worm.
 	 */

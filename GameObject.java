@@ -310,6 +310,7 @@ public abstract class GameObject {
 	
 
 	
+	//THROWS
 	/**
 	 * Checks whether the given position is close to a worm.
 	 * @param 	x
@@ -326,13 +327,13 @@ public abstract class GameObject {
 	 */
 	public boolean isCloseToWorm(double x,double y){
 		try{
-		for (Worm worm: this.getWorld().getWorms()) {
-			if (Math.pow(x - worm.getPosition().getX(), 2) + Math.pow(y - worm.getPosition().getY(), 2) <=
-					Math.pow(this.getRadius() + worm.getRadius(), 2)){
-				return true;
-			}
-		}		
-		return false;
+			for (Worm worm: this.getWorld().getWorms()) {
+				if (Math.pow(x - worm.getPosition().getX(), 2) + Math.pow(y - worm.getPosition().getY(), 2) <=
+						Math.pow(this.getRadius() + worm.getRadius(), 2)){
+					return true;
+				}
+			}		
+			return false;
 		}
 		catch (NullPointerException exc){
 			return false;
