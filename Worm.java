@@ -1033,11 +1033,7 @@ public class Worm extends MovableGameObject{
 	 */
 	@Override
 	public boolean canJump(){
-<<<<<<< HEAD
 		return (this.getActionPoints() > 0);
-=======
-		return !(Util.fuzzyEquals(this.getActionPoints(), 0));
->>>>>>> b6b6c18fae9e7b1ef16dda382b5d6ef013b10cf8
 	}
 	
 	
