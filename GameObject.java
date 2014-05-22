@@ -197,7 +197,7 @@ public abstract class GameObject {
 	
 
 	
-	// IN ORDE
+	// Documentatie setPosition
 	/**
 	 * Returns the current position of this GameObject.
 	 */
@@ -206,6 +206,9 @@ public abstract class GameObject {
 		return this.position;
 	}
 	
+	public void setPosition(Position position) throws IllegalArgumentException{
+		setPosition(position.getX(),position.getY());
+	}
 	
 	/**
 	 * Sets this GameObject's position to the given position.
@@ -355,6 +358,7 @@ public abstract class GameObject {
 	
 	//DOCUMENTATIE.
 	public boolean isCloseToFood(){
+		try{
 		for (Food food:this.getWorld().getFood()){
 			if (Math.pow(this.getPosition().getX() - food.getPosition().getX(), 2) + Math.pow(this.getPosition().getY() - food.getPosition().getY(), 2) <=
 					Math.pow(this.getRadius()+food.getRadius(), 2)){
@@ -362,6 +366,10 @@ public abstract class GameObject {
 			}
 		}
 		return false;
+		}
+		catch(NullPointerException exc){
+			return false;
+		}
 	}
 	
 	
