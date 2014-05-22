@@ -120,8 +120,13 @@ public class Facade implements IFacade {
 	public World createWorld(double width, double height,
 			boolean[][] passableMap, Random random){
 		
+		try{
 		World world = new World(width, height, passableMap, random);
 		return world;
+		}
+		catch(IllegalArgumentException Exc){
+			throw new ModelException("Invalid name");
+		}
 	}
 	
 
