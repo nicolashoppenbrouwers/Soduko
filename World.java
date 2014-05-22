@@ -172,6 +172,8 @@ public class World {
 	}
 	
 	public Team getCurrentTeam(){
+		if (this.getTeams().size() == 0)
+			return null;
 		return this.listOfTeams.get(this.getNbCurrentTeam());
 	}
 	
@@ -362,6 +364,7 @@ public class World {
 		double lowestY= centerY - radius;
 		double highestY = centerY + radius; 
 		double y = lowestY;
+		System.out.println((int)Math.floor(lowestY/this.getPixelHeight()));
 		if (this.getPassableMap()[(int)Math.floor(lowestY/this.getPixelHeight())][(int)Math.floor(centerX/this.getPixelHeight())] == false)
 			return false;
 		if (this.getPassableMap()[(int)Math.floor(highestY/this.getPixelHeight())][(int)Math.floor(centerX/this.getPixelHeight())] == false)
