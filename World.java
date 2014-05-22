@@ -504,15 +504,19 @@ public class World {
 			}			
 			else{
 				// + 15
-				randX = randX + 15 * this.getPixelWidth();
+				//randX = randX + 15 * this.getPixelWidth();
+				randX = randX + 0.1*radius;
 				if (randX >= this.getWidth() ){
 					// 0.01
-					randX = 0.01 * this.getWidth();
+//					randX = 0.01 * this.getWidth();
+					randX = 1.01*radius;
 					// 5
-					randY = randY + 5 * this.getPixelHeight();
+					//randY = randY + 5 * this.getPixelHeight();
+					randY = randY + 0.1*radius;
 					if (randY > this.getHeight())
 						//0.01
-						randY = 0.01 * this.getHeight();
+						//randY = 0.01 * this.getHeight();
+						randY = 1.01*radius;
 				}
 			}
 		}
