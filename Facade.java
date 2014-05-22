@@ -13,7 +13,11 @@ package worms.model;
 import java.util.*;
 
 import worms.gui.game.IActionHandler;
+import worms.model.program.expressions.Expression;
+import worms.model.program.statements.Statement;
+import worms.model.program.types.Type;
 import worms.model.programs.ParseOutcome;
+import worms.model.programs.ProgramParser;
 
 /**
  * A class for the facade of the worm.
@@ -550,6 +554,14 @@ public class Facade implements IFacade {
 	@Override
 	public ParseOutcome<?> parseProgram(String programText,
 			IActionHandler handler) {
+		ProgramParser<Expression,Statement,Type<?>> programParser = new ProgramParser<Expression,Statement,Type<?>>(new ProgramFactoryImpl());
+		programParser.parse(programText);
+		if (programParser.getErrors().isEmpty())
+			return ParseOutcome.failure(programParser.getErrors());
+		else{
+			Program program = new Program(null, programParser.getStatement(), programParser.getGlobals(), handler);
+			return ParseOutcome.success(program);
+		}
 		
 	}
 

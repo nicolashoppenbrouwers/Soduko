@@ -5,6 +5,8 @@ package worms.model;
 
 import java.util.*;
 
+import worms.util.Util;
+
 //Methoden:
 // DONE addEmptyTeam(World world, String newName)
 // DONE addNewFood(World world)
@@ -369,7 +371,11 @@ public class World {
 			return false;
 		if (this.getPassableMap()[(int)Math.floor(highestY/this.getPixelHeight()-0.001)][(int)Math.floor(centerX/this.getPixelHeight())] == false)
 			return false;
+<<<<<<< HEAD
 		while (y < highestY-0.001) {
+=======
+		while (Util.fuzzyLessThanOrEqualTo(y, highestY)) {
+>>>>>>> b6b6c18fae9e7b1ef16dda382b5d6ef013b10cf8
 			double lowestX = centerX - Math.sqrt(Math.pow(radius,2) - Math.pow( centerY - y , 2 ));
 			double highestX = centerX + Math.sqrt(Math.pow(radius,2) - Math.pow( centerY - y , 2 ));
 			if (Double.isNaN(lowestX))
@@ -381,7 +387,7 @@ public class World {
 			if (this.getPassableMap()[(int)Math.floor(y/this.getPixelHeight())][(int)Math.floor(highestX/this.getPixelHeight())] == false)
 				return false;	
 			// 10
-			y = y + radius /10;
+			y = y + radius / 10;
 		}
 		return true;
 		}
@@ -436,8 +442,25 @@ public class World {
 		}
 		return true; 
 	}
-
-
+	
+	public Position searchClosestAdjacentPosition(GameObject gameObject){
+		double angle = 0;
+		double distance = 0;
+		boolean adjacentPositionFound = false;
+		Position adjacentPosition = new Position(0,0);
+		while(!adjacentPositionFound){
+			while((angle < 2*Math.PI) && (!adjacentPositionFound)){
+				adjacentPosition.setX(gameObject.getPosition().getX()+distance*Math.cos(angle));
+				adjacentPosition.setY(gameObject.getPosition().getY()+distance*Math.sin(angle));
+				if (this.isAdjacentForShoot(adjacentPosition, gameObject.getRadius()))
+					adjacentPositionFound = true;
+				angle = angle + 0.1*Math.PI;
+			}
+			angle = 0;
+			distance = distance + 0.05*gameObject.getRadius();
+		}
+		return adjacentPosition;
+	}
 
 	public boolean isAdjacentForShoot(Position position, double radius){
 		return isAdjacent(position.getX(), position.getY(), radius);
@@ -506,7 +529,7 @@ public class World {
 				// + 15
 				//randX = randX + 15 * this.getPixelWidth();
 				randX = randX + 0.1*radius;
-				if (randX >= this.getWidth() ){
+				if (Util.fuzzyGreaterThanOrEqualTo(randX, this.getWidth()) ){
 					// 0.01
 //					randX = 0.01 * this.getWidth();
 					randX = 1.01*radius;
