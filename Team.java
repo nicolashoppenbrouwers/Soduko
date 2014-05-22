@@ -338,7 +338,7 @@ public class Team {
 	 */
 	@Basic
 	public Worm getCurrentWorm(){
-		if (this.listOfWorms.size() == 0)
+		if (this.getTeamMembers().size() == 0)
 			return null;
 		return this.listOfWorms.get(this.getNbCurrentWorm());
 	}

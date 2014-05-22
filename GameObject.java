@@ -316,6 +316,7 @@ public abstract class GameObject {
 	//THROWS
 	/**
 	 * Checks whether the given position is close to a worm.
+	 * 
 	 * @param 	x
 	 * 			The x-coordinate of the given position.
 	 * @param 	y
@@ -343,10 +344,22 @@ public abstract class GameObject {
 		}
 	}
 	
-	
-	//DOCUMENTATIE.
+	/**
+	 * Returns a worm that is nearby to the given position, if any.
+	 * 
+	 * @param	x
+	 * 			The x-coordinate of the position.
+	 * @param	y 
+	 * 			The y-coordinate of the position.
+	 * @return 	A worm that is nearby to the given position.
+	 * 			| for (Worm worm: this.getWorld().getWorms()){
+	 * 			|	if (Math.pow(x - worm.getPosition().getX(), 2) + Math.pow(y - worm.getPosition().getY(), 2) <
+	 *			|				Math.pow(this.getRadius()+worm.getRadius(), 2))
+	 * 			|		result == worm
+	 * 			| result == null
+	 */
 	public Worm getNearbyWorm(double x,double y){
-		for (Worm worm:this.getWorld().getWorms()){
+		for (Worm worm: this.getWorld().getWorms()){
 			if (Math.pow(x - worm.getPosition().getX(), 2) + Math.pow(y - worm.getPosition().getY(), 2) <
 					Math.pow(this.getRadius()+worm.getRadius(), 2)){
 				return worm;
@@ -355,8 +368,17 @@ public abstract class GameObject {
 		return null;
 	}
 	
-	
-	//DOCUMENTATIE.
+	/**
+	 * Checks whether this game object is close to a food.
+	 * 
+	 * @return	True if and only if this GameObject is close to a food.
+	 * 			| for (Food food: this.getWorld().getWorms()){
+	 * 			|	if (Math.pow(this.getPosition().getX() - food.getPosition().getX(), 2) + Math.pow(this.getPosition().getY() - food.getPosition().getY(), 2) <=
+	 * 			|			Math.pow(this.getRadius() + food.getRadius(), 2)){
+	 * 			| 		result == true;
+	 * 			|   }
+	 * 			| result == false
+	 */
 	public boolean isCloseToFood(){
 		try{
 		for (Food food:this.getWorld().getFood()){
@@ -372,10 +394,18 @@ public abstract class GameObject {
 		}
 	}
 	
-	
-	//DOCUMENTATIE.
+	/**
+	 * Returns a food that is nearby to this GameObject, if any.
+	 * 
+	 * @return 	A food that is nearby to the given position.
+	 * 			| for (Food food: this.getWorld().getWorms()){
+	 * 			|	if (Math.pow(this.getPosition().getX() - food.getPosition().getX(), 2) + Math.pow(this.getPosition().getY() - food.getPosition().getY(), 2) <
+	 *			|				Math.pow(this.getRadius()+food.getRadius(), 2)){
+	 * 			|		result == food
+	 * 			| result == null
+	 */ 
 	public Food getNearbyFood(){
-		for (Food food:this.getWorld().getFood()){
+		for (Food food: this.getWorld().getFood()){
 			if (Math.pow(this.getPosition().getX() - food.getPosition().getX(), 2) + Math.pow(this.getPosition().getY() - food.getPosition().getY(), 2) <
 					Math.pow(this.getRadius()+food.getRadius(), 2)){
 				return food;

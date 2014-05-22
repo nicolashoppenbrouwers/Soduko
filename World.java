@@ -5,6 +5,8 @@ package worms.model;
 
 import java.util.*;
 
+import worms.util.Util;
+
 //Methoden:
 // DONE addEmptyTeam(World world, String newName)
 // DONE addNewFood(World world)
@@ -366,7 +368,7 @@ public class World {
 			return false;
 		if (this.getPassableMap()[(int)Math.floor(highestY/this.getPixelHeight())][(int)Math.floor(centerX/this.getPixelHeight())] == false)
 			return false;
-		while (y <= highestY) {
+		while (Util.fuzzyLessThanOrEqualTo(y, highestY)) {
 			double lowestX = centerX - Math.sqrt(Math.pow(radius,2) - Math.pow( centerY - y , 2 ));
 			double highestX = centerX + Math.sqrt(Math.pow(radius,2) - Math.pow( centerY - y , 2 ));
 			if (Double.isNaN(lowestX))
@@ -508,7 +510,7 @@ public class World {
 				// + 15
 				//randX = randX + 15 * this.getPixelWidth();
 				randX = randX + 0.1*radius;
-				if (randX >= this.getWidth() ){
+				if (Util.fuzzyGreaterThanOrEqualTo(randX, this.getWidth()) ){
 					// 0.01
 //					randX = 0.01 * this.getWidth();
 					randX = 1.01*radius;

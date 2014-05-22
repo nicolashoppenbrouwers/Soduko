@@ -665,7 +665,7 @@ public class Worm extends MovableGameObject{
 	
 	
 	
-	
+	// IN ORDE
 	/**
 	 * Returns the current index of the active weapon of this worm.
 	 */
@@ -723,16 +723,22 @@ public class Worm extends MovableGameObject{
 	private final static String listOfWeapons[] = {"Bazooka", "Rifle"}; 
 
 	
-	
-	
-
-	
+	/**
+	 * Sets the index of the active weapon of this worm to the next weapon.
+	 * 
+	 * @effect	If the current active weapon is the last weapon in the list of weapons,
+	 * 			the new index of the active weapon of this worm is equal to zero.
+	 * 			| if (getIndexActiveWeapon() == listOfWeapons.length - 1)
+	 * 			|	new.getIndexActiveWeapon() == 0
+	 * 			Otherwise, the new index of the active weapon of this worm is equal to the current index + 1.
+	 * 			| else
+	 * 			|	new.getIndexActiveWeapon() == this.getActiveWeapon() + 1
+	 */
 	public void selectNextWeapon(){
 		if (getIndexActiveWeapon() == listOfWeapons.length - 1 )
 			setIndexActiveWeapon(0);
-		else {
+		else
 			setIndexActiveWeapon( getIndexActiveWeapon() + 1 );
-		}
 	}
 	
 	
@@ -770,7 +776,7 @@ public class Worm extends MovableGameObject{
 	
 	
 	
-	
+	//IN ORDE
 	/**
 	 * Turns this worm by the given angle.
 	 * 
@@ -779,10 +785,9 @@ public class Worm extends MovableGameObject{
 	 * @pre    	The current amount of action points of this worm should be higher than 
 	 * 			the amount of action points it costs to turn this worm over the given angle.
 	 *        	| canTurn(angle)
-	 *        //effect
-	 * @post 	The worm has turned over a certain angle.
+	 * @effect 	The worm has turned over the given angle.
 	 * 			| new.getDirection() == this.getDirection() + angle
-	 * @post	The amount of action points of this worm has been decreased with (Math.abs(angle)/(2*Math.PI))*60
+	 * @effect	The amount of action points of this worm has been decreased with (Math.abs(angle)/(2*Math.PI))*60
 	 *          | new.getActionPoints() == (int) Math.ceil(this.getActionPoints() - (Math.abs(angle)/(2*Math.PI))*60)
 	 */
 	public void turn(double angle){
@@ -794,13 +799,15 @@ public class Worm extends MovableGameObject{
 	
 	/**
 	 * Checks whether or not this worm can perform a worm by the given angle.
+	 * 
 	 * @param	angle
 	 * 			The angle for which must be checked if this worm can perform this turn.
 	 * @return 	True if and only if the worm has enough action points left to perform a turn by the given angle.
-				| (this.getActionPoints() - (angle/(2*Math.PI))*60 >= 0)
+				| result == (this.getActionPoints() - (angle/(2*Math.PI))*60 >= 0)
 	 */
+	//fuzzyEquals
 	public boolean canTurn(double angle){
-		return (this.getActionPoints() - (Math.abs(angle)/(2*Math.PI))*60) >= 0;
+		return (Util.fuzzyGreaterThanOrEqualTo((this.getActionPoints() - (Math.abs(angle)/(2*Math.PI))*60) , 0));
 	}
 	
 	
@@ -820,69 +827,30 @@ public class Worm extends MovableGameObject{
 	
 	
 	/**
-	 * Moves this worm by the given number of steps.
-	 * @param 	nbSteps
-	 * 			The amount of steps the worm should perform.
-	 * @post	This worm has moved by the given amount of steps.
-	 * 			| new.getPositionX() == this.getPositionX() + nbSteps * this.getRadius() * Math.cos(this.getDirection())
-	 * 			| new.getPositionY() == this.getPositionY() + nbSteps * this.getRadius() * Math.sin(this.getDirection())
-	 * @post	The amount of action points of this worm has been decreased with nbSteps*(|cos(theta)| + 4*|sin(theta)|
-	 * 			where theta is the direction of this worm.
-	 * 			| new.getActionPoints() == this.getActionPoints() 
-								- (int)Math.ceil( 	(Math.abs( Math.cos( this.getDirection() ) ) * nbSteps * this.getRadius()
-								+ 4 *Math.abs( Math.sin( this.getDirection() ) ) * nbSteps * this.getRadius())))
-	 * @throws 	IllegalArgumentException
-	 * 			The given number of steps is not possible.
-	 * 			| (nbSteps <= 0)
-	 * @throws	IllegalStateException
-	 * 			This worm does not have enough action points left to perform this move.
-	 * 			| (! canMove(nbSteps))
+	 * Moves this worm to the most optimal position nearby, if any.
 	 */
 	public void move() throws IllegalArgumentException, IllegalStateException {
 		try{
-		// OUD:
-//		if (!isValidAmountOfSteps(nbSteps))
-//		throw new IllegalArgumentException("The number of steps should be larger than zero!");
-//		this.setPositionX(this.getPositionX() + nbSteps * this.getRadius() * Math.cos(this.getDirection()));
-//		this.setPositionY(this.getPositionY() + nbSteps * this.getRadius() * Math.sin(this.getDirection()));
-//		if (!this.isTerminated()){
-//			this.setActionPoints(this.getActionPoints() 
-//					- (int)Math.ceil( 	(Math.abs( Math.cos( this.getDirection() ) ) * nbSteps * this.getRadius()
-//									+ 4 *Math.abs( Math.sin( this.getDirection() ) ) * nbSteps * this.getRadius())));
-//			this.Eat();
-//		}
-//		if (!canMove())
-//			throw new IllegalStateException("This worm does not have enough action points left to perform this move!");
-		double[] newPosition = findOptimalMovePosition();
-		this.setActionPoints(getActionPoints() - getMoveActionPointsCost(newPosition) );
-		
-		//OUD:setPositionX(newPosition[0]);
-		//OUD:setPositionY(newPosition[1]);
-		this.setPosition(newPosition[0],newPosition[1]);
-		if (! this.isTerminated())
-			this.fall();
-			this.Eat();
+			double[] newPosition = findOptimalMovePosition();
+			this.setActionPoints(getActionPoints() - getMoveActionPointsCost(newPosition) );
+			this.setPosition(newPosition[0],newPosition[1]);
+			if (! this.isTerminated())
+				this.fall();
+				this.Eat();
 		}
-		catch(NullPointerException exc){
+		catch (NullPointerException exc){
 		}
 	}
-			
-		// 1. POSITIE ZOEKEN
-		//		a) minimaliseren divergence
-		//		b) maximaliseren afstand
-		// 2. POSITIE VERZETTEN
-		// Als nog niet geterminated. 
-		// 3. ACTIONPOINTS VERZETTEN
-		// 4. ETEN
-		// Niet vergeten worm terminaten als hij buiten de wereld movet.
-		
 	
-	
-	public double[] findOptimalMovePosition(){
+	/**
+	 * Returns the most optimal position for this worm to move to. 
+	 * More specifically, the position that this worm can move to which maximizes the distance covered, while minimizing the divergence.
+	 */
+	private double[] findOptimalMovePosition(){
 		double[] optimalPosition = new double[] {this.getPosition().getX(), this.getPosition().getY()};
 		double optimalFactor = -1;
 		double divergence = -0.7875;
-		while (divergence <= 0.7875) {
+		while (Util.fuzzyLessThanOrEqualTo(divergence, 0.7875)) {
 			double[] positionSoFar = findPositionForGivenDirection(getDirection()+divergence,0.1*getRadius());
 			double distanceSoFar = this.getPosition().calculateDistance(positionSoFar[0],positionSoFar[1]);
 			/* Kleinste kwadraten optimalisatie. */
@@ -898,17 +866,18 @@ public class Worm extends MovableGameObject{
 		return optimalPosition;
 	}
 	
-	//Later in position klasse?
-	//private?
-	public double[] findPositionForGivenDirection(double direction, double stepSize){
+	/**
+	 * Returns the best position to move to for a given direction. 
+	 * That is, the most far-away position, that is less than this worm's radius away from this worm,
+	 * 	and that is still adjacent.
+	 */
+	private double[] findPositionForGivenDirection(double direction, double stepSize){
 		double[] positionFound = new double[] {getPosition().getX(),getPosition().getY()};		
 		double x = getPosition().getX();
 		double y = getPosition().getY();
-		// We are aware we calculate too many points. 
-		//--> OPTIMALISEREN. tussen 0 en 0.1 moet eiglk niet echt gecontroleerd worden, 
-		//dus als hier later nog een idee voor komt dan moet dit nog geïmplementeerd.
+		/* We are aware we calculate too many points. Tussen 0 en 1 moeten niet echt gecontroleerd worden -> optimaliserenv*/
 		double step = 0;
-		while (step <= getRadius() && getWorld().isPassable(x,y,getRadius())){
+		while (Util.fuzzyLessThanOrEqualTo(step,getRadius()) && getWorld().isPassable(x,y,getRadius())){
 			x = getPosition().getX() + step * Math.cos(direction);
 			y = getPosition().getY() + step * Math.sin(direction);
 			step += this.getRadius()*0.01;
@@ -925,35 +894,35 @@ public class Worm extends MovableGameObject{
 		}
 	}
 	
-	//DUMMY
+	/**
+	 * Returns the action points it costs to move this worm to the given position.
+	 * 
+	 * @param 	newPosition
+	 * 			The new position of this worm if it would perform this move.
+	 * @return	The amount of action points it costs to perform a move to the given position.
+	 * 			| distanceMoved = this.getPosition().calculateDistance(newPosition[0],newPosition[1])
+	 * 			| cost = Math.abs(distanceMoved * Math.cos(getDirection())) + Math.abs(4 * distanceMoved * Math.sin(getDirection()))
+	 * 			| result == (int) Math.ceil(cost)
+	 */
 	public int getMoveActionPointsCost(double[] newPosition){
 		double distanceMoved = this.getPosition().calculateDistance(newPosition[0],newPosition[1]);
 		double cost = Math.abs(distanceMoved * Math.cos(getDirection())) + Math.abs(4 * distanceMoved * Math.sin(getDirection()));
-		return (int)Math.ceil(cost);
+		return (int) Math.ceil(cost);
 	}
-	
-	//Misschien onnodig geworden.
-//	public boolean isValidAmountOfSteps(int nbSteps){
-//		return (nbSteps >= 0) && (! Double.isNaN(nbSteps));
-//	}
 	
 	
 	/**
 	 * Checks whether or not this worm can perform this move.
-	 * @param 	nbSteps
-	 * 			The amount of steps for which must be checked if this worm can perform this turn.
-	 * @return	True if and only if the worm has enough action points left to perform a move of the given number of steps.
+	 * 
+	 * @param 	position
+	 * 			The new position of this worm if it would perform this move.
+	 * @return	True if and only if the worm has enough action points left to perform a move to the given position.
 	 * 			| ((this.getActionPoints() 
 	 *			|		- (Math.abs(Math.cos(this.getDirection()))*nbSteps*this.getRadius()
      *					+ 4*Math.abs(Math.sin(this.getDirection()))*nbSteps*this.getRadius())) >= 0)
 	 */
-	//DUMMY!!!!
 	public boolean canMove(double[] position){
 		return (this.getActionPoints() >= getMoveActionPointsCost(position));
-		//OUD
-//		return (this.getActionPoints() 
-//				- (Math.abs(Math.cos(this.getDirection()))*nbSteps*this.getRadius()
-//						+4*Math.abs(Math.sin(this.getDirection()))*nbSteps*this.getRadius())) >= 0;
 	}
 	
 	//DOCUMENTATIE & METHODE
