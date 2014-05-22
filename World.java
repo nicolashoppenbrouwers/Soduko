@@ -436,7 +436,9 @@ public class World {
 
 
 
-	
+	public boolean isAdjacentForShoot(Position position, double radius){
+		return isAdjacentForShoot(position.getX(), position.getY(), radius);
+	}
 
 	
 	// 	boolean isAdjacent(World world, double x, double y, double radius);

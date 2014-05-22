@@ -838,6 +838,7 @@ public class Worm extends MovableGameObject{
 	 * 			| (! canMove(nbSteps))
 	 */
 	public void move() throws IllegalArgumentException, IllegalStateException {
+		try{
 		// OUD:
 //		if (!isValidAmountOfSteps(nbSteps))
 //		throw new IllegalArgumentException("The number of steps should be larger than zero!");
@@ -860,6 +861,9 @@ public class Worm extends MovableGameObject{
 		if (! this.isTerminated())
 			this.fall();
 			this.Eat();
+		}
+		catch(NullPointerException exc){
+		}
 	}
 			
 		// 1. POSITIE ZOEKEN
@@ -1022,6 +1026,7 @@ public class Worm extends MovableGameObject{
 				i++;
 				if (i == 10000){
 					System.out.println("a");
+					this.terminate();
 					break;
 				}
 				
@@ -1102,9 +1107,10 @@ public class Worm extends MovableGameObject{
 		//return (world.isPassableHalfCircleEdge(this.getPositionX(), this.getPositionY(), this.getRadius()));	
 		//Als je wel met je kop tegen het plafond mag hangen
 		//(this.getWorld().isAdjacent(this.getPositionX(), this.getPositionY(), this.getRadius()));
-		return ( (!isTerminated()) && 
-				(getWorld().isPassableRectangular(
-					getPosition().getX()-getRadius()/2.0,getPosition().getY(),getPosition().getX()+getRadius()/2.0, getPosition().getY()-getRadius()/2.0 - getWorld().getPixelHeight())));
+//		return ( (!isTerminated()) && 
+//				(getWorld().isPassableRectangular(
+//					getPosition().getX()-getRadius()/2.0,getPosition().getY(),getPosition().getX()+getRadius()/2.0, getPosition().getY()-getRadius()/2.0 - getWorld().getPixelHeight())));
+		return(!isTerminated() && this.getWorld().isPassableForShoot(this.getPosition().getX(), this.getPosition().getY(), this.getRadius()));
 
 	}
 	
@@ -1133,12 +1139,30 @@ public class Worm extends MovableGameObject{
 			this.getNearbyFood().terminate();
 			int formerMaximumHitPoints = this.getMaximumHitPoints();
 			this.setRadius(this.getRadius()*1.1);
+			this.searchClosestAdjacentPosition();
 			this.setHitPoints(this.getHitPoints() + this.getMaximumHitPoints() - formerMaximumHitPoints);
 		}
 		
 	}
 	
-
+	public void searchClosestAdjacentPosition(){
+		double angle = 0;
+		double distance = 0;
+		boolean adjacentPositionFound = false;
+		Position adjacentPosition = new Position(0,0);
+		while(!adjacentPositionFound){
+			while((angle < 2*Math.PI) && (!adjacentPositionFound)){
+				adjacentPosition.setX(this.getPosition().getX()+distance*Math.cos(angle));
+				adjacentPosition.setY(this.getPosition().getY()+distance*Math.sin(angle));
+				if (this.getWorld().isAdjacentForShoot(adjacentPosition, this.getRadius()))
+					adjacentPositionFound = true;
+				angle = angle + 0.1*Math.PI;
+			}
+			angle = 0;
+			distance = distance + 0.05*this.getRadius();
+		}
+		this.setPosition(adjacentPosition);
+	}
 	
 	
 	// void selectNextWeapon(Worm worm);
