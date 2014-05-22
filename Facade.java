@@ -324,7 +324,7 @@ public class Facade implements IFacade {
 	 * @return True if the given region is passable and adjacent to impassable terrain, false otherwise.
 	 */
 	public boolean isAdjacent(World world, double x, double y, double radius){
-		return world.isAdjacentForShoot(x, y, radius);
+		return world.isAdjacent(x, y, radius);
 	}
 
 	/**
@@ -354,7 +354,7 @@ public class Facade implements IFacade {
 	 * @return True if the given region is impassable, false otherwise.
 	 */
 	public boolean isImpassable(World world, double x, double y, double radius){
-		return world.isImpassableForShoot(x, y, radius);
+		return world.isImpassable(x, y, radius);
 	}
 
 	/**

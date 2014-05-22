@@ -355,7 +355,7 @@ public class World {
 //		return (! isPassable(x,y,radius) );
 //	}
 	
-	public boolean isPassableForShoot(double centerX, double centerYOmgekeerd, double radius){
+	public boolean isPassable(double centerX, double centerYOmgekeerd, double radius){
 		
 		try{
 		double centerY = this.getHeight()-centerYOmgekeerd;
@@ -388,8 +388,8 @@ public class World {
 		
 	}
 	
-	public boolean isImpassableForShoot(double centerX, double centerYOmgekeerd, double radius){
-		return (! isPassableForShoot(centerX,centerYOmgekeerd,radius));
+	public boolean isImpassable(double centerX, double centerYOmgekeerd, double radius){
+		return (! isPassable(centerX,centerYOmgekeerd,radius));
 	}
 
 
@@ -437,7 +437,7 @@ public class World {
 
 
 	public boolean isAdjacentForShoot(Position position, double radius){
-		return isAdjacentForShoot(position.getX(), position.getY(), radius);
+		return isAdjacent(position.getX(), position.getY(), radius);
 	}
 
 	
@@ -451,9 +451,9 @@ public class World {
 //			return false;
 //	}
 	
-	public boolean isAdjacentForShoot(double x, double y, double radius){
+	public boolean isAdjacent(double x, double y, double radius){
 		// Opmerking: Je chekt bij is Passable al een gebied van grootte radius. Bij isImpassable controleeer je dit gebied helemaal nog eens opnieuw.
-		if ((isPassableForShoot(x,y,radius)) && (!isPassableForShoot(x,y,1.1*radius))){
+		if ((isPassable(x,y,radius)) && (!isPassable(x,y,1.1*radius))){
 			return true;
 		}
 		else
@@ -500,7 +500,7 @@ public class World {
 			System.out.println(randX);
 			System.out.println(randY);
 			System.out.println(isAdjacent(randX,randY,radius));*/
-			if (this.isAdjacentForShoot(randX,randY,radius)) {
+			if (this.isAdjacent(randX,randY,radius)) {
 				double[] randomStartPos = new double[]{randX,randY};
 				return randomStartPos;
 			}			

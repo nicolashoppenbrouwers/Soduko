@@ -5,6 +5,7 @@ import worms.util.Util;
 
 import java.util.HashSet;
 import java.util.Set;
+// Te Doen: jump,jumptime
 // GEEN PROTECTED!!!!! overal nagaan!!!
 
 // Waarom private waarom public? 
@@ -105,7 +106,7 @@ public class Worm extends MovableGameObject{
 	
 	
 	
-	//NOG DOEN
+	//NOG DOEN jump, getjumptime
 
 	/**
 	 * Check whether this worm is terminated.
@@ -708,7 +709,7 @@ public class Worm extends MovableGameObject{
 	 * 			| result == ( (index >= 0) && (index <=  listOfWeapons.length - 1 ) && (Double.isNaN(index)) )
 	 */
 	public boolean isValidIndexActiveWeapon(int index){
-		return ( (index >= 0) && (index <=  listOfWeapons.length - 1 ) && (Double.isNaN(index)) );
+		return ( (index >= 0) && (index <=  listOfWeapons.length - 1 ) && (!Double.isNaN(index)) );
 	}
 	
 	/**
@@ -907,12 +908,12 @@ public class Worm extends MovableGameObject{
 		//--> OPTIMALISEREN. tussen 0 en 0.1 moet eiglk niet echt gecontroleerd worden, 
 		//dus als hier later nog een idee voor komt dan moet dit nog geïmplementeerd.
 		double step = 0;
-		while (step <= getRadius() && getWorld().isPassableForShoot(x,y,getRadius())){
+		while (step <= getRadius() && getWorld().isPassable(x,y,getRadius())){
 			x = getPosition().getX() + step * Math.cos(direction);
 			y = getPosition().getY() + step * Math.sin(direction);
 			step += this.getRadius()*0.01;
 		}
-		if (this.getWorld().isPassableForShoot(x, y, getRadius())){
+		if (this.getWorld().isPassable(x, y, getRadius())){
 			positionFound[0] = x;
 			positionFound[1] = y;
 			return positionFound;
@@ -955,31 +956,86 @@ public class Worm extends MovableGameObject{
 //						+4*Math.abs(Math.sin(this.getDirection()))*nbSteps*this.getRadius())) >= 0;
 	}
 	
-	
-
-
-	
-	
-	
-	
+	//DOCUMENTATIE & METHODE
+	/**
+	 * Makes this worm jump
+	 * 
+	 * @post 	The worm has jumped over a certain distance.
+	 * 			| new.getPositionX() = this.getPositionX() + Math.pow(initialVelocity, 2) * Math.sin( 2 * this.getDirection() ) / g
+	 * @post 	The jumping has consumed all the remaining action points.
+	 * 			| new.getActionPoints() = 0
+	 * @throws  IllegalStateException
+	 * 			The worm is facing downwards (the direction should be between 0 and 2*PI) or it has no action points left.
+	 * 			| (! canJump())
+	 */
 	
 	public void jump() throws IllegalStateException{
 		if ( ! this.canJump() )
-			//"The worm is facing downwards or it has no action points left.
 			throw new IllegalStateException("The worm has no action points left.");
-		super.jump();
+		double t = 0.01;
+		boolean jumpCompleted = false;
+		double x = this.getPosition().getX();
+		double y = this.getPosition().getY();
+		while (! jumpCompleted){
+			double[] step = jumpStep(t);
+			x = step[0];
+			y = step[1];
+			if (this.getWorld().outOfWorld(x,y,this.getRadius())) {
+				//Eigenlijk niet correct!
+				throw new NullPointerException();
+			}
+			else if ( !this.getWorld().isPassable(x,y,1.1*this.getRadius()) ){
+				if (this.getWorld().isPassable(x,y, this.getRadius()) ){
+					this.setPosition(x,y);
+					jumpCompleted = true;
+				}
+				else {
+					throw new IllegalStateException("This jump is not possible.");
+				}
+			}
+			t = t + 0.001;
+		}
 		if  (! this.isTerminated())	{
 				this.setActionPoints(0);
 				this.Eat();
 		}
 	}
+	
+	//Oude commentaar, moet nog aangepast worden
+	/**
+	 * Returns the total amount of time (in seconds) that a
+	 * jump of this worm would take.
+	 * 
+	 * @return 	Return the total amount of time that a jump of a given worm would take
+	 * 			| time = distance / ( initialVelocity * Math.cos( this.getDirection() ));
+	 */
 
-
-	
-	
-	
-	
-	
+	public double getJumpTime(double timeStep){
+		double t = 0.01;
+		boolean jumpCompleted = false;
+		double x = this.getPosition().getX();
+		double y = this.getPosition().getY();
+		while (!jumpCompleted){
+			double[] step = jumpStep(t);
+			x = step[0];
+			y = step[1];
+			if (this.getWorld().outOfWorld(x,y,this.getRadius())) {
+				jumpCompleted = true;
+				return t;
+			}
+			if ( this.getWorld().isImpassable(x,y,1.1*this.getRadius()) ){
+				if (this.getWorld().isPassable(x,y, this.getRadius()) ){
+					jumpCompleted = true;
+					return t;
+				}
+				else {
+					return t;
+				}
+			}
+			t = t + timeStep * 10;
+		}
+		return 0.0;
+	}
 	
 	@Override
 	public double getForce(){
@@ -1017,7 +1073,7 @@ public class Worm extends MovableGameObject{
 		//if (! canFall())
 			//throw new IllegalStateException();
 		//Je moet enkel fall uitvoeren als je niet adjacent bent. Dit kan eigenlijk ook wel gewoon bij de methode canFall();
-		if (! getWorld().isAdjacentForShoot(getPosition().getX(), getPosition().getY(), getRadius())){
+		if (! getWorld().isAdjacent(getPosition().getX(), getPosition().getY(), getRadius())){
 			double fallPositionYSoFar = getPosition().getY();
 			boolean fallCompleted = false;
 			double i = 0;
@@ -1037,7 +1093,7 @@ public class Worm extends MovableGameObject{
 					//fallCompleted = true;
 					//this.terminate();
 				//}
-				else if (getWorld().isAdjacentForShoot(getPosition().getX(), fallPositionYSoFar, getRadius())){
+				else if (getWorld().isAdjacent(getPosition().getX(), fallPositionYSoFar, getRadius())){
 					setHitPoints( getHitPoints() - getFallHitPoints(fallPositionYSoFar) );
 					fallCompleted = true;
 					if (! isTerminated()){
@@ -1110,7 +1166,7 @@ public class Worm extends MovableGameObject{
 //		return ( (!isTerminated()) && 
 //				(getWorld().isPassableRectangular(
 //					getPosition().getX()-getRadius()/2.0,getPosition().getY(),getPosition().getX()+getRadius()/2.0, getPosition().getY()-getRadius()/2.0 - getWorld().getPixelHeight())));
-		return(!isTerminated() && this.getWorld().isPassableForShoot(this.getPosition().getX(), this.getPosition().getY(), this.getRadius()));
+		return(!isTerminated() && this.getWorld().isPassable(this.getPosition().getX(), this.getPosition().getY(), this.getRadius()));
 
 	}
 	

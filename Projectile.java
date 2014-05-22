@@ -183,56 +183,14 @@ public abstract class Projectile extends MovableGameObject{
 	public void jump(double timeStep) throws IllegalStateException{
 		double time = this.getJumpTime(timeStep);
 		double[] step = this.jumpStep(time);
-		//OUD: this.setPositionX(step[0]);
-		//OUD: this.setPositionY(step[1]);
 		this.setPosition(step[0],step[1]);
 		if (this.isCloseToWorm(this.getPosition().getX(),this.getPosition().getY())){
 			Worm worm = this.getNearbyWorm(this.getPosition().getX(),this.getPosition().getY());
 			this.getNearbyWorm(this.getPosition().getX(),this.getPosition().getY()).setHitPoints(worm.getHitPoints()-this.getHitPointsDamage());
 		}
 	}
-		//double initialVelocity = getForce() / getMass() * 0.5;
-		//HIER NOG minstens sigma meters. 
-//		// Opmerking Bram notities niet vergeten!
-//		double t = 0.05;
-//		boolean jumpCompleted = false;
-//		double x = this.getPositionX();
-//		double y = this.getPositionY();
-//		while (! jumpCompleted){
-//			double[] step = jumpStep(t);
-//			x = step[0];
-//			y = step[1];
-//			if (this.outOfWorld(this.getWorld(),x,y,this.getRadius())) {
-//				//this.setPositionX(x);
-//				this.setPositionY(y);
-//				jumpCompleted = true;
-//			}
-//			else if ( this.getWorld().isImpassable(x,y,1.1*this.getRadius()) ){
-//				if (this.getWorld().isPassable(x,y, this.getRadius()) ){
-//					this.setPositionX(x);
-//					this.setPositionY(y);
-//					jumpCompleted = true;
-//				}
-//				else {
-//					throw new IllegalArgumentException("This jump is not possible.");
-//				}
-//			}
-//			t = t + 0.001;
-//		}
-//		
-//	}
-	@Override
+	
 	public double getJumpTime(double timeStep){
-		//double initialVelocity = getForce() / getMass() * 0.5;
-/*		double distance = Math.pow(initialVelocity, 2) * Math.sin( 2 * this.getDirection() ) / g;
-		if (Math.cos(this.getDirection()) == 0){
-			//DUMMY IMPLEMENTATIE
-			double time = 2.0; 
-			return time;
-		}
-		double time = distance / ( initialVelocity * Math.cos( this.getDirection() ));
-		return time;
-	}*/
 		double t = 0.01;
 		boolean jumpCompleted = false;
 		double x = this.getPosition().getX();
@@ -245,14 +203,9 @@ public abstract class Projectile extends MovableGameObject{
 				jumpCompleted = true;
 				return t;
 			}
-			if ( this.getWorld().isImpassableForShoot(x,y,this.getRadius()) ){
-//				if (this.getWorld().isPassable(x,y, this.getRadius()) ){
+			if ( this.getWorld().isImpassable(x,y,this.getRadius()) ){
 					jumpCompleted = true;
 					return t;
-//				}
-//				else {
-//					return t;
-//				}
 			}
 			if (this.isCloseToWorm(x,y)){
 				return t;
