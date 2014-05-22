@@ -550,6 +550,8 @@ public class Worm extends MovableGameObject{
 	
 	
 	
+	
+	
 	// DYNAMISCHE BINDING!!!
 	/**
 	 * Returns the current team of this worm.
@@ -558,15 +560,34 @@ public class Worm extends MovableGameObject{
 	public Team getTeam(){
 		return this.team;
 	}
-	
-	//MISSCHIEN EXCEPTION THROWEN ALS WORM AL EEN TEAM HEEFT.
+
+
 	/**
 	 * Sets the current team of this worm to the given team.
-	 */
-	@Basic
-	public void setTeam(Team team) throws IllegalStateException {
+	 * 
+	 * @param	team
+	 * 			The new team of this worm
+	 * @post	The new team of this worm is equal to the given team, if it is a valid team.
+	 * 			| new.getTeam() == team
+	 * @effect	This worm is added to the given team
+	 * 			| team.addNewWorm()
+	 * @throws	IllegalStateException
+	 * 			This worm is terminated.
+	 * 			| (this.isTerminated())
+	 * @throws	IllegalStateException
+	 * 			The worm already has a team. It can only be part of one team.
+	 * 			| (this.hasTeam())
+	 * @throws	IllegalArgumentException(
+	 * 			The worm cannot have this team as its team.
+	 * 			| (!canHaveAsTeam(team))
+	*/
+	public void setTeam(Team team) throws IllegalStateException, IllegalArgumentException {
+		if (this.isTerminated())
+			throw new IllegalStateException("This worm is terminated.");
 		if (this.hasTeam())
 			throw new IllegalStateException("This worm already has a team! A worm can only be part of one team!");
+		if (!canHaveAsTeam(team))
+			throw new IllegalArgumentException("This worm cannot have the given team as its team!");
 		this.team = team;
 		team.addNewWorm(this);
 	}
@@ -601,12 +622,28 @@ public class Worm extends MovableGameObject{
 	
 	/**
 	 * Check whether this worm has a team.
+	 * 
 	 * @return 	True if and only if the team of this worm is effective.
 	 * 			| (this.getTeam != null)
 	 */
-	@Raw
+	//@Raw
 	public boolean hasTeam() {
 		return (this.getTeam() != null);
+	}
+	
+	/**
+	 * Checks whether the given worm can be part of the given team.
+	 * 
+	 * @return	True if and only if the given team is not null and
+	 * 			this worm and the team belong to the same world.
+	 * 			| (team != null) && (team.getWorld == this.getWorld())
+	 */
+	public boolean canHaveAsTeam(Team team){
+		if (team == null)
+			return false;
+		if (team.getWorld() != this.getWorld())
+			return false;
+		return true;
 	}
 	
 	//DEZE METHODE KLOPT NOG NIET HELEMAAL MET OWNABLE. DAAR OOK SETWORLDTO
@@ -626,30 +663,68 @@ public class Worm extends MovableGameObject{
 	
 	
 	
+	
+	
+	/**
+	 * Returns the current index of the active weapon of this worm.
+	 */
+	@Basic
 	public int getIndexActiveWeapon(){
 		return this.indexActiveWeapon;
 	}
 	
+	/**
+	 * Returns the string of the current weapon of this worm.
+	 */
+	@Basic
+	public String getActiveWeapon(){
+		return listOfWeapons[getIndexActiveWeapon()];
+	}
+	
+	/**
+	 * Sets the index of the active weapon of this worm to the given value.
+	 * 
+	 * @param 	index
+	 * 			The new index of the active weapon for this worm.
+	 * @post	The new index of the active weapon of this worm is equal to the given index.
+	 * 			| new.getIndexActiveWeapon() == index
+	 * @throws	IllegalArgumentException
+	 * 			The given index is not a valid weapon index.
+	 * 			| (!isValidIndexActiveWeapon(weapon))
+	 */
 	public void setIndexActiveWeapon(int index){
 		if (! isValidIndexActiveWeapon(index))
 			throw new IllegalArgumentException("The given index was negative or bigger than the amount of weapons!");
 		this.indexActiveWeapon = index; 
 	}
 	
+	/**
+	 * Checks whether the given weapon index is a valid weapon index.
+	 *  
+	 * @param 	index
+	 * 			The weapon index to check.
+	 * @return	True if and only if the given index is not equal to NaN,
+	 * 			bigger or equal to zero and smaller or equal to the amount of weapons.
+	 * 			| result == ( (index >= 0) && (index <=  listOfWeapons.length - 1 ) && (Double.isNaN(index)) )
+	 */
 	public boolean isValidIndexActiveWeapon(int index){
-		return ( (index >= 0) && (index <=  listOfWeapons.length - 1 ) );
+		return ( (index >= 0) && (index <=  listOfWeapons.length - 1 ) && (Double.isNaN(index)) );
 	}
 	
+	/**
+	 * Variable registering the index of the active weapon of this game.
+	 */
 	private int indexActiveWeapon;
 	
-	String listOfWeapons[] = {"Bazooka", "Rifle"}; 
+	/**
+	 * List of all possible weapons that are available in this game.
+	 */
+	private final static String listOfWeapons[] = {"Bazooka", "Rifle"}; 
 
 	
 	
 	
-	public String getActiveWeapon(){
-		return listOfWeapons[getIndexActiveWeapon()];
-	}
+
 	
 	public void selectNextWeapon(){
 		if (getIndexActiveWeapon() == listOfWeapons.length - 1 )
@@ -661,8 +736,13 @@ public class Worm extends MovableGameObject{
 	
 	
 	
-	//ALLES VAN PROGRAM NOG
 	
+	
+	
+	
+	
+	//ALLES VAN PROGRAM NOG
+	// DYNAMISCHE BINDING
 	public Program getProgram(){
 		return this.program;
 	}
@@ -800,9 +880,9 @@ public class Worm extends MovableGameObject{
 		while (divergence <= 0.7875) {
 			double[] positionSoFar = findPositionForGivenDirection(getDirection()+divergence,0.1*getRadius());
 			double distanceSoFar = this.getPosition().calculateDistance(positionSoFar[0],positionSoFar[1]);
-			// Kleinste kwadraten optimalisatie.
+			/* Kleinste kwadraten optimalisatie. */
 			double factorSoFar = Math.pow(distanceSoFar / getRadius(),2) - Math.pow(Math.abs(divergence / 0.7875),2);
-			//Distance covered must be atleast 0.1 meters.
+			/* Distance covered must be atleast 0.1 meters. */
 			if ( (distanceSoFar > 0.1) && (factorSoFar > optimalFactor) && (canMove(positionSoFar)) ){
 				optimalFactor = factorSoFar;
 				optimalPosition[0] = positionSoFar[0];

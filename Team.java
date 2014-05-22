@@ -338,6 +338,8 @@ public class Team {
 	 */
 	@Basic
 	public Worm getCurrentWorm(){
+		if (this.listOfWorms.size() == 0)
+			return null;
 		return this.listOfWorms.get(this.getNbCurrentWorm());
 	}
 	
@@ -387,7 +389,7 @@ public class Team {
 	 * 			The given worm does not belong to the same world as this team.
 	 * 			| (! canHaveAsWorm(worm))
 	 */
-	public void addNewWorm(Worm worm) throws IllegalArgumentException{
+	public void addNewWorm(Worm worm) throws IllegalArgumentException, IllegalStateException{
 		if (worm.isTerminated())
 			throw new IllegalArgumentException("This worm is terminated. Cannot add worm to team.");
 		if (! canHaveAsWorm(worm))
@@ -414,11 +416,11 @@ public class Team {
 	 * 
 	 * @param 	worm
 	 * 			The worm to check.
-	 * @return	True if and only if the given worm's world is equal to the world of this team.
-	 * 			| result == (this.getWorld() == worm.getWorld())
+	 * @return	True if and only if the given worm's world is equal to the world of this team and the worm is not null.
+	 * 			| result == (worm != null) && (this.getWorld() == worm.getWorld())
 	 */
 	public boolean canHaveAsWorm(Worm worm){
-		return (this.getWorld() == worm.getWorld());
+		return (worm != null) && (this.getWorld() == worm.getWorld());
 	}
 	
 	
