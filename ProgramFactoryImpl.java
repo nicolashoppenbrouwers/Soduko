@@ -15,8 +15,6 @@ public class ProgramFactoryImpl implements ProgramFactory<Expression, Statement,
 	public ProgramFactoryImpl() {
 	}
 
-	/* possible types for a foreach statement */
-//WAT IS DIT????
 	public enum ForeachType {
 		WORM, FOOD, ANY
 	}

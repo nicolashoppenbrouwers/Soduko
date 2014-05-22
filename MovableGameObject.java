@@ -175,8 +175,8 @@ public abstract class MovableGameObject extends GameObject {
 				//Eigenlijk niet correct!
 				throw new NullPointerException();
 			}
-			else if ( !this.getWorld().isPassable(x,y,1.1*this.getRadius()) ){
-				if (this.getWorld().isPassable(x,y, this.getRadius()) ){
+			else if ( !this.getWorld().isPassableForShoot(x,y,1.1*this.getRadius()) ){
+				if (this.getWorld().isPassableForShoot(x,y, this.getRadius()) ){
 					//OUD:this.setPositionX(x);
 					//OUD:this.setPositionY(y);
 					this.setPosition(x,y);
@@ -222,8 +222,8 @@ public abstract class MovableGameObject extends GameObject {
 				jumpCompleted = true;
 				return t;
 			}
-			if ( this.getWorld().isImpassable(x,y,1.1*this.getRadius()) ){
-				if (this.getWorld().isPassable(x,y, this.getRadius()) ){
+			if ( this.getWorld().isImpassableForShoot(x,y,1.1*this.getRadius()) ){
+				if (this.getWorld().isPassableForShoot(x,y, this.getRadius()) ){
 					jumpCompleted = true;
 					return t;
 				}

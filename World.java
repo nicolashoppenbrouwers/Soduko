@@ -294,29 +294,29 @@ public class World {
 	
 
 		
-	public boolean isPassable(double centerX, double centerYOmgekeerd, double radius) {
-		//IndexOutofBound error nog catchen!
-		//OPMERKING Assistent feedback (later)
-		// Misschien ervoor zorgen dat je eenvoudigere code krijgt als je niet deelt door pixelheight enz.
-		double centerY = this.getPassableMap().length*this.getPixelHeight()-centerYOmgekeerd;
-		if (outOfWorld(centerX, centerY, radius))
-			return true;
-		double pixelHeight = this.getPixelHeight();
-		double pixelWidth = this.getPixelWidth();
-		int lowestY  = (int) Math.floor( (centerY - radius) / pixelHeight) +2 ;
-		int highestY = (int) Math.ceil(  (centerY + radius) / pixelHeight) -2; 
-		int y = lowestY;
-		while (y <= highestY) {
-			int lowestX =  (int) Math.floor( (centerX - Math.sqrt(Math.pow(radius,2) - Math.pow( centerY - y*pixelHeight , 2 ))) / pixelWidth );
-			int highestX = (int) Math.ceil(  (centerX + Math.sqrt(Math.pow(radius,2) - Math.pow( centerY - y*pixelHeight , 2 ))) / pixelWidth );
-			for (int x = lowestX; x <= highestX; x = x+1){
-				if (this.getPassableMap()[y][x] == false)
-					return false;
-			}	
-			// +1
-			y = y+1;
-		}
-		return true;
+//	public boolean isPassable(double centerX, double centerYOmgekeerd, double radius) {
+//		//IndexOutofBound error nog catchen!
+//		//OPMERKING Assistent feedback (later)
+//		// Misschien ervoor zorgen dat je eenvoudigere code krijgt als je niet deelt door pixelheight enz.
+//		double centerY = this.getPassableMap().length*this.getPixelHeight()-centerYOmgekeerd;
+//		if (outOfWorld(centerX, centerY, radius))
+//			return true;
+//		double pixelHeight = this.getPixelHeight();
+//		double pixelWidth = this.getPixelWidth();
+//		int lowestY  = (int) Math.floor( (centerY - radius) / pixelHeight) +2 ;
+//		int highestY = (int) Math.ceil(  (centerY + radius) / pixelHeight) -2; 
+//		int y = lowestY;
+//		while (y <= highestY) {
+//			int lowestX =  (int) Math.floor( (centerX - Math.sqrt(Math.pow(radius,2) - Math.pow( centerY - y*pixelHeight , 2 ))) / pixelWidth );
+//			int highestX = (int) Math.ceil(  (centerX + Math.sqrt(Math.pow(radius,2) - Math.pow( centerY - y*pixelHeight , 2 ))) / pixelWidth );
+//			for (int x = lowestX; x <= highestX; x = x+1){
+//				if (this.getPassableMap()[y][x] == false)
+//					return false;
+//			}	
+//			// +1
+//			y = y+1;
+//		}
+//		return true;
 //		//IndexOutofBound error nog catchen!
 //		//OPMERKING Assistent feedback (later)
 //		// Misschien ervoor zorgen dat je eenvoudigere code krijgt als je niet deelt door pixelheight enz.
@@ -349,23 +349,22 @@ public class World {
 //			y = y + 1;
 //		}
 //		return true;
-	}
+//	}
 		
-	public boolean isImpassable(double x, double y, double radius){
-		return (! isPassable(x,y,radius) );
-	}
+//	public boolean isImpassable(double x, double y, double radius){
+//		return (! isPassable(x,y,radius) );
+//	}
 	
 	public boolean isPassableForShoot(double centerX, double centerYOmgekeerd, double radius){
 		
+		try{
 		double centerY = this.getHeight()-centerYOmgekeerd;
-		if (outOfWorld(centerX,centerY,radius))
-			return true;
 		double lowestY= centerY - radius;
 		double highestY = centerY + radius; 
 		double y = lowestY;
-		if (this.getPassableMap()[(int)Math.round(lowestY/this.getPixelHeight())][(int)Math.round(centerX/this.getPixelHeight())] == false)
+		if (this.getPassableMap()[(int)Math.floor(lowestY/this.getPixelHeight())][(int)Math.floor(centerX/this.getPixelHeight())] == false)
 			return false;
-		if (this.getPassableMap()[(int)Math.round(highestY/this.getPixelHeight())][(int)Math.round(centerX/this.getPixelHeight())] == false)
+		if (this.getPassableMap()[(int)Math.floor(highestY/this.getPixelHeight())][(int)Math.floor(centerX/this.getPixelHeight())] == false)
 			return false;
 		while (y <= highestY) {
 			double lowestX = centerX - Math.sqrt(Math.pow(radius,2) - Math.pow( centerY - y , 2 ));
@@ -374,14 +373,19 @@ public class World {
 				lowestX = centerX;
 			if(Double.isNaN(highestX))
 				highestX = centerX;
-			if (this.getPassableMap()[(int)Math.round(y/this.getPixelHeight())][(int)Math.round(lowestX/this.getPixelHeight())] == false)
+			if (this.getPassableMap()[(int)Math.floor(y/this.getPixelHeight())][(int)Math.floor(lowestX/this.getPixelHeight())] == false)
 				return false;
-			if (this.getPassableMap()[(int)Math.round(y/this.getPixelHeight())][(int)Math.round(highestX/this.getPixelHeight())] == false)
+			if (this.getPassableMap()[(int)Math.floor(y/this.getPixelHeight())][(int)Math.floor(highestX/this.getPixelHeight())] == false)
 				return false;	
 			// 10
 			y = y + radius /10;
 		}
 		return true;
+		}
+		catch (ArrayIndexOutOfBoundsException exc){
+			return true;
+		}
+		
 	}
 	
 	public boolean isImpassableForShoot(double centerX, double centerYOmgekeerd, double radius){
@@ -436,14 +440,14 @@ public class World {
 
 	
 	// 	boolean isAdjacent(World world, double x, double y, double radius);
-	public boolean isAdjacent(double x, double y, double radius){
-		// Opmerking: Je chekt bij is Passable al een gebied van grootte radius. Bij isImpassable controleeer je dit gebied helemaal nog eens opnieuw.
-		if ((isPassable(x,y,radius)) && (!isPassable(x,y,1.1*radius))){
-			return true;
-		}
-		else
-			return false;
-	}
+//	public boolean isAdjacent(double x, double y, double radius){
+//		// Opmerking: Je chekt bij is Passable al een gebied van grootte radius. Bij isImpassable controleeer je dit gebied helemaal nog eens opnieuw.
+//		if ((isPassable(x,y,radius)) && (!isPassable(x,y,1.1*radius))){
+//			return true;
+//		}
+//		else
+//			return false;
+//	}
 	
 	public boolean isAdjacentForShoot(double x, double y, double radius){
 		// Opmerking: Je chekt bij is Passable al een gebied van grootte radius. Bij isImpassable controleeer je dit gebied helemaal nog eens opnieuw.
@@ -494,7 +498,7 @@ public class World {
 			System.out.println(randX);
 			System.out.println(randY);
 			System.out.println(isAdjacent(randX,randY,radius));*/
-			if (this.isAdjacent(randX,randY,radius)) {
+			if (this.isAdjacentForShoot(randX,randY,radius)) {
 				double[] randomStartPos = new double[]{randX,randY};
 				return randomStartPos;
 			}			

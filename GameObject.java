@@ -325,6 +325,7 @@ public abstract class GameObject {
 	 * 			| result == false
 	 */
 	public boolean isCloseToWorm(double x,double y){
+		try{
 		for (Worm worm: this.getWorld().getWorms()) {
 			if (Math.pow(x - worm.getPosition().getX(), 2) + Math.pow(y - worm.getPosition().getY(), 2) <=
 					Math.pow(this.getRadius() + worm.getRadius(), 2)){
@@ -332,6 +333,10 @@ public abstract class GameObject {
 			}
 		}		
 		return false;
+		}
+		catch (NullPointerException exc){
+			return false;
+		}
 	}
 	
 	

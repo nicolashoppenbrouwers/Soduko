@@ -109,4 +109,14 @@ public class Program {
 		this.resetAmountOfStatementsExecuted();
 		this.getWorld().startNextTurn();
 	}
+	
+	public static ParseOutcome<?> parseProgram(String programText,
+            IActionHandler handler) {
+	
+	ProgramFactoryImpl factory = new ProgramFactoryImpl();
+    ProgramParser<Expression<?>, Statement, Variable<?>> parser = new ProgramParser<>(factory);
+    factory.setProgramParser(parser); //NullPointerException
+    Program program;
+
+    parser.parse(programText);
 }

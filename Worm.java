@@ -751,12 +751,12 @@ public class Worm extends MovableGameObject{
 		//--> OPTIMALISEREN. tussen 0 en 0.1 moet eiglk niet echt gecontroleerd worden, 
 		//dus als hier later nog een idee voor komt dan moet dit nog geïmplementeerd.
 		double step = 0;
-		while (step <= getRadius() && getWorld().isPassable(x,y,getRadius())){
+		while (step <= getRadius() && getWorld().isPassableForShoot(x,y,getRadius())){
 			x = getPosition().getX() + step * Math.cos(direction);
 			y = getPosition().getY() + step * Math.sin(direction);
 			step += this.getRadius()*0.01;
 		}
-		if (this.getWorld().isPassable(x, y, getRadius())){
+		if (this.getWorld().isPassableForShoot(x, y, getRadius())){
 			positionFound[0] = x;
 			positionFound[1] = y;
 			return positionFound;
@@ -861,7 +861,7 @@ public class Worm extends MovableGameObject{
 		//if (! canFall())
 			//throw new IllegalStateException();
 		//Je moet enkel fall uitvoeren als je niet adjacent bent. Dit kan eigenlijk ook wel gewoon bij de methode canFall();
-		if (! getWorld().isAdjacent(getPosition().getX(), getPosition().getY(), getRadius())){
+		if (! getWorld().isAdjacentForShoot(getPosition().getX(), getPosition().getY(), getRadius())){
 			double fallPositionYSoFar = getPosition().getY();
 			boolean fallCompleted = false;
 			double i = 0;
@@ -880,7 +880,7 @@ public class Worm extends MovableGameObject{
 					//fallCompleted = true;
 					//this.terminate();
 				//}
-				else if (getWorld().isAdjacent(getPosition().getX(), fallPositionYSoFar, getRadius())){
+				else if (getWorld().isAdjacentForShoot(getPosition().getX(), fallPositionYSoFar, getRadius())){
 					setHitPoints( getHitPoints() - getFallHitPoints(fallPositionYSoFar) );
 					fallCompleted = true;
 					if (! isTerminated()){
