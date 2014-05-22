@@ -371,11 +371,7 @@ public class World {
 			return false;
 		if (this.getPassableMap()[(int)Math.floor(highestY/this.getPixelHeight()-0.001)][(int)Math.floor(centerX/this.getPixelHeight())] == false)
 			return false;
-<<<<<<< HEAD
-		while (y < highestY-0.001) {
-=======
 		while (Util.fuzzyLessThanOrEqualTo(y, highestY)) {
->>>>>>> b6b6c18fae9e7b1ef16dda382b5d6ef013b10cf8
 			double lowestX = centerX - Math.sqrt(Math.pow(radius,2) - Math.pow( centerY - y , 2 ));
 			double highestX = centerX + Math.sqrt(Math.pow(radius,2) - Math.pow( centerY - y , 2 ));
 			if (Double.isNaN(lowestX))
