@@ -67,7 +67,6 @@ public abstract class Projectile extends MovableGameObject{
 	
 	
 
-	//CONTROLEREN
 	/**
 	 * Unset the world, if any, from this projectile.
 	 *
@@ -189,7 +188,9 @@ public abstract class Projectile extends MovableGameObject{
 	
 	
 	
-	// DOCUMENTATIE EN METHODE.
+	/**
+	 * Makes this projectile jump.
+	 */
 	public void jump(double timeStep) throws IllegalStateException{
 		if (!canJump())
 			throw new IllegalStateException();
@@ -202,6 +203,9 @@ public abstract class Projectile extends MovableGameObject{
 		}
 	}
 	
+	/**
+	 * Returns the jumptime of this projectile.
+	 */
 	public double getJumpTime(double timeStep){
 		double t = 0.01;
 		boolean jumpCompleted = false;
@@ -227,6 +231,9 @@ public abstract class Projectile extends MovableGameObject{
 		return 0.0;
 	}
 	
+	/**
+	 * Returns whether this projectile can jump.
+	 */
 	public boolean canJump(){
 		return (this.getWorld().getActiveProjectile() == this);
 	}

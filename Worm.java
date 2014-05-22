@@ -16,28 +16,7 @@ import worms.util.Util;
 
 import java.util.HashSet;
 import java.util.Set;
-// Te Doen: jump,jumptime
-// GEEN PROTECTED!!!!! overal nagaan!!!
 
-// Waarom private waarom public? 
-
-// boolean canFall(Worm worm)
-// boolean canMove(Worm worm);
-// boolean canTurn(Worm worm, double angle);
-// DONE 		fall(Worm worm)	 ---> gewoon de kolom onder uw huidige position checken tot je FALSE tegenkomt en dan stop je en anders stop je niet en ben je dood
-// 							 	 ---> altijd de functie fall laten uitvoeren voor als je met je kop tegen het plafond zou hangen.
-// fallStep???
-// 			DONE 	int getHitPoints(Worm worm);
-// 			DONE	int getMaxHitPoints(Worm worm);
-// String getSelectedWeapon(Worm worm);
-// String getTeamName(Worm worm);
-// boolean isAlive(Worm worm);
-// void selectNextWeapon(Worm worm);
-// void shoot(Worm worm, int yield);
-
-//Bij terminated: overal exceptions toevoegen zoals bij Dog. IllegalStateExceptions.
-
-//KLASSEINVARIANT DYNAMISCHE BINDING!!!
 /**
  * A class of worms for playing the game Worms, involving a position, a direction, a radius, an amount of
  * 			action points, an amount of maximum action points and a name.
@@ -65,7 +44,7 @@ import java.util.Set;
  */
 public class Worm extends MovableGameObject {
 	
-	// NOG DOEN
+	
 	/**
 	 * Initialize this new worm with given position, direction, radius and name.
 	 * 
@@ -125,7 +104,6 @@ public class Worm extends MovableGameObject {
 	
 	
 	
-	//NOG DOEN jump, getjumptime
 
 	/**
 	 * Check whether this worm is terminated.
@@ -146,6 +124,8 @@ public class Worm extends MovableGameObject {
 	 * 			| this.unsetWorld()     
 	 * @effect	The team, if any, is unset from this worm.
 	 * 			| this.unsetTeam()
+	 * @effect	If this worm was the current worm of the world, the next turn is started.
+	 * 			| this.getWorld().startNextTurn()
 	 */
 	 @Override
 	public void terminate() {
@@ -177,13 +157,16 @@ public class Worm extends MovableGameObject {
 	 
 	 
 	 
-	 //NOG ONAFGEWERKTE DOCUMENTATIE.
-	 /**
-	  * Unset the world, if any, from this GameObject.
-	  * @post	This worm no longer has a world.
-	  * 		| ! new.hasWorld()
-	  * @post	
-	  */
+		/**
+		 * Unset the world, if any, from this worm.
+		 *
+		 * @effect  This worm no longer has a world.
+		 *        	| ! new.hasWorld()
+		 * @effect  The former world of this food, if any, no longer
+		 *          has this food as one of its foods.
+		 *        	| (this.getWorld() == null)
+		 *        	| 	|| (! (new this.getWorld()).hasAsWorm(worm))
+		 */
 	 @Override
 	 public void unsetWorld(){
 			if (this.hasWorld()){
@@ -611,8 +594,8 @@ public class Worm extends MovableGameObject {
 		this.team = team;
 		team.addNewWorm(this);
 	}
-	
-	//DOCUMENTATIE
+
+
 	/**
 	 * Unset the team, if any, from this worm.
 	 *
@@ -621,13 +604,7 @@ public class Worm extends MovableGameObject {
 	 * @effect  The former team of this worm, if any, no longer
 	 *          has this worm as one of its team members.
 	 *        	|    (getTeam() == null)
-	 *          |     || (! (new getTeam()).hasAsOwning(owning))
-	 * @effect   All ownings registered beyond the position at which
-	 *          this owning was registered shift one position to the left.
-	 *        	| (getOwner() == null) ||
-	 *        	| (for each index in
-	 *        	|        getOwner().getIndexOfOwning(owning)+1..getOwner().getNbOwnings():
-	 *        	|    (new getOwner()).getOwningAt(index-1) == getOwner().getOwningAt(index) ) 
+	 *          |     || (! (new getTeam()).hasAsWorm(worm))
 	 */
 	public void unsetTeam() {
 		if (this.hasTeam()) 
@@ -665,14 +642,6 @@ public class Worm extends MovableGameObject {
 			return false;
 		return true;
 	}
-	
-	//DEZE METHODE KLOPT NOG NIET HELEMAAL MET OWNABLE. DAAR OOK SETWORLDTO
-	//MISSCHIEN NOG TE IMPLEMENTEREN:
-		// canHavaAsTeam()
-		// hasProperTeam()
-	//public boolean hasProperTeam(){
-	//	return true;
-	//}
 	
 	/**
 	 * Variable registering the team of this worm.
@@ -767,15 +736,23 @@ public class Worm extends MovableGameObject {
 	
 	
 	
-	//ALLES VAN PROGRAM NOG
-	// DYNAMISCHE BINDING
+	
+	/**
+	 * Returns the program of this worm.
+	 */
+	@Basic
 	public Program getProgram(){
 		return this.program;
 	}
 	
+	/**
+	 * Variable registering the program of this worm.
+	 */
 	private final Program program;
-	//canHaveAsProgram en alle dynamische binding shit
 	
+	/**
+	 * Checks whether this worm already has a program.
+	 */
 	public boolean hasProgram(){
 		return (this.getProgram() != null);
 	}
@@ -843,7 +820,7 @@ public class Worm extends MovableGameObject {
 	
 	
 	
-	
+	/*Alle moves methodes kunnen beter een position returnen ipv een double[] --> NOG DOEN! */
 	/**
 	 * Moves this worm to the most optimal position nearby, if any.
 	 */
@@ -951,19 +928,11 @@ public class Worm extends MovableGameObject {
 	
 	
 	
-	//DOCUMENTATIE & METHODE
+
 	/**
-	 * Makes this worm jump
-	 * 
-	 * @post 	The worm has jumped over a certain distance.
-	 * 			| new.getPositionX() = this.getPositionX() + Math.pow(initialVelocity, 2) * Math.sin( 2 * this.getDirection() ) / g
-	 * @post 	The jumping has consumed all the remaining action points.
-	 * 			| new.getActionPoints() = 0
-	 * @throws  IllegalStateException
-	 * 			The worm is facing downwards (the direction should be between 0 and 2*PI) or it has no action points left.
-	 * 			| (! canJump())
+	 * Makes this worm jump.
 	 */
-	
+	//documentatie!
 	public void jump() throws IllegalStateException{
 		if ( ! this.canJump() )
 			throw new IllegalStateException("The worm has no action points left.");
@@ -996,14 +965,11 @@ public class Worm extends MovableGameObject {
 		}
 	}
 	
-	//Oude commentaar, moet nog aangepast worden
 	/**
 	 * Returns the total amount of time (in seconds) that a
 	 * jump of this worm would take.
-	 * 
-	 * @return 	Return the total amount of time that a jump of a given worm would take
-	 * 			| time = distance / ( initialVelocity * Math.cos( this.getDirection() ));
 	 */
+	//documentatie!
 	public double getJumpTime(double timeStep){
 		double t = 0.01;
 		boolean jumpCompleted = false;
@@ -1031,7 +997,6 @@ public class Worm extends MovableGameObject {
 		return 0.0;
 	}
 	
-	//DONE
 	/**
 	 * Returns the force a worm exerts to jump.
 	 * 
@@ -1043,7 +1008,7 @@ public class Worm extends MovableGameObject {
 		return 5.0 * this.getActionPoints() + this.getMass() * g;
 	}
 	
-	//DONE
+
 	/**
 	 * Checks whether the given worm is able to jump.
 	 * 

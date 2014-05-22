@@ -158,10 +158,15 @@ public abstract class MovableGameObject extends GameObject {
 	
 	
 	
-	//JUMPPPPPPPPP
 	
+	/**
+	 * Returns the jump time of this jump.
+	 */
 	public abstract double getJumpTime(double timeStep);
 	
+	/**
+	 * Returns the jumpstep of the jump at the given time.
+	 */
 	public double[] jumpStep(double time){
 		double initialVelocity = this.getInitialVelocity();
 		double initialVelocityX = initialVelocity * Math.cos( this.getDirection() );
@@ -171,18 +176,16 @@ public abstract class MovableGameObject extends GameObject {
 		return new double[] {stepX, stepY};
 	}
 	
-	//DOCUMENTATIE EN METHODE
 	/**
 	 * Checks whether the given worm is able to jump.
 	 * 
-	 * @return 	True if and only if the worm has enough action points left to perform a jump
-	 * 			and if the worm is not facing downwards.
-	 * 			|return !((this.getDirection() > Math.PI) && (this.getDirection() < 2*Math.PI))
-	 * 
 	 */
-	public abstract boolean canJump();	//((this.getDirection() > 0) && (this.getDirection() < Math.PI) && !(this.getActionPoints() == 0));
-	
-	//DOCUMENTATIE
+	public abstract boolean canJump();	
+
+	/**
+	 * Returns the initial velocity of this worm.
+	 */
+	@Basic
 	public double getInitialVelocity(){
 		return (getForce() / getMass() * 0.5);
 	}

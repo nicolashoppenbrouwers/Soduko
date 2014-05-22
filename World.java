@@ -303,113 +303,356 @@ public class World {
 	
 	/**
 	 * Adds a default worm with a given program to this world.
+	 * 
 	 * @param 	program
 	 * 			The program of the worm that is added to this world.
-	 * @effect	
+	 * @effect	Creates a new worm with this as world, a random starting position, zero as direction,
+	 * 			a radius of 0.40, a random name and a given program.
+	 * 			|  Worm worm = new Worm(this,searchAdjacentStartingPos(0.40)[0],searchAdjacentStartingPos(0.40)[1],0.0,0.40,Worm.getRandomName(),program)
+	 * @effect	The new worm is added to the list of worms.
+	 * 			| hasAsWorm(worm)
 	 */
 	public void addNewWorm(Program program){
 		double radius = 0.40;
 		double[] startPos = this.searchAdjacentStartingPos(radius);
-		Worm worm = new worms.model.Worm(this,startPos[0],startPos[1],0.0,radius,Worm.getRandomName(),program);
+		Worm worm = new Worm(this,startPos[0],startPos[1],0.0,radius,Worm.getRandomName(),program);
 		this.getWorms().add(worm);
 	}
 	
+	/**
+	 * A list of worms registering the worms that are part of this world.
+	 */
 	private ArrayList<Worm> listOfWorms;
 	
-	//Dynamische binding shit controleren -> NICOLAS
+	/**
+	 * Removes the given worm from this world.
+	 * 
+	 * @param 	worm
+	 * 			The worm which has to be removed from this world.
+	 * @effect	The worm is removed from the list of worms.
+	 * 			| ! hasAsWorm(worm)
+	 * @throws	IllegalArgumentException
+	 * 			The given worm is null.
+	 * 			| (worm == null)
+	 */
 	public void removeWorm(Worm worm){
+		if (worm == null)
+			throw new IllegalArgumentException("The given worm shouldn't be null.");
+		/* Als de worm geen deel is van de list of worms van deze world gebeurt er niets. 
+		 * Dit is zo dankzij de voorgedefineerde methode remove van JAVA. */
 		this.getWorms().remove(worm);
-		// Je komt in een loop.
-		//worm.terminate();
 	}
 	
+	/**
+	 * Returns whether this world has the given worm as one of its worms.
+	 * 
+	 * @return 	True if and only if the worm has this worm as one of its worms.
+	 *			| for (Worm worm: this.getWorms())
+	 *			| 	if (worm == wormToCheck)
+	 *			|		result == true
+	 *			| result == false
+	 */
+	public boolean hasAsWorm(Worm wormToCheck){
+		for (Worm worm: this.getWorms())
+			if (worm == wormToCheck)
+				return true;
+		return false;
+	}
+	
+	/**
+	 * Returns the number of the current team of this world.
+	 */
+	@Basic
 	public int getNbCurrentTeam(){
 		return this.nbCurrentTeam;
 	}
 	
-	public void setNbCurrentTeam(int numberTeam){
-		this.nbCurrentTeam = numberTeam;
-	}
-	
+	/**
+	 * Retuns the current team of this world.
+	 * 
+	 * @return 	If the world has no teams, returns null.
+	 * 			| if (this.getTeams().size() == 0)
+	 * 			|	result == null
+	 * 			Otherwise, return the current team.
+	 * 			| result == this.getTeams().get(this.getNbCurrentTeam())
+	 */
 	public Team getCurrentTeam(){
 		if (this.getTeams().size() == 0)
 			return null;
 		return this.getTeams().get(this.getNbCurrentTeam());
 	}
 	
-	private int nbCurrentTeam;
-
-	
-	public Worm getCurrentWorm(){
+	/**
+	 * Returns the current worm of this world.
+	 * 
+	 * @return	Returns the current worm of the current team of this world.
+	 * 			| result == this.getCurrentTeam().getCurrentWorm()
+	 * @throws	NullPointerException
+	 * 			The current team is null.
+	 * 			| this.getCurrentTeam() == null
+	 */
+	public Worm getCurrentWorm() throws NullPointerException{
+		if (this.getCurrentTeam() == null)
+			throw new NullPointerException();
 		return this.getCurrentTeam().getCurrentWorm();
 	}
 	
+	/**
+	 * Sets the number of the current team of this world to the given value.
+	 * 
+	 * @param 	numberTeam
+	 * 			The new index of the current team of this world
+	 * @effect	The new index of the current team of this world is equal to the given index.
+	 * 			| new.getNbCurrentTeam() == team
+	 * @throws	IllegalArgumentException
+	 * 			The given index is larger than the amount of teams - 1 or smaller than zero.
+	 * 			| ((numberTeam > this.getTeams().size() - 1) && (numberTeam < 0))
+	 */
+	public void setNbCurrentTeam(int numberTeam){
+		if ((numberTeam > this.getTeams().size() - 1) && (numberTeam < 0))
+			throw new IllegalArgumentException("The given index is too large or smaller than zero.");
+		this.nbCurrentTeam = numberTeam;
+	}
+	
+
+	/**
+	 * Variable registering the index of the current team of this world.
+	 */
+	private int nbCurrentTeam;
+
+	
+
+
 	
 	
 	
-	//TEAM
+	
+	/**
+	 * Returns the list of teams of this world.
+	 */
+	@Basic
 	public ArrayList<Team> getTeams(){
 		return this.listOfTeams;
 	}
 	
+	/**
+	 * Sets the list of teams of this world to the given list of teams.
+	 * 
+	 * @param 	teams
+	 * 			The new list of teams of this world.
+	 * @post	The new list of teams of this world is equal to the given list.
+	 * 			| new.getTeams() == teams;
+	 * @throws	IllegalArgumentException
+	 * 			The given list contains too many teams.
+	 * 			| (teams.size() > 10)
+	 */
 	public void setTeams(ArrayList<Team> teams){
 		if (teams.size() > 10)
 			throw new IllegalArgumentException("Too many teams.");		
 		this.listOfTeams = teams;
 	}
 	
+	/**
+	 * Add an empty team with given name to this world.
+	 * 
+	 * @param 	newName
+	 * 			The name of the team that is added to this world.
+	 * @effect	A new team is created with the given name.
+	 * 			| Team team = new Team(this.newName)
+	 * @effect	The new team is added to the list of teams of this world.
+	 * 			| hasAsTeam(team)
+	 * @effect	The last team added of this world is set to this team.
+	 * 			| getLastTeamAdded() == team
+	 * @effect	The new number of current team of this world is equal 
+	 * 			to the current number of current team of this world + 1.
+	 * 			| new.getNbCurrentTeam() == this.getNbCurrentTeam() + 1 
+	 */
 	public void addEmptyTeam(String newName){
-		if (amountOfTeamsExceeded()){
+		if (amountOfTeamsExceeded())
 			throw new IllegalStateException("This world already has 10 teams.");
-		}
 		Team team  = new Team(this, newName);
 		this.getTeams().add(team);
 		setLastTeamAdded(team);
 		setNbCurrentTeam(getNbCurrentTeam() + 1);
 	}
 	
+	/**
+	 * Checks whether this world can have the given team as its team.
+	 * 
+	 * @param 	team
+	 * 			The team to be checked.
+	 * @return	True if and only if the world if the given team is equal to this world.
+	 * 			| result == (team.getWorld() == this)
+	 */
 	public boolean canHaveAsTeam(Team team){
 		return (team.getWorld() == this);
 	}
+	
+	/**
+	 * Checks whether the amount of teams of this world has been exceeded.
+	 * 
+	 * @return	True if and only if the amount of teams of this world is larger than 10.
+	 * 			| result == (this.getTeams().size() > 10)
+	 */
 	public boolean amountOfTeamsExceeded(){
 		/* Lege teams worden hier ook nog meegerekend. Dit moet eruit.*/
 		return (this.getTeams().size() > 10);
 	}
 	
-	public void removeTeam(Team team){
+	/**
+	 * Removes the given team from this world.
+	 * 
+	 * @param 	team
+	 * 			The team which has to be removed from this world.
+	 * @effect	The team is removed from the list of worms.
+	 * 			| !world.hasAsTeam(team)
+	 * @throws	IllegalArgumentException
+	 * 			The given team is null.
+	 * 			| (team == null)
+	 */
+	public void removeTeam(Team team) throws IllegalArgumentException{
+		if (team == null)
+			throw new IllegalArgumentException("The given team shouldn't be null.");
+		/* Als het team geen deel is van de list of teams van deze world gebeurt er niets. 
+		 * Dit is zo dankzij de voorgedefineerde methode remove van JAVA. */
 		this.getTeams().remove(team);
-		// Je komt in een loop.
-		//team.terminate();
 	}
 	
+	/**
+	 * List registering the list of teams of this world.
+	 */
 	private ArrayList<Team> listOfTeams;
 
+	/**
+	 * Returns whether this world has the given team as one of its teams.
+	 * 
+	 * @return 	True if and only if the worm has this team as one of its teams.
+	 *			| for (Team team: this.getTeams())
+	 *			| 	if (team == teamToCheck)
+	 *			|		result == true
+	 *			| result == false
+	 */
+	public boolean hasAsTeam(Team teamToCheck){
+		for (Team team: this.getTeams())
+			if (team == teamToCheck)
+				return true;
+		return false;
+	}
 	
 	
 	
-	
+	/**
+	 * Returns the last team that has been added to this world.
+	 */
+	@Basic
 	public Team getLastTeamAdded(){
 		return this.lastTeamAdded;
 	}
 	
-	public void setLastTeamAdded(Team lastTeam){
+	/**
+	 * Sets the last team added of this world to the given team.
+	 * @param 	lastTeam
+	 * 			The new last team of this world.
+	 * @post	The new last team of this world is equal to the given team.
+	 * 			| new.getLastTeamAdded() == lastTeam
+	 * @throws 	IllegalArgumentException
+	 * 			The given team does not belong to this world.
+	 * 			| (!canHaveAsTeam(lastTeam))
+	 */
+	public void setLastTeamAdded(Team lastTeam) throws IllegalArgumentException{
+		if (!canHaveAsTeam(lastTeam))
+			throw new IllegalArgumentException("The given team does not belong to this world.");
 		this.lastTeamAdded = lastTeam;
 	}
 	
+	/**
+	 * Variable registering the last team that has been added to the world.
+	 */
 	private Team lastTeamAdded;
 	
 	
 	
 
-	//FOOD
+	/**
+	 * Returns the list of food of this world.
+	 */
 	public ArrayList<Food> getFood(){
 		return this.listOfFood;
 	}
 	
-	public void setFood(ArrayList<Food> food){
-		this.listOfFood = food;
+	/**
+	 * Sets the list of food of this world to the given list.
+	 * 
+	 * @param 	foodList
+	 * 			The new list of food of this world.
+	 * @post	The list of food of this world is equal to the given list of food.
+	 * 			| new.getFood() == foodList
+	 * @throws	IllegalArgumentException
+	 * 			The given list of food contains food that are not part of this world.
+	 * 			| (!canHaveAsFoodList(foodList)
+	 */
+	public void setFood(ArrayList<Food> foodList) throws IllegalArgumentException{
+		if (! canHaveAsFoodList(foodList))
+			throw new IllegalArgumentException("The given foodlist contains food that are not part of this world.");
+		this.listOfFood = foodList;
 	}
 	
+	/**
+	 * Checks whether all the food of the given list belong to this world.
+	 * 
+	 * @param 	foodList
+	 * 			The list of food to check.
+	 * @return	True if and only if all the food of the given list of food belong to this world.
+	 * 			| for (Food food: foodList)
+	 * 			|	if (!canHaveAsFood(food))
+	 * 			|		result == false
+	 * 			| result == true
+	 */
+	public boolean canHaveAsFoodList(ArrayList<Food> foodList){
+		for (Food food: foodList)
+			if (!canHaveAsFood(food))
+				return false;
+		return true;
+	}
+	
+	/**
+	 * Checks whether the given worm belongs to this world.
+	 * 
+	 * @param 	food
+	 * 			The food to check.
+	 * @return	True if and only if the world of the given food is equal to this world.
+	 * 			| result == (food.getWorld() == this)
+	 */
+	public boolean canHaveAsFood(Food food){
+		return (food.getWorld() == this);
+	}
+	
+	/**
+	 * Returns whether this world has the given food as one of its foods.
+	 * 
+	 * @return 	True if and only if the worm has this food as one of its foods.
+	 *			| for (Food food: this.getFood())
+	 *			| 	if (food == foodToCheck)
+	 *			|		result == true
+	 *			| result == false
+	 */
+	public boolean hasAsFood(Food foodToCheck){
+		for (Food food: this.getFood())
+			if (food == foodToCheck)
+				return true;
+		return false;
+	}
+	
+	
+	
+	/**
+	 * Adds a default food to this world.
+	 * 
+	 * @effect	Creates a new food with this as world and a random starting position.
+	 * 			|  Food food = new Food(this,searchAdjacentStartingPos(0.20)[0],searchAdjacentStartingPos(0.20)[1])
+	 * @effect	The new food is added to the list of foods.
+	 * 			| hasAsFood(food)
+	 */
 	public void addNewFood(){
 		double radius = 0.2;
 		double[] startPos= this.searchAdjacentStartingPos(radius);
@@ -417,36 +660,61 @@ public class World {
 		this.listOfFood.add(food);
 	}
 	
+	/**
+	 * Removes the given food from this world.
+	 * 
+	 * @param 	food
+	 * 			The food which has to be removed from this world.
+	 * @effect	The food is removed from the list of food.
+	 * 			| (!hasAsFood(food))
+	 * @throws	IllegalArgumentException
+	 * 			The given food is null.
+	 * 			| (food == null)
+	 */
 	public void removeFood(Food food){
+		if (food == null)
+			throw new IllegalArgumentException("The given food shouldn't be null.");
+		/* Als dit food geen deel is van de list of food van deze world gebeurt er niets. 
+		 * Dit is zo dankzij de voorgedefineerde methode remove van JAVA. */
 		this.listOfFood.remove(food);
-		//food.terminate();
 	}
 		
+	/**
+	 * List registering the list of food of this world.
+	 */
 	private ArrayList<Food> listOfFood;
 
 
 	
 	
-	//PROJECTILE.
+
 	/**
-	 *@post		This projectile don't longer belongs to any World.
-	 *			| new.getWorld() == null
-	 *@post		The World that contained this Projectile, no longer contains any projectile
-	 *			| new.getWorld().projectile == null;
-	 *
+	 * Return the active projectile of this world.
 	 */
+	@Basic
 	public Projectile getProjectile(){
 		return this.projectile;
 	}
 	
+	/**
+	 * Set the active projectile of this world to the given projectile.
+	 */
+	@Basic
 	public void setProjectile(Projectile projectile){
 		this.projectile = projectile;
 	}
 	
+	/**
+	 * Remove the active projectile of this world.
+	 */
+	@Basic
 	public void removeProjectile(){
-		this.projectile = null;
+		this.setProjectile(null);
 	}
 	
+	/**
+	 * Variable registering the active projectile of this world.
+	 */
 	private Projectile projectile;
 	
 	
@@ -460,94 +728,36 @@ public class World {
 	
 
 		
-//	public boolean isPassable(double centerX, double centerYOmgekeerd, double radius) {
-//		//IndexOutofBound error nog catchen!
-//		//OPMERKING Assistent feedback (later)
-//		// Misschien ervoor zorgen dat je eenvoudigere code krijgt als je niet deelt door pixelheight enz.
-//		double centerY = this.getPassableMap().length*this.getPixelHeight()-centerYOmgekeerd;
-//		if (outOfWorld(centerX, centerY, radius))
-//			return true;
-//		double pixelHeight = this.getPixelHeight();
-//		double pixelWidth = this.getPixelWidth();
-//		int lowestY  = (int) Math.floor( (centerY - radius) / pixelHeight) +2 ;
-//		int highestY = (int) Math.ceil(  (centerY + radius) / pixelHeight) -2; 
-//		int y = lowestY;
-//		while (y <= highestY) {
-//			int lowestX =  (int) Math.floor( (centerX - Math.sqrt(Math.pow(radius,2) - Math.pow( centerY - y*pixelHeight , 2 ))) / pixelWidth );
-//			int highestX = (int) Math.ceil(  (centerX + Math.sqrt(Math.pow(radius,2) - Math.pow( centerY - y*pixelHeight , 2 ))) / pixelWidth );
-//			for (int x = lowestX; x <= highestX; x = x+1){
-//				if (this.getPassableMap()[y][x] == false)
-//					return false;
-//			}	
-//			// +1
-//			y = y+1;
-//		}
-//		return true;
-//		//IndexOutofBound error nog catchen!
-//		//OPMERKING Assistent feedback (later)
-//		// Misschien ervoor zorgen dat je eenvoudigere code krijgt als je niet deelt door pixelheight enz.
-//		double centerY = this.getPassableMap().length*this.getPixelHeight()-centerYOmgekeerd;
-//		if ((outOfWorldX(centerX, radius,this)) || (outOfWorldY(centerY, radius,this)))
-//			return true;
-//		double pixelHeight = this.getPixelHeight();
-//		double pixelWidth = this.getPixelWidth();
-//		int lowestY  = (int) Math.floor( (centerY - radius) / pixelHeight);
-//		int highestY = (int) Math.ceil(  (centerY + radius) / pixelHeight); 
-//		int y = lowestY;
-//		int lowestXInt = 0;
-//		int highestXInt = 0;
-//		while (y <= highestY) {
-//		double lowestX = (centerX - Math.sqrt(Math.pow(radius,2) - Math.pow( centerY - y*pixelHeight , 2 ))) / pixelWidth ;
-//			double highestX = (centerX + Math.sqrt(Math.pow(radius,2) - Math.pow( centerY - y*pixelHeight , 2 ))) / pixelWidth ;
-//			if (Double.isNaN(lowestX))
-//			lowestXInt = (int)centerX;
-//			else
-//				lowestX = (int)Math.floor(lowestX);
-//			if(Double.isNaN(highestX))
-//			highestXInt = (int)centerX;
-//			else
-//				if(Double.isNaN(lowestX))
-//					highestX = (int)lowestX;
-//			for (int x = lowestXInt; x <= highestXInt; x = x+1){
-//				if (this.getPassableMap()[y][x] == false)
-//					return false;
-//			}				
-//			y = y + 1;
-//		}
-//		return true;
-//	}
-		
-//	public boolean isImpassable(double x, double y, double radius){
-//		return (! isPassable(x,y,radius) );
-//	}
-	
+
+	/**
+	 * Returns whether a circle with given centre and radius is passable in this world.
+	 */
 	public boolean isPassable(double centerX, double centerYOmgekeerd, double radius){
 		
 		try{
-		double centerY = this.getHeight()-centerYOmgekeerd;
-		double lowestY= centerY - radius;
-		double highestY = centerY + radius; 
-		double y = lowestY;
-		double pixelHeight = this.getPixelHeight();
-		if (this.getPassableMap()[(int)Math.floor(lowestY/pixelHeight)][(int)Math.floor(centerX/this.getPixelHeight())] == false)
-			return false;
-		if (this.getPassableMap()[(int)Math.floor(highestY/this.getPixelHeight()-0.001)][(int)Math.floor(centerX/this.getPixelHeight())] == false)
-			return false;
-		while (Util.fuzzyLessThanOrEqualTo(y, highestY)) {
-			double lowestX = centerX - Math.sqrt(Math.pow(radius,2) - Math.pow( centerY - y , 2 ));
-			double highestX = centerX + Math.sqrt(Math.pow(radius,2) - Math.pow( centerY - y , 2 ));
-			if (Double.isNaN(lowestX))
-				lowestX = centerX;
-			if(Double.isNaN(highestX))
-				highestX = centerX;
-			if (this.getPassableMap()[(int)Math.floor(y/this.getPixelHeight())][(int)Math.floor(lowestX/this.getPixelHeight())] == false)
+			double centerY = this.getHeight()-centerYOmgekeerd;
+			double lowestY= centerY - radius;
+			double highestY = centerY + radius; 
+			double y = lowestY;
+			double pixelHeight = this.getPixelHeight();
+			if (this.getPassableMap()[(int)Math.floor(lowestY/pixelHeight)][(int)Math.floor(centerX/this.getPixelHeight())] == false)
 				return false;
-			if (this.getPassableMap()[(int)Math.floor(y/this.getPixelHeight())][(int)Math.floor(highestX/this.getPixelHeight())] == false)
-				return false;	
-			// 10
-			y = y + radius / 10;
-		}
-		return true;
+			if (this.getPassableMap()[(int)Math.floor(highestY/this.getPixelHeight()-0.001)][(int)Math.floor(centerX/this.getPixelHeight())] == false)
+				return false;
+			while (Util.fuzzyLessThanOrEqualTo(y, highestY)) {
+				double lowestX = centerX - Math.sqrt(Math.pow(radius,2) - Math.pow( centerY - y , 2 ));
+				double highestX = centerX + Math.sqrt(Math.pow(radius,2) - Math.pow( centerY - y , 2 ));
+				if (Double.isNaN(lowestX))
+					lowestX = centerX;
+				if(Double.isNaN(highestX))
+					highestX = centerX;
+				if (this.getPassableMap()[(int)Math.floor(y/this.getPixelHeight())][(int)Math.floor(lowestX/this.getPixelHeight())] == false)
+					return false;
+				if (this.getPassableMap()[(int)Math.floor(y/this.getPixelHeight())][(int)Math.floor(highestX/this.getPixelHeight())] == false)
+					return false;	
+				y = y + radius / 10;
+			}
+			return true;
 		}
 		catch (ArrayIndexOutOfBoundsException exc){
 			return true;
@@ -555,34 +765,17 @@ public class World {
 		
 	}
 	
+	/**
+	 * Returns whether a circle with given centre and radius is impassable in this world.
+	 */
 	public boolean isImpassable(double centerX, double centerYOmgekeerd, double radius){
 		return (! isPassable(centerX,centerYOmgekeerd,radius));
 	}
 
 
-	/*
-		double centerYPixel = (this.getPassableMap().length*this.getPixelHeight()-centerYOmgekeerd)*this.getPixelHeight();
-		double centerXPixel = (centerX*this.getPixelWidth());
-		double radiusPixel = radius*this.getPixelHeight();
-		
-		double lowestY = centerYPixel - radiusPixel;
-		double HighestY = centerYPixel + radiusPixel;
-		
-		int yInt = (int)lowestY;
-		double yDouble = lowestY;
-		
-		while (yDouble <= HighestY){
-			int lowestX =  (int) Math.round( (centerXPixel - Math.sqrt(Math.pow(radiusPixel,2) - Math.pow( centerYPixel - yDouble , 2 ))));
-			int HighestX =  (int) Math.round( (centerXPixel - Math.sqrt(Math.pow(radiusPixel,2) + Math.pow( centerYPixel - yDouble , 2 ))));
-			if((this.getPassableMap()[yInt][lowestX]||this.getPassableMap()[yInt][HighestX])){
-				return true;
-			}
-			yInt = yInt + 1;
-			yDouble = yDouble+1;
-		}
-		return true;
-		}*/
-		
+	/**
+	 * Returns whether a rectangular with given upper left position and lower right position is passable.
+	 */
 	public boolean isPassableRectangular(double upperLeftX, double upperLeftY, double lowerRightX, double lowerRightY){
 		int lowestPixelX  = (int) Math.floor( upperLeftX  / getPixelWidth() );
 		int highestPixelX = (int) Math.floor( lowerRightX / getPixelWidth() );
@@ -601,6 +794,29 @@ public class World {
 		return true; 
 	}
 	
+	/**
+	 * Returns whether a circle with given center and radius is adjacent in this world.
+	 */
+	public boolean isAdjacent(Position position, double radius){
+		return isAdjacent(position.getX(), position.getY(), radius);
+	}
+	
+	/**
+	 * Returns whether a circle with given center and radius is adjacent in this world.
+	 */
+	public boolean isAdjacent(double x, double y, double radius){
+		// Opmerking: Je checkt bij is Passable al een gebied van grootte radius. Bij isImpassable controleeer je dit gebied helemaal nog eens opnieuw.
+		if ((isPassable(x,y,radius)) && (!isPassable(x,y,1.1*radius))){
+			return true;
+		}
+		else
+			return false;
+	}
+
+	
+	/**
+	 * Searches the adjacent position that is closest to the given gameobject.
+	 */
 	public Position searchClosestAdjacentPosition(GameObject gameObject){
 		double angle = 0;
 		double distance = 0;
@@ -620,52 +836,8 @@ public class World {
 		return adjacentPosition;
 	}
 
-	public boolean isAdjacent(Position position, double radius){
-		return isAdjacent(position.getX(), position.getY(), radius);
-	}
 
 	
-	// 	boolean isAdjacent(World world, double x, double y, double radius);
-//	public boolean isAdjacent(double x, double y, double radius){
-//		// Opmerking: Je chekt bij is Passable al een gebied van grootte radius. Bij isImpassable controleeer je dit gebied helemaal nog eens opnieuw.
-//		if ((isPassable(x,y,radius)) && (!isPassable(x,y,1.1*radius))){
-//			return true;
-//		}
-//		else
-//			return false;
-//	}
-	
-	public boolean isAdjacent(double x, double y, double radius){
-		// Opmerking: Je chekt bij is Passable al een gebied van grootte radius. Bij isImpassable controleeer je dit gebied helemaal nog eens opnieuw.
-		if ((isPassable(x,y,radius)) && (!isPassable(x,y,1.1*radius))){
-			return true;
-		}
-		else
-			return false;
-	}
-	
-	//Naamgeving
-	public boolean isPassableHalfCircleEdge(double centerX, double centerY, double radius) throws IndexOutOfBoundsException{
-		//IndexOutofBound error nog catchen!
-
-		//OPMERKING Assistent feedback (later)
-		// Misschien ervoor zorgen dat je eenvoudigere code krijgt als je niet deelt door pixelheight enz.
-		// Calculate position van POSITION???
-		int lowestY = (int) Math.floor( (centerY - radius) / this.getPixelHeight() );
-		int highestY = (int) Math.floor( (centerY) / this.getPixelHeight() );
-		int y = highestY;
-		while ((y >= lowestY) && (y <= highestY)) {
-			int lowestX = (int) Math.floor( (centerX - Math.sqrt(Math.pow(radius,2) - Math.pow( centerY - y*this.getPixelHeight() , 2 ))) / this.getPixelWidth() );
-			int highestX = (int) Math.ceil( (centerX + Math.sqrt(Math.pow(radius,2) - Math.pow( centerY - y*this.getPixelHeight() , 2 ))) / this.getPixelWidth() );
-			if (this.getPassableMap()[y][lowestX] == false) 
-				return false;
-			if (this.getPassableMap()[y][highestX] == false)
-				return false;	
-			y = y - 1;
-		}
-		return true;
-	}
-
 	
 	
 	
@@ -673,9 +845,11 @@ public class World {
 
 	
 
-	
+	/**
+	 * Returns an random adjacent starting position for a circle with given radius.
+	 */
+	/* position returnen ipv double[] is beter! */
 	public double[] searchAdjacentStartingPos(double radius){
-		// JE KAN NIET MEER UIT DE WERELD GERAKEN. HET ONDERSTE WORDT OOK ALS ADJACENT BESCHOUWD.
 		double randX = this.random.nextDouble()*this.getWidth();
 		double randY = this.random.nextDouble()*this.getHeight();
 		while (true) {
@@ -684,34 +858,27 @@ public class World {
 				return randomStartPos;
 			}			
 			else{
-				// + 15
-				//randX = randX + 15 * this.getPixelWidth();
 				randX = randX + 0.1*radius;
 				if (Util.fuzzyGreaterThanOrEqualTo(randX, this.getWidth()) ){
-					// 0.01
-//					randX = 0.01 * this.getWidth();
 					randX = 1.01*radius;
-					// 5
-					//randY = randY + 5 * this.getPixelHeight();
 					randY = randY + 0.1*radius;
 					if (randY > this.getHeight())
-						//0.01
-						//randY = 0.01 * this.getHeight();
 						randY = 1.01*radius;
 				}
 			}
 		}
 	}
 	
+	/**
+	 * Returns whether the game is finished or not.
+	 */
 	public boolean isGameFinished(){
-		// Voor als je een game zou starten zonder dat je wormen toevoegt. Nu is dit wel totaal ipv defensief.
-		if ( this.getWorms().size() == 0){
+		// Voor als je een game zou starten zonder dat je wormen toevoegt.
+		if ( this.getWorms().size() == 0)
 			return true;
-		}
 		if ( (this.getTeams().size() == 1) && (this.getTeams().get(0).getName().equals("Independent")) ) {
-			if (this.getWorms().size() == 1){
+			if (this.getWorms().size() == 1)
 				return true;
-			}
 			return false;
 		}
 		else if (this.getTeams().size() == 1)
@@ -719,27 +886,28 @@ public class World {
 		return false;
 	}
 	
+	/**
+	 * Returns the winner of this game.
+	 */
 	public String getWinner(){
-		if (!(this.isGameFinished())){
+		if (!(this.isGameFinished()))
 			return null;
-		}
 		else {
 			if ( this.getWorms().size() == 0)
 				return "nobody, since no worms were added before this game was started.";
-			if ( (this.getTeams().size() == 1) && (this.getTeams().get(0).getName().equals("Independent")) ){
+			if ( (this.getTeams().size() == 1) && (this.getTeams().get(0).getName().equals("Independent")) )
 				return this.getWorms().get(0).getName();
-			}
-			else{
+			else
 				return this.getTeams().get(0).getName();
-			}
 		}
 	}
 	
+	/**
+	 * Starts the next turn of the game.
+	 */
 	public void startNextTurn(){
-		// Next team ook beter een iterator..
 		if (this.getNbCurrentTeam() == this.getTeams().size() - 1){
 			this.setNbCurrentTeam(0);
-			//Next worm moet een iterator worden...
 			this.getCurrentTeam().nextWorm();
 		}
 		else if (this.getNbCurrentTeam() != this.getTeams().size() ){
@@ -750,12 +918,19 @@ public class World {
 		this.getCurrentTeam().getCurrentWorm().setHitPoints   (this.getCurrentTeam().getCurrentWorm().getHitPoints() + 10);
 	}
 	
+	/**
+	 * Returns the active projectile of this game.
+	 */
+	@Basic
 	public Projectile getActiveProjectile(){
 		return this.projectile;
 	}
 	
+	/**
+	 * Starts the game.
+	 */
 	public void startGame(){
-		//If statement voor als je geen wormen zou hebben toegevoegd voor als je je spel start. Wel totaal nu ipv defensief
+		//If statement voor als je geen wormen zou hebben toegevoegd voor als je je spel start.
 		if (this.getWorms().size() != 0){
 			removeEmptyTeamsFromGame();
 			for (Worm worm: this.getWorms()){
@@ -764,20 +939,21 @@ public class World {
 			}
 			this.setNbCurrentTeam(0);
 		}
-		//Nakijken of Independent niet leeg is, anders terminaten.
 	}
 	
 	
-
+	/**
+	 * Remove all empty teams from the world.
+	 */
 	public void removeEmptyTeamsFromGame(){
-	int i = 0;
-	while (i <= this.getTeams().size() - 1)
-		if (this.getTeams().get(i).getTeamMembers().size() == 0){
-			this.getTeams().get(i).terminate();
-		}
-		else{
-			i++;
-		}
+		int i = 0;
+		while (i <= this.getTeams().size() - 1)
+			if (this.getTeams().get(i).getTeamMembers().size() == 0){
+				this.getTeams().get(i).terminate();
+			}
+			else{
+				i++;
+			}
 	}
 	
 	

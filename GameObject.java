@@ -103,12 +103,7 @@ public abstract class GameObject {
 	
 
 	
-	//NOG HELEMAAL NAKIJKEN!!!!
-	//ONAFGEWERKT.
-	//DEZE METHODE KLOPT NOG NIET HELEMAAL MET OWNABLE. DAAR OOK SETWORLDTO
-	//MISSCHIEN NOG TE IMPLEMENTEREN:
-		// canHavaAsWorld()
-		// hasProperWorld()
+	
 	/**
 	 * Return the world of this GameObject.
 	 */
@@ -120,18 +115,21 @@ public abstract class GameObject {
 
 	/**
 	 * Set the world of this GameObject to the given world.
+	 * 
+	 * @post	The new world of this gameobject is equal to the given world.
+	 * 			| new.getWorld() == world
+	 * @throws	IllegalStateException
+	 * 			This GameObject already has a world!
+	 * 			| (this.hasWorld())
 	 */
-	// Moet @Raw bij het argument World?
-	// Voorlopig @Basic, tenzij er een checker bijkomt
-	@Basic
-	public void setWorld(@Raw World world) {
-		//if ! CanHaveAsWorld(world)
-		// throw blabla..???
-		//if (this.hasWorld())
-		//	throw new IllegalStateException("This GameObject already has a world!");
+	public void setWorld(World world) {
+		if (this.hasWorld())
+			throw new IllegalStateException("This GameObject already has a world!");
 		this.world = world;
-		//world.addWorm(this) ofzo...???
 	}
+	
+	
+
 	
 	
 	/**
@@ -146,35 +144,11 @@ public abstract class GameObject {
 	 * @return	True if and only if the world of this GameObject is effective.
 	 * 			| (this.getWorld() != null)
 	 */
-	//@Raw ?
 	public boolean hasWorld(){
 		return (this.getWorld() != null);
 	}
 	
-	
-//	/**
-//	 * Check whether this ownable can have the given owner
-//	 * as its owner.
-//	 *
-//	 * @param   owner
-//	 *          The owner to check.
-//	 * @return  If this ownable is terminated, true if and only if
-//	 *          the given owner is not effective.
-//	 *        | if (this.isTerminated())
-//	 *        |   then result == (owner == null)
-//	 *          Otherwise, true if and only if the given owner is
-//	 *          either not effective or not terminated.
-//	 *        | else result ==
-//	 *        |   (owner == null) || (! owner.isTerminated())
-//	 */
-//	@Raw
-//	public boolean canHaveAsWorld(World world) {
-//		if (this.isTerminated())
-//			return (world == null);
-//		return (world == null) || (!world.isTerminated());
-//	}
-	//OOK NOG WORLD TERMINATE FUNCTIE SCHRIJVEN WRS!
-	
+
 	
 	/**
 	 * Variable registering the world of this GameObject.

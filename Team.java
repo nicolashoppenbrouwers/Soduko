@@ -15,7 +15,7 @@ import java.util.ArrayList;
 import be.kuleuven.cs.som.annotate.*;
 
 
-// KLASSEINVARIANT DYNAMISCHE BINDING!!!
+
 /**
  * A help class of teams for worms, involving a name, a membershiplist and an index which contains 
  * 		whose turn it currently is.
@@ -29,8 +29,7 @@ import be.kuleuven.cs.som.annotate.*;
  *
  */
 
-// Moet een team ook kunnen geterminate worden op het einde van elk spel?
-// Het spel crasht wanneer je een team wilt toevoegen en independent heeft geen wormen
+
 
 public class Team {
 	//IN ORDE
@@ -131,8 +130,17 @@ public class Team {
 			throw new IllegalStateException("This world already has 10 teams!");
 		this.world = world;
 	}
-	
-	//NOG DOEN
+
+	/**
+	 * Unset the world, if any, from this team.
+	 *
+	 * @post    This team no longer has a world.
+	 *        	| ! new.hasTeam()
+	 * @effect  The former world of this team, if any, no longer
+	 *          has this team as one of its teams.
+	 *        	|    (getTeam() == null)
+	 *          |     || (! (new getTeam()).hasAsTeam(team))
+	 */
 	public void unsetWorld(){
 		if (this.hasWorld()){
 			World formerWorld = this.getWorld();
@@ -147,7 +155,6 @@ public class Team {
 	 * @return	True if and only if the world of this team is effective.
 	 * 			| (this.getWorld() != null)
 	 */
-	//@Raw?
 	public boolean hasWorld(){
 		return (this.getWorld() != null);
 	}
@@ -313,8 +320,21 @@ public class Team {
 	private ArrayList<Worm> listOfWorms;
 	
 	
-	
-	
+	/**
+	 * Returns whether this team has the given worm as one of its worms.
+	 * 
+	 * @return 	True if and only if this team has this worm as one of its worms.
+	 *			| for (Worm worm: this.getWorms())
+	 *			| 	if (team == teamToCheck)
+	 *			|		result == true
+	 *			| result == false
+	 */
+	public boolean hasAsTeam(Worm wormToCheck){
+		for (Worm worm: this.getTeamMembers())
+			if (worm == wormToCheck)
+				return true;
+		return false;
+	}
 	
 	
 	
@@ -342,8 +362,7 @@ public class Team {
 		return this.listOfWorms.get(this.getNbCurrentWorm());
 	}
 	
-	//MISSCHIEN TOCH NIET DEZE EXCEPTION THROWEN WANT DAN GA JE UW CONSTRUCTOR NIET KUNNEN GEBRUIKEN.
-	//Documentatie dan wel aanpassen.
+
 	/**
 	 * Sets the index of the current worm to the given index.
 	 *
@@ -352,13 +371,13 @@ public class Team {
 	 * @post	The new index of the current worm of this team, if not empty, is equal to the given index.
 	 * 			| new.getNbCurrentWorm() == indexWorm
 	 * @throws	IllegalStateException
-	 * 			The team is empty.
-	 * 			| (this.getTeamMembers().size() == 0)
+	 * 			The given index is larger than the size of the membershiplist of this team or negative.
+	 * 			| ((indexWorm > this.getTeamMembers().size() -1) && (indexWorm < 0))
 	 * 
 	 */
 	public void setNbCurrentWorm(int indexWorm) throws IllegalStateException{
-//		if (this.getTeamMembers().size() == 0)
-//			throw new IllegalStateException("Team is empty.");
+		if ((indexWorm > this.getTeamMembers().size() -1) && (indexWorm < 0))
+			throw new IllegalStateException("The given index is larger than the size of the membershiplist of this team.");
 		this.nbCurrentWorm = indexWorm;
 	}
 	

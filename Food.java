@@ -12,8 +12,7 @@
 package worms.model;
 import be.kuleuven.cs.som.annotate.*;
 
-//Documentatie en opmerking bij unsetWorld. (dynamische binding shit)
-//KLASSEINVARIANT DYNAMISCHE BINDING!!!
+
 /**
  * A class of food as a special kind of GameObjects, involving a world,
  *	 position, direction, and radius.
@@ -49,25 +48,16 @@ public class Food extends GameObject {
 	
 	
 	
-	//DOCUMENTATIE
-	//Methode hasAsFood bestaat niet --> moet in World komen (cfr. Ownable)
-	//3e post moet ook nog aangepast worden.
+	
 	/**
 	 * Unset the world, if any, from this food.
 	 *
-	 * @post    This food no longer has a world.
+	 * @effect  This food no longer has a world.
 	 *        	| ! new.hasWorld()
 	 * @effect  The former world of this food, if any, no longer
 	 *          has this food as one of its foods.
 	 *        	| (this.getWorld() == null)
 	 *        	| 	|| (! (new this.getWorld()).hasAsFood(food))
-	 *        
-	 * @post    All ownings registered beyond the position at which
-	 *          this owning was registered shift one position to the left.
-	 *          | (getOwner() == null) ||
-	 *          | (for each index in
-	 *          |        getOwner().getIndexOfOwning(owning)+1..getOwner().getNbOwnings():
-	 *          |    (new getOwner()).getOwningAt(index-1) == getOwner().getOwningAt(index) ) 
 	 */
 	 @Override
 	 public void unsetWorld(){
