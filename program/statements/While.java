@@ -23,7 +23,7 @@ public class While extends Statement{
 	}
 	
 	
-	//Setters en getters, allemaal privat want je mag deze niet gebruiken buiten deze klasse
+	//Setters en getters, allemaal private want je mag deze niet gebruiken buiten deze klasse
 
 	@Basic
 	private Expression getCondition() {

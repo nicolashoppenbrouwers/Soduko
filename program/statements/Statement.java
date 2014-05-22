@@ -29,7 +29,7 @@ public abstract class Statement {
 	private final int column;
 	
 	
-	/**
+	/*
 	 * 	Deze functie geeft false terug als er al meer dan 1000 statements zijn opgeroepen
 	 *	Anders voert deze functie de normale executeStatement() uit
 	 */
@@ -46,7 +46,7 @@ public abstract class Statement {
 	// Elk Statement moet over deze functies beschikken, om al de nodige functionaliteiten van een programma mogelijk te maken
 	// Als je ervoor zorgt dat elk statement aan deze functies voldoen zal je deze functies ook kunnen oproepen op je mainstatement
 	// door de recursie
-	/**
+	/*
 	 * 	Deze functie voert het statement uit
 	 *	Het moet true returnen als het statement volledig is uitgevoerd
 	 *	Indien het statement true returned, en je excute het statement opnieuw,
@@ -60,13 +60,13 @@ public abstract class Statement {
 	public abstract boolean executeStatement(Program program);
 
 	
-	/**
+	/*
 	 * Deze functie geeft weer of dat het statement op expliciete of impliciete wijze een actionstatemnt bevat
 	 * (Deze functie heb je nodig in voor forEach();
 	 */
 	public abstract boolean containsActionStatement();
 	
-	/**
+	/*
 	 * Deze functie geeft weer of dit Statement een welformed statement is
 	 */
 	public abstract boolean isWellFormed();

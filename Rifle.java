@@ -18,9 +18,18 @@ import be.kuleuven.cs.som.annotate.*;
 /**
  * A final class of rifles as a special kind of Projectiles, involving a world,
  *	 position, direction and a radius.
- * 
+ *
+ * @invar	The position of each rifle must be a valid position for a rifle.
+ * 			| isValidPosition(this.getPositionX())
+ * 			| 	&& isValidPosition(this.getPositionY())
+ * @invar	The direction of each rifle must be a valid direction for a rifle.
+ * 			| isValidDirection(this.getDirection())
+ * @invar	The radius of each rifle must be a valid radius for a rifle.
+ * 			| isValidRadius(this.getRadius())
+ * @invar	The direction of each rifle must be a valid direction for a rifle.
+ * 			| isValidDirection(this.getDirection())
  * @invar	The propulsion yield of each rifle should be a valid propulsion yield for a rifle.
- * 			| isValidPropulsionYield(this.getName())
+ * 			| isValidPropulsionYield(this.getPropulsionYield())
  * 
  * @author 	Nicolas Hoppenbrouwers
  * 			Bram Lust
@@ -83,14 +92,6 @@ public final class Rifle extends Projectile {
 	@Basic @Override
 	public int getActionPointsCost(){
 		return 10;
-	}
-
-
-	//WAT DOET DEZE FUNCTIE HIER?
-	@Override
-	public boolean canJump() {
-		// TODO Auto-generated method stub
-		return false;
 	}
 
 }

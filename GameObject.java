@@ -206,6 +206,18 @@ public abstract class GameObject {
 		return this.position;
 	}
 	
+	/**
+	 * Sets this GameObject's position to the given position.
+	 * @param 	position
+	 * 			The new position of this GameObject.
+	 * @effect	The new position is equal to the given position.
+	 * 			| setPosition(position.getX(),position.getY())
+	 * @throws 	IllegalArgumentException
+	 * 			The given position is an invalid position.
+	 * 			| (!isValidPosition(positionX))
+	 * 			| 	|| (!isValidPosition(positionY))
+	 * @note	This setter uses the setter setPosition(double positionX, double positionY)
+	 */
 	public void setPosition(Position position) throws IllegalArgumentException{
 		setPosition(position.getX(),position.getY());
 	}
@@ -312,8 +324,7 @@ public abstract class GameObject {
 	
 	
 
-	
-	//THROWS
+	//IN ORDE
 	/**
 	 * Checks whether the given position is close to a worm.
 	 * 

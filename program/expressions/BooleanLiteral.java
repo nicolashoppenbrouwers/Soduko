@@ -2,9 +2,8 @@ package worms.model.program.expressions;
 
 import worms.model.Program;
 import worms.model.program.types.Boolean;
-//HERBEKIJKEN!!!! --> worms.model.program.types.Boolean meegeven ipv boolean
 
-// extends Expression<Boolean>
+
 public class BooleanLiteral extends Expression {
 	public BooleanLiteral(int line, int column, Boolean bool){
 		super(line,column);

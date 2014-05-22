@@ -31,7 +31,7 @@ public class Sequence extends Statement{
 	private final List<Statement> statements;
 	
 
-	// misschien doet het moeilijk omdat java denkt dat ik misschien niet uit de while lus ga geraken
+
 	@Override
 	public boolean executeStatement(Program program) {
 		

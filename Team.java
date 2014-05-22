@@ -23,7 +23,6 @@ import be.kuleuven.cs.som.annotate.*;
  * @invar 	The name of each Team must be a valid name for a Team.
  * 			| isValidName(this.getName())
  *
- * @invar	...
  * @author 	Nicolas Hoppenbrouwers
  * 			Bram Lust
  * @version 2.0
@@ -47,7 +46,7 @@ public class Team {
 	 * @effect	The name of this new team is equal to the given name.
 	 * 			| new.getName() == name
 	 * @effect	The membership list of this new team is initialized as an empty array.
-	 * 			| new.getTeamMembers() == null;
+	 * 			| new.getTeamMembers() == ArrayList<Worm>();
 	 * @effect	The index of the current worm of this new team is initialized as zero.
 	 * 			| new.getNbCurrentWorm() == 0;
 	 */
@@ -128,7 +127,7 @@ public class Team {
 	//NOG DOEN
 	public void setWorld(World world){
 		//De eerste voorwaarde moet er bij anders krijg je een NullPointerException op de tweede voorwaarde.
-		if ((world != null) && (!world.isValidAmountOfTeams()) )
+		if ((world != null) && (world.amountOfTeamsExceeded()) )
 			throw new IllegalStateException("This world already has 10 teams!");
 		this.world = world;
 	}

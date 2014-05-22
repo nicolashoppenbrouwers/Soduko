@@ -5,7 +5,6 @@ import java.util.List;
 
 import worms.model.GameObject;
 import worms.model.Program;
-import worms.model.ProgramFactoryImpl.ForeachType;
 import worms.model.program.types.Entity;
 
 public class Foreach extends Statement{

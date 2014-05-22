@@ -17,9 +17,16 @@ import be.kuleuven.cs.som.annotate.*;
 /**
  * A final class of bazookas as a special kind of Projectiles, involving a world,
  *	 position, direction, radius and a propulsion yield.
- * 
- * @invar	The propulsion yield of each rifle should be a valid propulsion yield for a rifle.
- * 			| isValidPropulsionYield(this.getName())
+ *
+ * @invar	The position of each bazooka must be a valid position for a bazooka.
+ * 			| isValidPosition(this.getPositionX())
+ * 			| 	&& isValidPosition(this.getPositionY())
+ * @invar	The direction of each bazooka must be a valid direction for a bazooka.
+ * 			| isValidDirection(this.getDirection())
+ * @invar	The radius of each bazooka must be a valid radius for a bazooka.
+ * 			| isValidRadius(this.getRadius())
+ * @invar	The direction of each bazooka must be a valid direction for a bazooka.
+ * 			| isValidDirection(this.getDirection())
  * 
  * @author 	Nicolas Hoppenbrouwers
  * 			Bram Lust
@@ -150,21 +157,4 @@ public final class Bazooka extends Projectile {
 	public int getActionPointsCost(){
 		return 50;
 	}
-
-	
-	
-	
-	
-	
-	//WAT DOET DEZE FUNCTIE HIER?
-	
-	@Override
-	public boolean canJump() {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-
-
-
 }

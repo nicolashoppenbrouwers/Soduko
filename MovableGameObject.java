@@ -19,7 +19,14 @@ import be.kuleuven.cs.som.annotate.*;
  * An abstract class of Movable Game Objects as a special kind of GameObjects. In addition to the world,
  * position and radius, Movable GameObjects also have a direction they face.
  * 
- * @invar	The direction of each worm must be a valid direction for a worm.
+ * @invar	The position of each moveable GameObject must be a valid position for a movable GameObject.
+ * 			| isValidPosition(this.getPositionX())
+ * 			| 	&& isValidPosition(this.getPositionY())
+ * @invar	The direction of each movable GameObject must be a valid direction for a movable GameObject.
+ * 			| isValidDirection(this.getDirection())
+ * @invar	The radius of each movable GameObject must be a valid radius for a movable GameObject.
+ * 			| isValidRadius(this.getRadius())
+ * @invar	The direction of each movable GameObject must be a valid direction for a movable GameObject.
  * 			| isValidDirection(this.getDirection())
  * 
  * @author 	Nicolas Hoppenbrouwers

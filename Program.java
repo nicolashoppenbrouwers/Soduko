@@ -1,3 +1,14 @@
+/*
+ * Assignment 'Worms' Object-Oriented Programming
+ * University:		KU Leuven
+ * Study:			Bachelor Ingenieurswetenschappen
+ * Course:			Objectgericht Programmeren (H01P1A)
+ * Year:			2013 - 2014
+ * Authors: 		Nicolas Hoppenbrouwers 	(Computerwetenschappen - Werktuigkunde)
+ * 					Bram Lust 				(Computerwetenschappen - Elektrotechniek)
+ * Git: 			https://github.com/nicolashoppenbrouwers/Soduko.git
+ */
+
 package worms.model;
 import java.util.Map;
 

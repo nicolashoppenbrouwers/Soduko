@@ -1,41 +1,81 @@
-/**
- * 
+/*
+ * Assignment 'Worms' Object-Oriented Programming
+ * University:		KU Leuven
+ * Study:			Bachelor Ingenieurswetenschappen
+ * Course:			Objectgericht Programmeren (H01P1A)
+ * Year:			2013 - 2014
+ * Authors: 		Nicolas Hoppenbrouwers 	(Computerwetenschappen - Werktuigkunde)
+ * 					Bram Lust 				(Computerwetenschappen - Elektrotechniek)
+ * Git: 			https://github.com/nicolashoppenbrouwers/Soduko.git
  */
+
 package worms.model;
 
 import java.util.*;
 
+import be.kuleuven.cs.som.annotate.*;
 import worms.util.Util;
 
-//Methoden:
-// DONE addEmptyTeam(World world, String newName)
-// DONE addNewFood(World world)
-// DONE addNewWorm(World world)
-
-// DONE 	public World createWorld(double width, double height,
-// DONE					boolean[][] passableMap, Random random);
-
-// DONE Worm getCurrentWorm(World world)
-// DONE Collection<Food> getFood(World world);
-// DONE String getWinner(World world);
-// DONE Collection<Worm> getWorms(World world);
-// DONE Projectile getActiveProjectile(World world);
-// DONE		boolean isAdjacent(World world, double x, double y, double radius);
-// DONE boolean isGameFinished(World world);
-// DONE		boolean isImpassable(World world, double x, double y, double radius);
-// void startGame(World world);
-// DONE void startNextTurn(World world);
 
 
 
 //KLASSEINVARIANT DYNAMISCHE BINDING!!!
+
 /**
+ * A class of worlds, containing a width, height, passablemap, random, a list of worms,
+ * 	teams and foods, an active projectile and an index of the current team.
+ * 
+ * @invar 	The width of each world should be a valid width for a world.
+ * 			| isValidWidth(this.getWidth())
+ * @invar 	The height of each world should be a valid height for a world.
+ * 			| isValidHeight(this.getHeight())
+ * @invar	The world should never contain more than 10 teams.
+ * 			| (!amountOfTeamsExceeded())
+ * @invar	Each team in the list of teams of a world should be part of that world.
+ * 			| for (Team team: this.getTeams())
+ * 			| 	team.getWorld() == this
+ * @invar 	Each worm in the list of worms of a world should be part of that world.
+ * 			| for (Worm team: this.getTeams())
+ * 			|	worm.getWorld() == this
+ * 
  * @author 	Nicolas Hoppenbrouwers
  * 			Bram Lust
- * @version 2.0
+ * @version	2.0
+ *
  */
 public class World {
-	public World (double width, double height, boolean[][] passableMap, Random random){
+	/**
+	 * Initialize this new world with given width, height, passablemap and random.
+	 * 
+	 * @param	width
+	 * 			The new width of this world.
+	 * @param	height
+	 * 			The new height of this world.
+	 * @param	passableMap
+	 * 			The new passable map of this world, which contains which pixels are passable and which are not.
+	 * @param	random
+	 * 			The new random of this world.
+	 * @effect	The new width of this world is equal to the given width.
+	 * 			| new.getWidth() == width
+	 * @effect	The new height of this world is equal to the given height.
+	 * 			| new.getHeight() == height
+	 * @effect	The new passable map of this world is equal to the given passable map.
+	 * 			| new.getPassableMap() == passableMap
+	 * @effect	The new random of this world is equal to the given random.
+	 * 			| new.getRandom() == random
+	 * @effect	The list of worms of this world is initialized as an empty array.
+	 * 			| new.getWorms() == ArrayList<Worm>()
+	 * @effect	The list of teams of this world contains the empty team 'Independent'.
+	 * 			| new.getTeams() == Team(this, 'Independent')
+	 * @effect	The list of foods of this world is initialized as an empty array.
+	 * 			| new.getFood() == ArrayList<Food>()
+	 * @effect	The index of the current team is initialized as zero.
+	 * 			| new.getNbCurrentTeam() == 0
+	 * @effect	The active projectile of this world is null.
+	 * 			| new.getActiveProjectile() == null	 *
+	 */
+	public World (double width, double height, boolean[][] passableMap, Random random) 
+			throws IllegalArgumentException, IllegalStateException{
 		this.setWidth(width);
 		this.setHeight(height);
 		this.setPassableMap(passableMap);
@@ -53,39 +93,92 @@ public class World {
 	
 	
 	
-	//WIDTH EN HEIGHT
+	//IN ORDE
+	/**
+	 * Returns the width of this world.
+	 */
+	@Basic
 	public double getWidth(){
 		return this.width;
 	}
 	
+	/**
+	 * Sets the width of this world to the given value.
+	 * 
+	 * @param 	width
+	 * 			The new width of this world.
+	 * @post	The new width of this world is equal to the given width.
+	 * 			| new.getWidth() == width
+	 * @throws 	IllegalArgumentException
+	 * 			The width is not a valid width for a world.
+	 * 			| (!isValidWidth(width))
+	 */
 	public void setWidth(double width) throws IllegalArgumentException{
 		if (!isValidWidth(width))
 			throw new IllegalArgumentException("Impossible width!"); 
 		this.width = width;
 	}
 	
-	public boolean isValidWidth(double width){
-		return  !(Double.isNaN(width)) && (width > 0) && (width <= Double.MAX_VALUE);
+	/**
+	 * Checks whether the given width is a valid width for a world.
+	 * 
+	 * @param 	width
+	 * 			The width to be checked.
+	 * @return	True if and only if the given width is not equal to Double.NaN, and
+	 * 			is smaller than Double.MAX_VALUE and bigger than zero.
+	 * 			| '!(Double.isNaN(width)) && (width > 0) && (width <= Double.MAX_VALUE)
+	 */
+	public static boolean isValidWidth(double width){
+		return  (!(Double.isNaN(width)) && (width > 0) && (width <= Double.MAX_VALUE));
 	}
 	
+	/**
+	 * Variable registering the width of this world.
+	 */
 	private double width;
 	
+	/**
+	 * Returns the height of this world.
+	 */
+	@Basic
 	public double getHeight(){
 		return this.height;
 	}
 	
+	/**
+	 * Sets the height of this world to the given value.
+	 * @param 	height
+	 * 			The new height of this world.
+	 * @post	The new height of this world is equal to the given height.
+	 * 			| new.getHeight() == height
+	 * @throws 	IllegalArgumentException
+	 * 			The height is not a valid height for a world.
+	 * 			| (!isValidWidth(width))
+	 */
 	public void setHeight(double height){
 		if (!isValidHeight(height))
 			throw new IllegalArgumentException("Impossible height!"); 
 		this.height = height;
 	}
 	
-	// Wij hebben ervoor gekozen om niet een gemeenschappelijke functie isValidBoundary te maken omdat
-	// het volgens ons mogelijk is dat de upperbound van height niet gelijk is aan upperbound van width (want breedbeeld enz)
-	public boolean isValidHeight(double height){
+	/* Wij hebben ervoor gekozen om niet een gemeenschappelijke functie isValidBoundary te maken omdat
+ 	het volgens ons mogelijk is dat de upperbound van height niet gelijk is aan upperbound van width (want breedbeeld enz) */
+	/**
+	 * Checks whether the given height is a valid height for a world.
+	 * 
+	 * @param 	height
+	 * 			The height to be checked.
+	 * @return	True if and only if the given height is not equal to Double.NaN, and
+	 * 			is smaller than Double.MAX_VALUE and bigger than zero.
+	 * 			| '!(Double.isNaN(height)) && (height > 0) && (height <= Double.MAX_VALUE)
+	 */
+	public static boolean isValidHeight(double height){
 		return !(Double.isNaN(height)) && (height > 0) && (height <= Double.MAX_VALUE);
 	}
 	
+	/**
+	 * Variable registering the height of this world.
+	 */
 	private double height;
 	
 	
@@ -96,20 +189,27 @@ public class World {
 	
 	
 	
-	//PASSABLEMAP
+	//IN ORDE
+	/**
+	 * Returns the passable map of this world, which contains which pixels are passable and which are not.
+	 */
+	@Basic
 	public boolean[][] getPassableMap(){
 		return this.passableMap;
 	}
 	
+	/**
+	 * Sets the passable map of this world to the given passable map.
+	 */
+	@Basic
 	public void setPassableMap(boolean[][] passableMap){
 		this.passableMap = passableMap;
 	}
-	
-	//dummy
-	public boolean isValidPassableMap(){
-		return true;
-	}
-	
+
+
+	/**
+	 * Variable registering the passable map of this world.
+	 */
 	private boolean[][] passableMap;
 	
 	
@@ -120,13 +220,25 @@ public class World {
 	
 	
 	
+	/**
+	 * Returns the random of this world.
+	 */
+	@Basic
+	public Random getRandom(){
+		return this.random;
+	}
 	
-	//RANDOM
-	//Geen getters en checkers voor Random?
+	/**
+	 * Sets the random of this world to the given random.
+	 */
+	@Basic
 	public void setRandom(Random random){
 		this.random = random;
 	}
 	
+	/**
+	 * Variable registering the random of this world.
+	 */
 	private Random random;
 	
 	
@@ -135,32 +247,78 @@ public class World {
 	
 	
 	
-	//WORM
+	/**
+	 * Return the list of worms of this world.
+	 */
+	@Basic
 	public ArrayList<Worm> getWorms(){
 		return this.listOfWorms;
 	}
 	
-	public void setWorms(ArrayList<Worm> wormList){
+	/**
+	 * Sets the list of worms of this world to the given list.
+	 * 
+	 * @param 	wormList
+	 * 			The new list of worms of this world.
+	 * @post	The list of worms of this world is equal to the given list of worms.
+	 * 			| new.getWorms() == wormList
+	 * @throws	IllegalArgumentException
+	 * 			The given list of worms contains worms that are not part of this world.
+	 * 			| (!canHaveAsWormList(wormList)
+	 */
+	public void setWorms(ArrayList<Worm> wormList) throws IllegalArgumentException{
+		if (! canHaveAsWormList(wormList))
+			throw new IllegalArgumentException("The given wormlist contains worms that are not part of this world.");
 		this.listOfWorms = wormList;
 	}
 	
+	/**
+	 * Checks whether all the worms of the given list belong to this world.
+	 * 
+	 * @param 	wormList
+	 * 			The list of worms to check.
+	 * @return	True if and only if all the worms of the given list of worms belong to this world.
+	 * 			| for (Worm worm: wormList)
+	 * 			|	if (!canHaveAsWorm(worm))
+	 * 			|		result == false
+	 * 			| result == true
+	 */
+	public boolean canHaveAsWormList(ArrayList<Worm> wormList){
+		for (Worm worm: wormList)
+			if (!canHaveAsWorm(worm))
+				return false;
+		return true;
+	}
 	
-	//EXTRA FUNCTIONALITEIT eventueel: zien dat wormen niet overlappen. 
+	/**
+	 * Checks whether the given worm belongs to this world.
+	 * @param 	worm
+	 * 			The worm to check.
+	 * @return	True if and only if the world of the given worm is equal to this world.
+	 * 			| result == (worm.getWorld() == this)
+	 */
+	public boolean canHaveAsWorm(Worm worm){
+		return (worm.getWorld() == this);
+	}
+	
+	/**
+	 * Adds a default worm with a given program to this world.
+	 * @param 	program
+	 * 			The program of the worm that is added to this world.
+	 * @effect	
+	 */
 	public void addNewWorm(Program program){
-		//?????.....................
 		double radius = 0.40;
-		double[] startPos= this.searchAdjacentStartingPos(radius);
-		//Nog exception throwen als hij geen positie kan vinden.
-		//Hier nog functie schrijven dat hij een echte naam pakt ipv Worm.
+		double[] startPos = this.searchAdjacentStartingPos(radius);
 		Worm worm = new worms.model.Worm(this,startPos[0],startPos[1],0.0,radius,Worm.getRandomName(),program);
-		this.listOfWorms.add(worm);
+		this.getWorms().add(worm);
 	}
 	
 	private ArrayList<Worm> listOfWorms;
 	
 	//Dynamische binding shit controleren -> NICOLAS
 	public void removeWorm(Worm worm){
-		this.listOfWorms.remove(worm);
+		this.getWorms().remove(worm);
 		// Je komt in een loop.
 		//worm.terminate();
 	}
@@ -176,7 +334,7 @@ public class World {
 	public Team getCurrentTeam(){
 		if (this.getTeams().size() == 0)
 			return null;
-		return this.listOfTeams.get(this.getNbCurrentTeam());
+		return this.getTeams().get(this.getNbCurrentTeam());
 	}
 	
 	private int nbCurrentTeam;
@@ -201,21 +359,25 @@ public class World {
 	}
 	
 	public void addEmptyTeam(String newName){
-		if (!isValidAmountOfTeams()){
+		if (amountOfTeamsExceeded()){
 			throw new IllegalStateException("This world already has 10 teams.");
 		}
 		Team team  = new Team(this, newName);
-		this.listOfTeams.add(team);
+		this.getTeams().add(team);
 		setLastTeamAdded(team);
 		setNbCurrentTeam(getNbCurrentTeam() + 1);
 	}
 	
-	public boolean isValidAmountOfTeams(){
-		return (this.getTeams().size() <= 11);
+	public boolean canHaveAsTeam(Team team){
+		return (team.getWorld() == this);
+	}
+	public boolean amountOfTeamsExceeded(){
+		/* Lege teams worden hier ook nog meegerekend. Dit moet eruit.*/
+		return (this.getTeams().size() > 10);
 	}
 	
 	public void removeTeam(Team team){
-		this.listOfTeams.remove(team);
+		this.getTeams().remove(team);
 		// Je komt in een loop.
 		//team.terminate();
 	}
@@ -448,7 +610,7 @@ public class World {
 			while((angle < 2*Math.PI) && (!adjacentPositionFound)){
 				adjacentPosition.setX(gameObject.getPosition().getX()+distance*Math.cos(angle));
 				adjacentPosition.setY(gameObject.getPosition().getY()+distance*Math.sin(angle));
-				if (this.isAdjacentForShoot(adjacentPosition, gameObject.getRadius()))
+				if (this.isAdjacent(adjacentPosition, gameObject.getRadius()))
 					adjacentPositionFound = true;
 				angle = angle + 0.1*Math.PI;
 			}
@@ -458,7 +620,7 @@ public class World {
 		return adjacentPosition;
 	}
 
-	public boolean isAdjacentForShoot(Position position, double radius){
+	public boolean isAdjacent(Position position, double radius){
 		return isAdjacent(position.getX(), position.getY(), radius);
 	}
 
@@ -546,13 +708,13 @@ public class World {
 		if ( this.getWorms().size() == 0){
 			return true;
 		}
-		if ( (this.listOfTeams.size() == 1) && (this.getTeams().get(0).getName().equals("Independent")) ) {
-			if (this.listOfWorms.size() == 1){
+		if ( (this.getTeams().size() == 1) && (this.getTeams().get(0).getName().equals("Independent")) ) {
+			if (this.getWorms().size() == 1){
 				return true;
 			}
 			return false;
 		}
-		else if (this.listOfTeams.size() == 1)
+		else if (this.getTeams().size() == 1)
 			return true;
 		return false;
 	}
@@ -564,7 +726,7 @@ public class World {
 		else {
 			if ( this.getWorms().size() == 0)
 				return "nobody, since no worms were added before this game was started.";
-			if ( (this.listOfTeams.size() == 1) && (this.getTeams().get(0).getName().equals("Independent")) ){
+			if ( (this.getTeams().size() == 1) && (this.getTeams().get(0).getName().equals("Independent")) ){
 				return this.getWorms().get(0).getName();
 			}
 			else{
@@ -622,25 +784,55 @@ public class World {
 	
 	
 	
-	
-	
+	// IN ORDE
+	/**
+	 * Returns the amount of pixels in the width of this world.
+	 */
+	@Basic
 	public int getAmountOfPixelsInWidth(){
 		return this.passableMap[0].length;
 	}
 	
+	/**
+	 * Returns the amount of pixels in the height of this world.
+	 */
+	@Basic
 	public int getAmountOfPixelsInHeight(){
 		return this.passableMap.length;
 	}
 	
-	public double getPixelWidth(){
-		return (this.getWidth() / (double)getAmountOfPixelsInWidth());
+	/**
+	 * Returns the width of one pixel of this world.
+	 * 
+	 * @return	The result is equal to the width of this world divided by the amount of pixels in the width.
+	 *			| result == (this.getWidth() / (double) getAmountOfPixelsInWidth());
+	 * @throws	IllegalStateException
+	 * 			The world has no pixels in the width!
+	 * 			| (getAmountOfPixelsInWidth() == 0)
+	 */
+	public double getPixelWidth() throws IllegalStateException {
+		if (getAmountOfPixelsInWidth() == 0)
+			throw new IllegalStateException("This world has no pixels!");
+		return (this.getWidth() / (double) getAmountOfPixelsInWidth());
 	}
 	
-	public double getPixelHeight(){
-		return (this.getHeight() / (double)getAmountOfPixelsInHeight());
+	/**
+	 * Returns the height of one pixel of this world.
+	 * 
+	 * @return 	The result is equal to the height of this world divided by the amount of pixels in the height.
+	 * 			| result == (this.getHeight() / (double) getAmountOfPixelsInHeight())
+	 * @throws	IllegalStateException
+	 * 			The world has no pixels in the height!
+	 * 			| (getAmountOfPixelsInHeight() == 0)
+	 */
+	public double getPixelHeight() throws IllegalStateException{
+		if (getAmountOfPixelsInHeight() == 0)
+			throw new IllegalStateException("This world has no pixels!");
+		return (this.getHeight() / (double) getAmountOfPixelsInHeight());
 	}
 	
 
+	//IN ORDE
 	/**
 	 * Checks whether a circular entity (with given center and radius) is inside of a given world.
 	 * 

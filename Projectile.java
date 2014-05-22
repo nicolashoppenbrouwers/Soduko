@@ -18,6 +18,16 @@ import be.kuleuven.cs.som.annotate.*;
 /**
  * An abstract class of projectiles as a special kind of movable GameObjects, involving a world,
  *	 position, direction, and radius.
+ *
+ * @invar	The position of each projectile must be a valid position for a projectile.
+ * 			| isValidPosition(this.getPositionX())
+ * 			| 	&& isValidPosition(this.getPositionY())
+ * @invar	The direction of each projectile must be a valid direction for a projectile.
+ * 			| isValidDirection(this.getDirection())
+ * @invar	The radius of each projectile must be a valid radius for a projectile.
+ * 			| isValidRadius(this.getRadius())
+ * @invar	The direction of each projectile must be a valid direction for a projectile.
+ * 			| isValidDirection(this.getDirection())
  * 
  * @author 	Nicolas Hoppenbrouwers
  * 			Bram Lust
@@ -181,6 +191,8 @@ public abstract class Projectile extends MovableGameObject{
 	
 	// DOCUMENTATIE EN METHODE.
 	public void jump(double timeStep) throws IllegalStateException{
+		if (!canJump())
+			throw new IllegalStateException();
 		double time = this.getJumpTime(timeStep);
 		double[] step = this.jumpStep(time);
 		this.setPosition(step[0],step[1]);
@@ -213,5 +225,9 @@ public abstract class Projectile extends MovableGameObject{
 			t = t + timeStep;
 		}
 		return 0.0;
+	}
+	
+	public boolean canJump(){
+		return (this.getWorld().getActiveProjectile() == this);
 	}
 }

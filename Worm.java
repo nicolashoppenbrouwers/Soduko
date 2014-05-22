@@ -1,3 +1,14 @@
+/*
+ * Assignment 'Worms' Object-Oriented Programming
+ * University:		KU Leuven
+ * Study:			Bachelor Ingenieurswetenschappen
+ * Course:			Objectgericht Programmeren (H01P1A)
+ * Year:			2013 - 2014
+ * Authors: 		Nicolas Hoppenbrouwers 	(Computerwetenschappen - Werktuigkunde)
+ * 					Bram Lust 				(Computerwetenschappen - Elektrotechniek)
+ * Git: 			https://github.com/nicolashoppenbrouwers/Soduko.git
+ */
+
 package worms.model;
 
 import be.kuleuven.cs.som.annotate.*;
@@ -52,12 +63,14 @@ import java.util.Set;
  * @version 3.0
  *
  */
-public class Worm extends MovableGameObject{
+public class Worm extends MovableGameObject {
 	
 	// NOG DOEN
 	/**
 	 * Initialize this new worm with given position, direction, radius and name.
 	 * 
+	 * @param  	world
+	 * 			The new world of this worm.
 	 * @param 	positionX
 	 * 			The x-coordinate of the position of the new worm (in meters).
 	 * @param 	positionY
@@ -68,30 +81,36 @@ public class Worm extends MovableGameObject{
 	 * 			The radius of the new worm (in meters).
 	 * @param 	name
 	 * 			The name of the new worm.
+	 * @param	program
+	 * 			The new program of this worm.
 	 * @effect	The x-coordinate of this new worm is equal to the given X-position.
-	 * 			| new.getPositionX() == positionX
+	 * 			| new.getPosition().getX() == positionX
 	 * @effect	The y-coordinate of this new worm is equal to the given Y-position.
-	 * 			| new.getPositionY() == positionY
+	 * 			| new.getPosition().getY() == positionY
 	 * @effect	The direction of this new worm is equal to the given direction.
 	 * 			| new.getDirection() == direction
 	 * @effect	The radius of this new worm is equal to the given radius.
 	 * 			| new.getRadius() == radius
 	 * @effect	The maximum amount of action points of this new worm are initialized to the worm's mass.
-	 * 			| new.getMaximumActionPoints() == (int)Math.round(getMass())
+	 * 			| new.getMaximumActionPoints() == (int) Math.round(getMass())
 	 * @effect	The current number of action points of this new worm are initialized to 
 	 * 			the maximum amount of action points.
 	 * 			| new.getActionPoints == this.getMaximumActionPoints()
 	 * @effect	The maximum amount of hit points of this new worm are initialized to the worm's mass.
-	 * 			| new.getMaximumHitPoints() == (int)Math.round(getMass())
+	 * 			| new.getMaximumHitPoints() == (int) Math.round(getMass())
 	 * @effect	The current number of hit points of this new worm are initialized to 
 	 * 			the maximum amount of hit points.
 	 * 			| new.getHitPoints == this.getMaximumHitPoints()
 	 * @effect	The name of this new worm is equal to the given name.
 	 * 			| new.getName() == name
+	 * @effect	The index of this new worm is equal to zero.
+	 * 			| new.getIndexActiveWeapon() == 0
+	 * @effect	The program of this new worm is equal to the given program.
+	 * 			| new.getProgram() == program
 	 */
-	// Use the @effect tag
 	@Raw 
-	public Worm(World world,double positionX, double positionY, double direction, double radius, String name, Program program){
+	public Worm(World world,double positionX, double positionY, double direction, double radius, String name, Program program) 
+			throws IllegalArgumentException, IllegalStateException{
 		super(world, positionX, positionY, direction, radius);
 		this.setMaximumActionPoints();
 		this.setActionPoints(this.getMaximumActionPoints());
@@ -1181,9 +1200,10 @@ public class Worm extends MovableGameObject{
 
 	
 	
-
+	//IN ORDE
 	/**
 	 * Shoots the active projectile of this worm in the direction the worm is currently facing with a given propulsion yield.
+	 * 
 	 * @param 	yield
 	 * 			The propulsion yield this worm's active projectile should be shot with.
 	 * @effect	The projectile that should be shot is created.
@@ -1249,7 +1269,7 @@ public class Worm extends MovableGameObject{
 	
 	
 	
-	
+	//IN ORDE
 	/**
 	 * Eat all the food, if any, that is close to this worm.
 	 * 
